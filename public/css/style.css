@@ -68,6 +68,11 @@ a {
     background-color: #008774;
     border-bottom: 1px solid var(--border-color);
     height: 80px; 
+    width: 100%;
+    position: sticky;   /* Kunci posisi */
+    top: 0;             /* Nempel di paling atas */
+    z-index: 1000;      /* Pastikan dia di atas elemen lain (kalender/modal) */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 .logo-container {

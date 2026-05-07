@@ -17,8 +17,8 @@
     <header class="navbar bg-accent">
         <div class="logo-container">
             <img src="{{ asset('src/Foto_LogoBoma.png') }}" alt="Logo BOMA" height="60">
-            <div class="logo-text">
-                Badan Olahraga<br>Mahasiswa
+            <div class="logo-text" >
+                <a href="/#home">Badan Olahraga<br>Mahasiswa</a>
             </div>
         </div>
         
@@ -65,45 +65,7 @@
                     <div class="day-name">Sabtu</div>
                     <div class="day-name">Minggu</div>
 
-                    <div class="date-cell faded">29</div>
-                    <div class="date-cell faded">30</div>
-                    <div class="date-cell faded">31</div>
-                    <div class="date-cell">1</div>
-                    <div class="date-cell">2</div>
-                    <div class="date-cell">3</div>
-                    <div class="date-cell">4</div>
-
-                    <div class="date-cell">5</div>
-                    <div class="date-cell">6</div>
-                    <div class="date-cell">7</div>
-                    <div class="date-cell">8</div>
-                    <div class="date-cell">9</div>
-                    <div class="date-cell">10</div>
-                    <div class="date-cell">11</div>
-
-                    <div class="date-cell">12</div>
-                    <div class="date-cell">13</div>
-                    <div class="date-cell dark-event">14<span class="tiny-text">Latihan Basket</span></div>
-                    <div class="date-cell">15</div>
-                    <div class="date-cell">16</div>
-                    <div class="date-cell">17</div>
-                    <div class="date-cell">18</div>
-
-                    <div class="date-cell">19</div>
-                    <div class="date-cell dark-event">20<span class="tiny-text">Jadwal Futsal</span></div>
-                    <div class="date-cell">21</div>
-                    <div class="date-cell">22</div>
-                    <div class="date-cell">23</div>
-                    <div class="date-cell">24</div>
-                    <div class="date-cell">25</div>
-
-                    <div class="date-cell">26</div>
-                    <div class="date-cell">27</div>
-                    <div class="date-cell">28</div>
-                    <div class="date-cell">29</div>
-                    <div class="date-cell">30</div>
-                    <div class="date-cell faded">1</div>
-                    <div class="date-cell faded">2</div>
+                    <div id="calendar-days" style="display: contents;"></div>
                 </div>
             </div>
         </section>
@@ -165,12 +127,12 @@
                 <div id="stepKonfirmasi" class="inner-green-card">
                     <h3 class="card-title">Apakah Anda Ingin Mengikuti Latihan?</h3>
                     <div class="activity-flex">
-                        <img src="{{ asset('src/Basket.png') }}" alt="Latihan" class="activity-img">
+                        <img src="{{ asset('src/Basket.png') }}" alt="Latihan" class="activity-img" id="modalImg">
                         <div class="activity-info-col">
                             <div class="text-info">
-                                <p><strong>Agenda Kegiatan :</strong><br>Latihan Basket</p>
-                                <p><strong>Waktu :</strong><br>Rabu, 14 Maret 2026</p>
-                                <p><strong>Tempat :</strong><br>Lapangan Kampus UPI di Cibiru</p>
+                                <p><strong>Agenda Kegiatan :</strong><br><span id="modalAgenda">Latihan Basket</span></p>
+                                <p><strong>Waktu :</strong><br><span id="modalWaktu">Rabu, 14 Maret 2026</span></p>
+                                <p><strong>Tempat :</strong><br><span id="modalTempat">Lapangan Kampus UPI di Cibiru</span></p>
                             </div>
                             <div class="modal-actions">
                                 <button class="btn-confirm-yes" onclick="showFormDiri()">Ya</button>
@@ -185,18 +147,18 @@
                     <form class="form-diri">
                         @csrf <div class="form-group-modal">
                             <label>Nama Lengkap</label>
-                            <input type="text" placeholder="Nama anda">
+                            <input type="text" id="inputNama" placeholder="Nama anda">
                         </div>
                         <div class="form-group-modal">
                             <label>Program Studi</label>
-                            <input type="text" placeholder="Contoh = RPL">
+                            <input type="text" id="inputProdi" placeholder="Contoh = RPL">
                         </div>
                         <div class="form-group-modal">
                             <label>Angkatan</label>
-                            <input type="text" placeholder="Contoh = 2025">
+                            <input type="text" id="inputAngkatan" placeholder="Contoh = 2025">
                         </div>
                         <div class="modal-actions" style="margin-top: 10px;">
-                            <button type="button" class="btn-confirm-yes" onclick="closeModal()">Benar, Ikut!</button>
+                            <button type="button" class="btn-confirm-yes" onclick="validasiDanKirim()">Benar, Ikut!</button>
                             <button type="button" class="btn-confirm-no" onclick="closeModal()">Tidak</button>
                         </div>
                     </form>
