@@ -161,3 +161,21 @@ window.validasiDanKirim = function() {
         document.querySelector('.form-diri').reset();
     }
 };
+
+//sticky navbar transisi
+const navbar = document.querySelector('.navbar');
+    
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.style.background = 'rgba(0, 135, 116, 0.9)'; // Hijau transparan
+            navbar.style.backdropFilter = 'blur(10px)';
+            navbar.style.height = '70px';
+            navbar.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
+        } else {
+            navbar.style.background = '#008774'; // Warna asli CSS lu
+            navbar.style.backdropFilter = 'none';
+            navbar.style.height = '80px';
+            navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+        }
+        navbar.style.transition = 'all 0.3s ease';
+    });

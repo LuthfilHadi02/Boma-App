@@ -15,26 +15,39 @@
 <body>
 
     <header class="navbar bg-accent">
-        <div class="logo-container">
-            <img src="{{ asset('src/Foto_LogoBoma.png') }}" alt="Logo BOMA" height="60">
-            <div class="logo-text">
-                Badan Olahraga<br>Mahasiswa
-            </div>
+    <div class="logo-container">
+        <img src="{{ asset('src/Foto_LogoBoma.png') }}" alt="Logo BOMA" height="60">
+        <div class="logo-text">
+            Badan Olahraga<br>Mahasiswa
         </div>
-        
-        <nav class="nav-links">
-            <a href="#home">Home</a>
-            <a href="#profil">Visi-Misi</a>
-            <a href="#kategori">Divisi</a>
-            <a href="#recent">Berita</a>
-            <a href="/jadwal">Jadwal Latihan</a>
-            <a href="#articles">Tentang Kami</a>
-            
-            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="color: #FF4B4B; font-weight: 700;">Logout</a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf
-            </form>
-        </nav>
+    </div>
+
+    <nav class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#profil">Visi-Misi</a>
+        <a href="#kategori">Divisi</a>
+        <a href="#recent">Berita</a>
+        <a href="/jadwal">Jadwal Latihan</a>
+        <a href="#articles">Tentang Kami</a>
+    </nav>
+
+    <div class="nav-right">
+        <div class="profile-dropdown">
+            <a href="#" class="profile-trigger">
+                <i class="fas fa-user-circle"></i> Profile <i class="fas fa-chevron-down small-icon"></i>
+            </a>
+            <ul class="dropdown-menu">
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="logout-btn-link">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
 
         <div class="search-btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -43,7 +56,8 @@
             </svg>
             <input type="text" placeholder="Search">
         </div>
-    </header>
+    </div>
+</header>
 
     <main>
         <section class="hero-section" id="home" 
@@ -206,5 +220,6 @@
     </div>
 </footer>
 
+<script src="{{ asset('js/home.js') }}"></script>
 </body>
 </html>
