@@ -1,5 +1,29 @@
 document.addEventListener('DOMContentLoaded', function() {
     
+// =========================================
+    // 1. LOGIKA DROPDOWN PROFILE
+    // =========================================
+    const profileTrigger = document.querySelector('.profile-trigger');
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+
+    if (profileTrigger && dropdownMenu) {
+        profileTrigger.addEventListener('click', function(e) {
+            e.preventDefault(); 
+            dropdownMenu.classList.toggle('show'); 
+            profileTrigger.classList.toggle('active'); 
+            
+        });
+
+        window.addEventListener('click', function(e) {
+            if (!profileTrigger.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.classList.remove('show');
+                profileTrigger.classList.remove('active');
+            }
+        });
+    } else {
+        console.error("Waduh, elemen profile-trigger atau dropdown-menu nggak ketemu di HTML!");
+    }
+    
     // =========================================
     // 1. STICKY NAVBAR (HIJAU TRANSISI)
     // =========================================

@@ -22,7 +22,7 @@
             <a href="{{ route('dashboard') }}">Home</a>
             <a href="{{ route('dashboard') }}#profil">Visi-Misi</a>
             <a href="{{ route('dashboard') }}#kategori">Divisi</a>
-            <a href="{{ route('jadwal') }}">Jadwal Latihan</a>
+            <a href="{{ route('jadwal.index') }}">Jadwal Latihan</a>
             <a href="{{ route('dashboard') }}">Berita</a>
             <a href="{{ route('dashboard') }}">Tentang Kami</a>
         </nav>
