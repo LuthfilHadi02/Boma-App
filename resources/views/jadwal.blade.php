@@ -160,36 +160,50 @@
                     <div class="activity-flex">
                         <img src="{{ asset('src/Basket.png') }}" alt="Latihan" class="activity-img" id="modalImg">
                         <div class="activity-info-col">
-                            <div class="text-info">
-                                <p><strong>Agenda Kegiatan :</strong><br><span id="modalAgenda">Latihan Basket</span></p>
-                                <p><strong>Waktu :</strong><br><span id="modalWaktu">Rabu, 14 Maret 2026</span></p>
-                                <p><strong>Tempat :</strong><br><span id="modalTempat">Lapangan Kampus UPI di Cibiru</span></p>
-                            </div>
-                            <div class="modal-actions">
-                                <button class="btn-confirm-yes" onclick="showFormDiri()">Ya</button>
-                                <button class="btn-confirm-no" onclick="closeModal()">Tidak</button>
-                            </div>
+                <div class="text-info">
+                    <p><strong>Agenda Kegiatan :</strong><br><span id="modalAgenda">Latihan Basket</span></p>
+                    <p><strong>Waktu :</strong><br><span id="modalWaktu">Rabu, 14 Maret 2026</span></p>
+                    <p><strong>Tempat :</strong><br><span id="modalTempat">Lapangan Kampus UPI di Cibiru</span></p>
+                    
+                    <div class="kuota-container" style="margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.2); border-radius: 12px;">
+                        <p style="margin-bottom: 8px; font-size: 13px;">
+                            <strong>Status Kuota:</strong> 
+                            <span id="kuotaTeks" style="float: right; font-weight: 700;">0/0 Terisi</span>
+                        </p>
+                        <div style="width: 100%; height: 8px; background: rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden;">
+                            <div id="kuotaBar" style="width: 0%; height: 100%; background: #059669; transition: 0.5s;"></div>
+                        </div>
+                        <p id="kuotaPeringatan" style="margin-top: 8px; font-size: 11px; color: #FF4B4B; display: none; font-weight: 600;">
+                            <i class="fa-solid fa-circle-exclamation"></i> Yah, kuota latihan udah penuh pak!
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn-confirm-yes" id="btnLanjutIsiData" onclick="showFormDiri()">Ya</button>
+                    <button class="btn-confirm-no" onclick="closeModal()">Tidak</button>
+                        </div>
                         </div>
                     </div>
                 </div>
 
                 <div id="stepDataDiri" class="inner-green-card" style="display: none;">
                     <h3 class="card-title">Silahkan Isi Data Diri Anda</h3>
-                    <form class="form-diri">
-                        @csrf <div class="form-group-modal">
+                    <form id="formIkutLatihan" class="form-diri" method="POST" action="">
+                        @csrf 
+                        <div class="form-group-modal">
                             <label>Nama Lengkap</label>
-                            <input type="text" id="inputNama" placeholder="Nama anda">
+                            <input type="text" id="inputNama" name="nama" placeholder="Nama anda" required>
                         </div>
                         <div class="form-group-modal">
                             <label>Program Studi</label>
-                            <input type="text" id="inputProdi" placeholder="Contoh = RPL">
+                            <input type="text" id="inputProdi" name="prodi" placeholder="Contoh = RPL" required>
                         </div>
                         <div class="form-group-modal">
                             <label>Angkatan</label>
-                            <input type="text" id="inputAngkatan" placeholder="Contoh = 2025">
+                            <input type="text" id="inputAngkatan" name="angkatan" placeholder="Contoh = 2025" required>
                         </div>
                         <div class="modal-actions" style="margin-top: 10px;">
-                            <button type="button" class="btn-confirm-yes" onclick="validasiDanKirim()">Benar, Ikut!</button>
+                            <button type="submit" class="btn-confirm-yes">Benar, Ikut!</button>
                             <button type="button" class="btn-confirm-no" onclick="closeModal()">Tidak</button>
                         </div>
                     </form>
@@ -197,6 +211,18 @@
             </div>  
         </div>
     </div>
+    <script>
+        // Bawa data database lu ke JS
+        window.dataJadwalDB = @json($schedules ?? []);
+
+        // Notif kalau sukses / gagal
+        @if(session('success'))
+            alert("{{ session('success') }}");
+        @endif
+        @if(session('error'))
+            alert("{{ session('error') }}");
+        @endif
+    </script>
 
     <script src="{{ asset('js/jadwal.js') }}"></script>
 </body>
