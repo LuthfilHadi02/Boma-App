@@ -28,6 +28,7 @@
         <a href="#kategori">Divisi</a>
         <a href="#recent">Berita</a>
         <a href="/jadwal">Jadwal Latihan</a>
+        <a href="/booking">Booking Lapang</a>
         <a href="#articles">Tentang Kami</a>
     </nav>
 
@@ -119,7 +120,7 @@
                 <article class="card">
                     <img src="{{ asset('src/Basket.png') }}" alt="Basket" class="card-img">
                     <div class="card-content">
-                        <h2 class="card-title">Bidang Basket  <a href="#" class="btn-basket">Learn More</a></h2>
+                        <h2 class="card-title">Bidang Basket</h2>
                         <p class="card-desc">Informasi seputar jadwal latihan, roster, turnamen antar fakultas, dan pencapaian tim basket kampus.</p>
                         <a href="#" class="btn-primary">Learn More</a>
                     </div>

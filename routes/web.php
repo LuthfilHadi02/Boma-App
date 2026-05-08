@@ -30,4 +30,8 @@ Route::get('/jadwal', function () {
     return view('jadwal');
 })->middleware(['auth'])->name('jadwal');
 
+Route::get('/booking', function () {
+    return view('booking');
+})->name('booking');
+
 require __DIR__.'/auth.php';

@@ -28,6 +28,7 @@
             <a href="/#kategori">Divisi</a>
             <a href="/#recent">Berita</a>
             <a href="/jadwal" class="active">Jadwal Latihan</a>
+            <a href="/booking">Booking Lapang</a>
             <a href="/#articles">Tentang Kami</a>
         </nav>
 
@@ -163,7 +164,7 @@
                         </div>
                     </form>
                 </div>
-            </div>
+            </div>  
         </div>
     </div>
 

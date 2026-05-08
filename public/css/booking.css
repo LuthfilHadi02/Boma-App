@@ -1,0 +1,113 @@
+/* === VARIABEL WARNA & RESET === */
+:root {
+    --primary: #008774;
+    --primary-dark: #006a5b;
+    --bg-color: #f8fafc;
+    --text-main: #333333;
+    --text-muted: #777777;
+    --red-logout: #e74c3c;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+body { background-color: var(--bg-color); color: var(--text-main); }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+/* === NAVBAR === */
+.navbar {
+    background-color: var(--primary);
+    padding: 15px 0;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+.nav-content { display: flex; justify-content: space-between; align-items: center; }
+.logo-area { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 14px; line-height: 1.2; }
+.logo-area img { height: 40px; }
+
+.nav-links { display: flex; gap: 20px; align-items: center; }
+.nav-links a { color: white; text-decoration: none; font-size: 13px; font-weight: 400; }
+.nav-links a.active { font-weight: 700; }
+.nav-links a.logout { color: var(--red-logout); font-weight: 600; }
+
+.nav-search {
+    background: white; border-radius: 6px; padding: 6px 15px; display: flex; align-items: center; gap: 10px;
+}
+.nav-search input { border: none; outline: none; font-size: 13px; width: 80px; }
+.nav-search i { color: var(--text-muted); font-size: 14px; }
+
+/* === HERO SECTION === */
+.hero { padding: 60px 0; display: flex; align-items: center; justify-content: space-between; gap: 40px; }
+.hero-text { flex: 1; }
+.hero-text h1 { font-size: 42px; color: var(--primary); font-weight: 700; line-height: 1.2; margin-bottom: 20px; }
+.hero-text p { color: var(--text-muted); font-size: 14px; margin-bottom: 30px; line-height: 1.6; max-width: 90%; }
+.hero-btn { background: var(--primary); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-block; margin-bottom: 20px; }
+.hero-stats { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 14px; }
+.hero-stats img { height: 30px; }
+
+.hero-img-container { flex: 1; position: relative; }
+.hero-img-wrapper {
+    position: relative; z-index: 2; border-radius: 20px; overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+.hero-img-wrapper img { width: 100%; display: block; }
+/* Garis Offset di belakang gambar hero */
+.hero-img-container::after {
+    content: ''; position: absolute; top: 20px; right: -20px; bottom: -20px; left: 20px;
+    border: 2px solid #e2e8f0; border-radius: 20px; z-index: 1;
+}
+
+/* === FLOATING FILTER BAR === */
+.filter-wrapper { position: relative; margin-top: -30px; z-index: 10; margin-bottom: 50px; }
+.filter-bar {
+    background: white; border-radius: 12px; padding: 15px 30px; display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05); gap: 20px;
+}
+.filter-item { display: flex; align-items: center; gap: 10px; flex: 1; border-right: 1px solid #eee; padding-right: 20px; cursor: pointer; color: var(--text-main); font-weight: 500; font-size: 14px; }
+.filter-item:nth-child(3) { border-right: none; }
+.filter-item i.main-icon { color: var(--text-muted); font-size: 18px; }
+.filter-item i.fa-chevron-down { margin-left: auto; font-size: 12px; color: #999; }
+.btn-search { background: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+
+/* === SECTIONS GLOBAL === */
+.section-title { font-size: 20px; color: #1e293b; margin-bottom: 20px; font-weight: 600; }
+.mb-50 { margin-bottom: 50px; }
+
+/* === GRID ASIMETRIS (LEBIH BANYAK) === */
+.grid-banyak {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 180px 180px;
+    gap: 20px;
+}
+.card-img-overlay {
+    position: relative; border-radius: 12px; overflow: hidden; background: #000;
+}
+.card-img-overlay img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.3s; }
+.card-img-overlay:hover img { opacity: 0.9; transform: scale(1.05); }
+.card-img-overlay .content { position: absolute; bottom: 20px; left: 20px; color: white; }
+.card-img-overlay .content h3 { font-size: 16px; font-weight: 600; margin-bottom: 5px; }
+.card-img-overlay .content p { font-size: 12px; opacity: 0.9; font-weight: 300; }
+.badge-price { position: absolute; top: 15px; right: 15px; background: var(--primary); color: white; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+
+.tall-card { grid-row: span 2; } /* Kartu kiri yang panjang */
+
+/* === GRID 4 KOLOM (FUTSAL, BASKET, BADMINTON) === */
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.card-standard { background: transparent; }
+.card-standard .img-box { position: relative; border-radius: 12px; overflow: hidden; height: 160px; margin-bottom: 15px; }
+.card-standard .img-box img { width: 100%; height: 100%; object-fit: cover; }
+.badge-popular { position: absolute; top: 10px; right: 10px; background: var(--primary); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+.card-standard h3 { font-size: 15px; color: var(--text-main); font-weight: 600; margin-bottom: 4px; }
+.card-standard p { font-size: 12px; color: var(--text-muted); }
+
+/* === FOOTER === */
+.footer { background: var(--primary); color: white; padding: 60px 0 30px 0; margin-top: 60px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; }
+.footer-col h4 { font-size: 16px; margin-bottom: 20px; font-weight: 700; }
+.footer-col p { font-size: 13px; line-height: 1.8; opacity: 0.9; margin-bottom: 10px; }
+.footer-col a { color: white; text-decoration: none; display: block; font-size: 13px; margin-bottom: 10px; opacity: 0.9; }
+.footer-bottom { margin-top: 50px; font-size: 12px; opacity: 0.7; }
+
+.social-btn { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.1); padding: 10px 15px; border-radius: 6px; text-decoration: none; color: white; margin-bottom: 10px; font-size: 13px; transition: 0.3s; }
+.social-btn:hover { background: rgba(255,255,255,0.2); }
