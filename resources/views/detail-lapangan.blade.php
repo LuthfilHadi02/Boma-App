@@ -9,28 +9,56 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="{{ asset('css/detail.css') }}"> 
+    <link rel="stylesheet" href="{{ asset('css/global.css')}}">
 </head>
 <body>
 
-    <header class="navbar">
-        <div class="container nav-content">
-            <div class="logo-area">
-                <img src="https://via.placeholder.com/50x50/ffffff/008774?text=BOMA" alt="Logo">
-                <div>Badan Olahraga<br>Mahasiswa</div>
+    <header class="navbar bg-accent">
+        <div class="logo-container">
+            <img src="{{ asset('src/Foto_LogoBoma.png') }}" alt="Logo BOMA" height="60">
+            <div class="logo-text">
+                Badan Olahraga<br>Mahasiswa
             </div>
-            <nav class="nav-links">
-                <a href="#">MyProfil</a>
-                <a href="#">BOMA</a>
-                <a href="#">Visi Misi</a>
-                <a href="#">Divisi</a>
-                <a href="#">Berita</a>
-                <a href="#">Jadwal Latihan</a>
-                <a href="#" class="active">Sewa Lapangan</a>
-                <a href="#">Tentang Kami</a>
-                <a href="#" class="logout">Logout</a>
-            </nav>
-            <div class="nav-search">
-                <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+
+        <nav class="nav-links">
+            <a href="/">Home</a>
+            <a href="/#profil">Visi-Misi</a>
+            <a href="/#kategori">Divisi</a>
+            <a href="/#recent">Berita</a>
+            <a href="/jadwal">Jadwal Latihan</a>
+            <a href="/booking" class="active">Booking Lapang</a>
+            <a href="/#articles">Tentang Kami</a>
+        </nav>
+
+        <div class="nav-right">
+            <div class="profile-dropdown">
+                <a href="#" class="profile-trigger">
+                    <i class="fas fa-user-circle"></i> Profile <i class="fas fa-chevron-down small-icon"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ route('profile.edit') }}" class="dropdown-item-link">
+                            <i class="fas fa-user"></i> My Account
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="logout-btn-link">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="search-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
                 <input type="text" placeholder="Search">
             </div>
         </div>
@@ -175,8 +203,9 @@
                     <div class="form-group">
                         <label>Booking Jam/Sesi</label>
                         <div class="input-box">
-                            <select id="durasiSelect" onchange="hitungTotal()">
-                                <option value="1">Pilih durasi ... (1 Jam)</option>
+                            <select id="durasiSelect" onchange="hitungTotal(); updatePilihanJam();">
+                                <option value="" selected disabled>Pilih durasi ...</option>
+                                <option value="1">1 Jam</option>
                                 <option value="2">2 Jam</option>
                                 <option value="3">3 Jam</option>
                             </select>
@@ -186,11 +215,9 @@
                     <div class="form-group">
                         <label>Pilih Jam</label>
                         <div class="input-box">
-                            <select>
-                                <option>Pilih jam mulai ...</option>
-                                <option>19:00 - 20:00</option>
-                                <option>20:00 - 21:00</option>
-                            </select>
+                            <select id="jamSelect">
+                                <option value="" selected disabled>Pilih durasi main dulu pak...</option>
+                                </select>
                         </div>
                     </div>
 
@@ -266,10 +293,54 @@
 
     </main>
 
-    <footer class="footer">
-        <div class="container">
+<footer class="site-footer" id="articles">
+    <div class="container">
+        <div class="footer-grid">
+            
+            <div class="footer-col">
+                <h4>BADAN OLAHRAGA MAHASISWA</h4>
+                <p class="footer-address">
+                    Jl. Pendidikan No.15, Cibiru Wetan, <br>
+                    Kec. Cileunyi, Kabupaten Bandung, <br>
+                    Jawa Barat 40625.
+                </p>
+                <div class="copyright-bottom">
+                    © 2026 BOMA UPI Cibiru.
+                </div>
             </div>
-    </footer>
+
+            <div class="footer-col">
+                <h4>TENTANG KAMI</h4>
+                <ul>
+                    <li><a href="#">Data Atlet & Staff</a></li>
+                    <li><a href="#">Dokumentasi Kegiatan</a></li>
+                    <li><a href="#">E-Learning Olahraga</a></li>
+                    <li><a href="#">Ikatan Alumni BOMA</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>KONTAK KAMI</h4>
+                <div class="contact-info">
+                    <p><i class="fa-solid fa-envelope"></i> boma@upicibiru.ac.id</p>
+                    <p><i class="fa-solid fa-phone"></i> (022) 7801332</p>
+                </div>
+                <div class="social-pills">
+                    <a href="https://www.instagram.com/boma_upicibiru/" class="pill">
+                        <i class="fa-brands fa-instagram"></i> Instagram
+                    </a>
+                    <a href="#" class="pill">
+                        <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                    </a>
+                    <a href="https://www.youtube.com/@KampusUPI" class="pill">
+                        <i class="fa-brands fa-youtube"></i> YouTube
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</footer>
 
     <script src="{{ asset('js/detail.js') }}"></script>
 </body>

@@ -1,0 +1,389 @@
+/* ================================================================
+   1. GLOBAL RESET & VARIABLES
+================================================================ 
+*/
+:root {
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F8FAFC;
+    --text-primary: #111827;
+    --text-secondary: #4B5563;
+    --accent-color: #059669; /* Dipake buat hover/active */
+    --accent-hover: #047857;
+    --primary: #008774;      /* Warna utama BOMA */
+    --primary-dark: #006a5b;
+    --border-color: #E5E7EB;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* ================================================================
+   2. NAVBAR GLOBAL
+================================================================ 
+*/
+.navbar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    background-color: var(--primary);
+    border-bottom: 1px solid var(--border-color);
+    height: 80px;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-text {
+    color: #FFFFFF;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: left;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    height: 100%;
+    list-style: none;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; 
+    gap: 20px;
+}
+
+.nav-links a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    bottom: 12px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background-color: var(--bg-secondary);
+    transition: width 0.3s ease;
+}
+
+.nav-links a.active, .nav-links a:hover {
+    opacity: 0.8;
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+    width: 100%;
+}
+
+/* Search Bar */
+.search-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 24px;
+    background-color: #FFFFFF;
+    color: var(--primary);
+    border-radius: 50px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    cursor: text;
+    transition: all 0.3s ease;
+}
+
+.search-btn input {
+    width: 60px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--primary);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    transition: width 0.3s ease;
+}
+
+.search-btn input::placeholder {
+    color: var(--primary);
+}
+
+.search-btn input:focus {
+    width: 130px;
+}
+
+/* Dropdown Profile */
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #FFFFFF;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.profile-trigger:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 180px;
+    background-color: #FFFFFF;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    list-style: none;
+    padding: 8px 0;
+    margin-top: 12px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    z-index: 9999;
+}
+
+.dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.profile-trigger.active .small-icon {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu li a, .logout-btn-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    color: var(--text-primary);
+    font-size: 14px;
+    width: 100%;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+}
+
+.dropdown-menu li a:hover, .logout-btn-link:hover {
+    background-color: var(--bg-secondary);
+    color: var(--primary);
+}
+
+/* ================================================================
+   3. FOOTER GLOBAL
+================================================================ 
+*/
+.footer, .site-footer {
+    padding: 80px 0 40px;
+    background-color: var(--primary);
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    margin-top: 60px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1.2fr;
+    gap: 60px;
+    align-items: start;
+    /* Pastiin konten sejajar di tengah (opsional, tapi lebih rapi) */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* Judul Kolom Footer */
+.footer-col h4 {
+    margin-bottom: 20px;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Teks dan Alamat */
+.footer-col p {
+    font-size: 14px;
+    line-height: 1.8;
+    opacity: 0.9;
+    margin-bottom: 20px;
+}
+
+/* List Menu Tengah (Tentang Kami) */
+.footer-col ul {
+    padding: 0;
+    list-style: none; /* Ilangin titik-titik (bullets) */
+}
+
+.footer-col ul li {
+    margin-bottom: 15px;
+}
+
+.footer-col ul li a {
+    color: rgba(255, 255, 255, 0.9); /* Sedikit lebih terang dari sebelumnya */
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.3s ease;
+    display: block; /* Biar gampang diklik */
+}
+
+.footer-col ul li a:hover {
+    padding-left: 5px; /* Efek geser dikit pas di-hover */
+    color: #FFFFFF;
+}
+
+/* Kontak Kami (Email, Telepon) */
+.contact-info p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.contact-info p i {
+    width: 16px; /* Biar ikon sejajar */
+}
+
+/* Sosial Media Pills (Kotak-kotak Instagram dkk) */
+.social-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.social-pills .pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: transparent; /* Transparan buat screenshot 2 */
+    border: 1px solid rgba(255, 255, 255, 0.4); /* Border tipis */
+    border-radius: 6px;
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social-pills .pill:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Nyala dikit pas di-hover */
+    border-color: #FFFFFF;
+    transform: translateY(-2px);
+}
+
+.copyright {
+    opacity: 0.8;
+    font-size: 13px;
+    margin-top: 20px;
+}
+
+/* ================================================================
+   4. RESPONSIVE GLOBAL (HEADER & FOOTER AJA)
+================================================================ 
+*/
+@media screen and (max-width: 1024px) {
+    .navbar { padding: 0 20px; gap: 10px; }
+    .nav-links { gap: 12px; }
+    .search-btn { padding: 8px 12px; }
+    .search-btn input { width: 40px; }
+}
+
+@media screen and (max-width: 768px) {
+    .navbar {
+        padding: 0 20px;
+        height: 70px;
+        display: flex; /* Ganti dari grid ke flex biar gampang diatur di HP */
+    }
+    .nav-links { display: none; } /* Menu text hilang */
+    
+    /* GAK BOLEH DI-DISPLAY: NONE BIAR PROFIL TETEP MUNCUL */
+    .nav-right {
+        gap: 12px;
+    }
+
+    .logo-text { display: none; } /* Biar logo gak makan tempat, gambarnya aja yg muncul */
+
+    .profile-trigger { font-size: 0; }
+    .profile-trigger i { font-size: 24px; }
+    
+    .search-btn input:focus { width: 80px; }
+
+    /* Footer di HP numpuk ke bawah */
+    .footer-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 30px;
+    }
+}

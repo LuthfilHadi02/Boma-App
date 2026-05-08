@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
-    
+    <link rel="stylesheet" href="{{ asset('css/global.css')}}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body>
@@ -184,46 +184,50 @@
     </main>
 
 <footer class="site-footer" id="articles">
-    <div class="container footer-grid">
-        <div class="footer-col">
-            <h2 class="footer-logo">BADAN OLAHRAGA MAHASISWA</h2>
-            <p class="footer-address">
-                Jl. Pendidikan No.15, Cibiru Wetan, <br>
-                Kec. Cileunyi, Kabupaten Bandung, <br>
-                Jawa Barat 40625.
-            </p>
-            <div class="copyright-bottom">
-                © 2026 BOMA UPI Cibiru.
+    <div class="container">
+        <div class="footer-grid">
+            
+            <div class="footer-col">
+                <h4>BADAN OLAHRAGA MAHASISWA</h4>
+                <p class="footer-address">
+                    Jl. Pendidikan No.15, Cibiru Wetan, <br>
+                    Kec. Cileunyi, Kabupaten Bandung, <br>
+                    Jawa Barat 40625.
+                </p>
+                <div class="copyright-bottom">
+                    © 2026 BOMA UPI Cibiru.
+                </div>
             </div>
-        </div>
 
-        <div class="footer-col">
-            <h4>TENTANG KAMI</h4>
-            <ul>
-                <li><a href="#">Data Atlet & Staff</a></li>
-                <li><a href="#">Dokumentasi Kegiatan</a></li>
-                <li><a href="#">E-Learning Olahraga</a></li>
-                <li><a href="#">Ikatan Alumni BOMA</a></li>
-            </ul>
-        </div>
+            <div class="footer-col">
+                <h4>TENTANG KAMI</h4>
+                <ul>
+                    <li><a href="#">Data Atlet & Staff</a></li>
+                    <li><a href="#">Dokumentasi Kegiatan</a></li>
+                    <li><a href="#">E-Learning Olahraga</a></li>
+                    <li><a href="#">Ikatan Alumni BOMA</a></li>
+                </ul>
+            </div>
 
-        <div class="footer-col">
-            <h4>KONTAK KAMI</h4>
-            <div class="contact-info">
-                <p><i class="fa-solid fa-envelope"></i> boma@upicibiru.ac.id</p>
-                <p><i class="fa-solid fa-phone"></i> (022) 7801332</p>
+            <div class="footer-col">
+                <h4>KONTAK KAMI</h4>
+                <div class="contact-info">
+                    <p><i class="fa-solid fa-envelope"></i> boma@upicibiru.ac.id</p>
+                    <p><i class="fa-solid fa-phone"></i> (022) 7801332</p>
+                </div>
+                <div class="social-pills">
+                    <a href="https://www.instagram.com/boma_upicibiru/" class="pill">
+                        <i class="fa-brands fa-instagram"></i> Instagram
+                    </a>
+                    <a href="#" class="pill">
+                        <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                    </a>
+                    <a href="https://www.youtube.com/@KampusUPI" class="pill">
+                        <i class="fa-brands fa-youtube"></i> YouTube
+                    </a>
+                </div>
             </div>
-            <div class="social-pills">
-                <a href="https://www.instagram.com/boma_upicibiru/" class="pill">
-                    <i class="fa-brands fa-instagram"></i> Instagram
-                </a>
-                <a href="#" class="pill">
-                    <i class="fa-brands fa-whatsapp"></i> WhatsApp
-                </a>
-                <a href="https://www.youtube.com/@KampusUPI" class="pill">
-                    <i class="fa-brands fa-youtube"></i> YouTube
-                </a>
-            </div>
+
         </div>
     </div>
 </footer>

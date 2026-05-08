@@ -34,15 +34,13 @@ document.addEventListener('DOMContentLoaded', function() {
         // Ubah kursor jadi tangan biar user tau ini bisa diklik
         card.style.cursor = 'pointer'; 
         
-        card.addEventListener('click', function() {
-            // Ambil nama lapangan dari tag <h3> di dalem card yang diklik
-            const namaLapangan = this.querySelector('h3').innerText;
-            
-            // ALERT DUMMY (Nanti ini diganti jadi redirect ke halaman detail)
-            // Contoh redirect Laravel nanti: window.location.href = `/booking/${id}`;
-            alert(`Sabar pak, halaman detail buat ${namaLapangan} lagi dibikin!`);
-        });
+card.addEventListener('click', function(e) {
+        // e.preventDefault(); // (Opsional: Nyalain ini kalau kartu lu dibungkus tag <a> biar gak double load)
+        
+        // Langsung pindah ke halaman detail (Sesuaikan URL-nya sama routing Laravel lu)
+        window.location.href = '/detail'; 
     });
+});
 
 // =========================================
     // 3. LOGIKA TOMBOL SEARCH FILTER

@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
     
+    <link rel="stylesheet" href="{{ asset('css/global.css')}}">
     <link rel="stylesheet" href="{{ asset('css/jadwal.css') }}">
 </head>
 <body>
@@ -98,10 +99,12 @@
         </section>
     </main>
 
-    <footer class="site-footer" id="articles">
-        <div class="container footer-grid">
+<footer class="site-footer" id="articles">
+    <div class="container">
+        <div class="footer-grid">
+            
             <div class="footer-col">
-                <h2 class="footer-logo">BADAN OLAHRAGA MAHASISWA</h2>
+                <h4>BADAN OLAHRAGA MAHASISWA</h4>
                 <p class="footer-address">
                     Jl. Pendidikan No.15, Cibiru Wetan, <br>
                     Kec. Cileunyi, Kabupaten Bandung, <br>
@@ -140,9 +143,10 @@
                     </a>
                 </div>
             </div>
-        </div>
-    </footer>
 
+        </div>
+    </div>
+</footer>
     <div id="modalKegiatan" class="modal-overlay">
         <div class="modal-container">
             <div class="modal-header">
