@@ -34,4 +34,9 @@ Route::get('/booking', function () {
     return view('booking');
 })->name('booking');
 
+// Route untuk halaman Detail Lapangan
+Route::get('/detail-lapangan', function () {
+    return view('detail-lapangan'); // Pastikan nama file lu detail-lapangan.blade.php
+})->name('detail-lapangan');
+
 require __DIR__.'/auth.php';

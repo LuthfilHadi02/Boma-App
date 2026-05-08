@@ -1,0 +1,122 @@
+/* === VARIABEL WARNA & RESET === */
+:root {
+    --primary: #008774;
+    --primary-dark: #006a5b;
+    --bg-color: #fafbfc;
+    --text-main: #333333;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+body { background-color: var(--bg-color); color: var(--text-main); }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+/* === NAVBAR (Sama kayak kemaren) === */
+.navbar { background-color: var(--primary); padding: 15px 0; color: white; position: sticky; top: 0; z-index: 100; }
+.nav-content { display: flex; justify-content: space-between; align-items: center; }
+.logo-area { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 14px; line-height: 1.2; }
+.logo-area img { height: 40px; }
+.nav-links { display: flex; gap: 20px; align-items: center; }
+.nav-links a { color: white; text-decoration: none; font-size: 13px; font-weight: 400; }
+.nav-links a.active { font-weight: 700; }
+.nav-links a.logout { color: #e74c3c; font-weight: 600; }
+.nav-search { background: white; border-radius: 6px; padding: 6px 15px; display: flex; align-items: center; gap: 10px; }
+.nav-search input { border: none; outline: none; font-size: 13px; width: 80px; }
+
+/* === DETAIL HEADER === */
+.detail-container { margin-top: 40px; margin-bottom: 60px; }
+.detail-header h1 { font-size: 32px; color: #1e293b; font-weight: 700; margin-bottom: 5px; }
+.subtitle { font-size: 14px; color: var(--text-muted); display: flex; align-items: center; gap: 10px; margin-bottom: 30px; }
+.stars { color: #f59e0b; }
+
+/* === LAYOUT GRID (KIRI KANAN) === */
+.detail-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; align-items: start; }
+
+/* === GALERI KIRI === */
+.gallery .main-img { width: 100%; height: 450px; object-fit: cover; border-radius: 16px; margin-bottom: 15px; }
+.thumbnails { display: flex; gap: 15px; }
+.thumbnails .thumb { width: 120px; height: 80px; object-fit: cover; border-radius: 8px; cursor: pointer; opacity: 0.6; transition: 0.3s; }
+.thumbnails .thumb:hover, .thumbnails .thumb.active { opacity: 1; border: 2px solid var(--primary); }
+
+/* === SECTIONS INFO === */
+.info-section { margin-top: 40px; padding-bottom: 30px; border-bottom: 1px solid var(--border-color); }
+.info-section h2 { font-size: 20px; margin-bottom: 20px; color: #1e293b; font-weight: 600; }
+.info-section p { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 15px; }
+
+.simple-list { list-style: none; margin-bottom: 25px; }
+.simple-list li { font-size: 14px; color: var(--text-muted); margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+.simple-list i { color: var(--primary); width: 20px; text-align: center; }
+
+.aturan-title { font-size: 16px; font-weight: 600; margin-bottom: 15px; color: #333; }
+.aturan-list { padding-left: 20px; color: var(--text-muted); font-size: 14px; line-height: 1.8; }
+.aturan-list li { margin-bottom: 8px; }
+
+/* FASILITAS GRID */
+.fasilitas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px; }
+.fas-item { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text-main); font-weight: 500; }
+.fas-item i { color: var(--primary); font-size: 18px; width: 25px; }
+
+/* MAPS */
+.gmaps-link { color: var(--primary); font-weight: 600; text-decoration: none; font-size: 14px; display: inline-block; margin-bottom: 15px; }
+.map-container { position: relative; border-radius: 12px; overflow: hidden; height: 200px; }
+.map-container img { width: 100%; height: 100%; object-fit: cover; }
+.map-pin { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #ef4444; font-size: 40px; }
+
+/* REVIEWS */
+.rating-summary { font-size: 14px; color: var(--text-muted); margin-bottom: 5px; }
+.rating-score { font-size: 32px; font-weight: 700; color: #1e293b; margin-right: 5px; }
+.big-stars { font-size: 20px; margin-bottom: 25px; }
+
+.review-filters { display: flex; gap: 15px; align-items: center; margin-bottom: 30px; flex-wrap: wrap; }
+.filter-btn { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; }
+.review-filters select { padding: 8px 15px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 13px; color: var(--text-muted); outline: none; }
+.search-review { display: flex; align-items: center; gap: 10px; border: 1px solid var(--border-color); padding: 8px 15px; border-radius: 6px; flex: 1; }
+.search-review input { border: none; outline: none; width: 100%; font-size: 13px; }
+
+.review-item { display: flex; gap: 15px; margin-bottom: 25px; margin-top: 25px; }
+.review-item .avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+.review-content { flex: 1; }
+.rev-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+.rev-header h4 { font-size: 15px; margin: 5px 0 2px 0; }
+.rev-date { font-size: 12px; color: #94a3b8; }
+.helpful-btn { font-size: 12px; color: var(--text-muted); }
+.helpful-btn span { color: var(--primary); font-weight: 600; cursor: pointer; }
+.review-content h5 { font-size: 14px; margin-bottom: 5px; color: #1e293b; }
+.review-content p { font-size: 13px; color: var(--text-muted); margin: 0; }
+hr { border: none; border-top: 1px solid var(--border-color); }
+
+/* === SISI KANAN (BOOKING CARD STICKY) === */
+.sidebar-right { position: sticky; top: 100px; } /* INI YG BIKIN DIA NGAMBANG PAS SCROLL */
+.booking-card { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border: 1px solid #f1f5f9; }
+.booking-card h3 { font-size: 18px; margin-bottom: 20px; font-weight: 600; }
+
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
+.input-box { border: 1px solid var(--border-color); border-radius: 8px; padding: 10px 15px; display: flex; align-items: center; background: #f8fafc; }
+.input-box input, .input-box select { border: none; background: transparent; width: 100%; outline: none; font-size: 14px; color: #333; }
+
+.price-calc { text-align: center; margin: 25px 0; }
+.price-calc p { font-size: 13px; color: var(--text-muted); margin-bottom: 5px; }
+.price-calc h2 { font-size: 28px; color: var(--primary); font-weight: 700; }
+
+.btn-confirm { width: 100%; background: var(--primary); color: white; padding: 12px; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; margin-bottom: 10px; transition: 0.3s; }
+.btn-confirm:hover { background: var(--primary-dark); }
+.btn-wishlist { width: 100%; background: white; color: var(--text-main); padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px; }
+.btn-wishlist:hover { background: #f1f5f9; }
+
+/* === LAPANGAN TERDEKAT === */
+.nearby-section { margin-top: 60px; }
+.nearby-section h2 { font-size: 22px; margin-bottom: 25px; font-weight: 600; }
+.nearby-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.nearby-card { border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; background: white; transition: 0.3s; }
+.nearby-card:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.05); transform: translateY(-5px); }
+.nearby-card img { width: 100%; height: 160px; object-fit: cover; }
+.nc-content { padding: 15px; }
+.nc-content h4 { font-size: 14px; font-weight: 600; margin-bottom: 15px; line-height: 1.4; }
+.nc-info { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.nc-info i { width: 15px; color: #94a3b8; }
+.nc-footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 15px; border-top: 1px solid #f1f5f9; padding-top: 15px; }
+.stars-mini { color: #f59e0b; font-size: 12px; }
+.nc-price { font-size: 16px; font-weight: 700; color: var(--primary); text-align: right; line-height: 1.2; }
+.nc-price span { font-size: 10px; color: #94a3b8; font-weight: 400; }

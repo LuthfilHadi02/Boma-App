@@ -116,6 +116,8 @@
         <section class="mb-50">
             <h2 class="section-title">Lebih Banyak</h2>
             <div class="grid-banyak">
+
+            <a href="/detail-lapangan" style="text-decoration: none; display: contents;">
                 <div class="card-img-overlay tall-card">
                     <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Triditi Futsal">
                     <div class="badge-price">Rp 100.000/Jam</div>
