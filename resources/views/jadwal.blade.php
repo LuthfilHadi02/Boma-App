@@ -17,27 +17,53 @@
     <header class="navbar bg-accent">
         <div class="logo-container">
             <img src="{{ asset('src/Foto_LogoBoma.png') }}" alt="Logo BOMA" height="60">
-            <div class="logo-text" >
-                <a href="/#home">Badan Olahraga<br>Mahasiswa</a>
+            <div class="logo-text">
+                Badan Olahraga<br>Mahasiswa
             </div>
         </div>
-        
+
         <nav class="nav-links">
             <a href="/">Home</a>
             <a href="/#profil">Visi-Misi</a>
             <a href="/#kategori">Divisi</a>
             <a href="/#recent">Berita</a>
-            <a href="/jadwal" class="active">Jadwal Latihan</a>
+            <a href="/jadwal">Jadwal Latihan</a>
             <a href="/booking">Booking Lapang</a>
             <a href="/#articles">Tentang Kami</a>
         </nav>
 
-        <div class="search-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            <input type="text" placeholder="Search">
+        <div class="nav-right">
+        <div class="profile-dropdown">
+            <a href="#" class="profile-trigger">
+                <i class="fas fa-user-circle"></i> Profile <i class="fas fa-chevron-down small-icon"></i>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="{{ route('profile.edit') }}" class="dropdown-item-link">
+                        <i class="fas fa-user"></i> My Account
+                    </a>
+                </li>
+                
+                <li><hr class="dropdown-divider"></li>
+                
+                <li>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="logout-btn-link">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+            <div class="search-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" placeholder="Search">
+            </div>
         </div>
     </header>
 

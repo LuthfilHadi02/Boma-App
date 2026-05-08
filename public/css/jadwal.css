@@ -53,22 +53,25 @@ a {
     display: block;
 }
 
-/* ==========================================
+/* ================================================================
    2. NAVBAR & SEARCH BAR
-   ========================================== */
+================================================================ 
+*/
 .navbar {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     justify-content: space-between;
     align-items: center;
-    padding: 0 24px;
+    padding: 0 40px;
     background-color: #008774;
     border-bottom: 1px solid var(--border-color);
     height: 80px;
     width: 100%;
-    position: sticky;   /* Kunci posisi */
-    top: 0;             /* Nempel di paling atas */
-    z-index: 1000;      /* Pastikan dia di atas elemen lain (kalender/modal) */
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    margin-top: 0;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
 }
 
@@ -90,8 +93,16 @@ a {
 .nav-links {
     display: flex;
     align-items: center;
-    gap: 32px;
+    gap: 24px;
     height: 100%;
+    list-style: none;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Rapat kanan */
+    gap: 20px;
 }
 
 .nav-links a {
@@ -130,7 +141,7 @@ a {
     width: 100%;
 }
 
-/* --- Search Pill --- */
+/* --- Search Pill Premium --- */
 .search-btn {
     display: flex;
     align-items: center;
@@ -181,6 +192,94 @@ a {
 .search-btn input:focus {
     width: 130px;
 }
+
+
+/* Container Dropdown */
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.profile-trigger:hover {
+    color: #f8fafc; /* Biar lebih nyala dikit */
+    transform: scale(1.05); /* Efek zoom halus */
+    transition: all 0.3s ease;
+}
+
+.small-icon {
+    font-size: 10px;
+    transition: transform 0.3s ease;
+}
+
+/* Menu Dropdown */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 180px;
+    background-color: #FFFFFF;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    list-style: none;
+    padding: 8px 0;
+    margin-top: 12px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+/* Hover Logic */
+.profile-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.profile-dropdown:hover .small-icon {
+    transform: rotate(180deg);
+}
+
+/* Link & Button di dalam Dropdown */
+.dropdown-menu li a, .logout-btn-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    color: var(--text-primary);
+    font-size: 14px;
+    width: 100%;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.dropdown-menu li a:hover, .logout-btn-link:hover {
+    background-color: var(--bg-secondary);
+    color: var(--accent-color);
+}
+
+.logout-btn-link:hover {
+    color: #ef4444; /* Warna merah pas hover logout */
+}
+
+.dropdown-divider {
+    margin: 4px 0;
+    border: 0;
+    border-top: 1px solid var(--border-color);
+}
+
 
 /* ==========================================
    3. HEADER SCHEDULE (KALENDER)

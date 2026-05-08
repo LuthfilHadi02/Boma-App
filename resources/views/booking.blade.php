@@ -12,25 +12,54 @@
 </head>
 <body>
 
-    <header class="navbar">
-        <div class="container nav-content">
-            <div class="logo-area">
-                <img src="https://via.placeholder.com/50x50/ffffff/008774?text=BOMA" alt="Logo">
-                <div>Badan Olahraga<br>Mahasiswa</div>
+    <header class="navbar bg-accent">
+        <div class="logo-container">
+            <img src="{{ asset('src/Foto_LogoBoma.png') }}" alt="Logo BOMA" height="60">
+            <div class="logo-text">
+                Badan Olahraga<br>Mahasiswa
             </div>
-            <nav class="nav-links">
-                <a href="#">MyProfil</a>
-                <a href="#" class="active">Home</a>
-                <a href="#">Visi Misi</a>
-                <a href="#">Divisi</a>
-                <a href="#">Berita</a>
-                <a href="#">Jadwal Latihan</a>
-                <a href="#">Sewa Lapangan</a>
-                <a href="#">Tentang Kami</a>
-                <a href="#" class="logout">Logout</a>
-            </nav>
-            <div class="nav-search">
-                <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+
+        <nav class="nav-links">
+            <a href="/">Home</a>
+            <a href="/#profil">Visi-Misi</a>
+            <a href="/#kategori">Divisi</a>
+            <a href="/#recent">Berita</a>
+            <a href="/jadwal">Jadwal Latihan</a>
+            <a href="/booking">Booking Lapang</a>
+            <a href="/#articles">Tentang Kami</a>
+        </nav>
+
+        <div class="nav-right">
+        <div class="profile-dropdown">
+            <a href="#" class="profile-trigger">
+                <i class="fas fa-user-circle"></i> Profile <i class="fas fa-chevron-down small-icon"></i>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="{{ route('profile.edit') }}" class="dropdown-item-link">
+                        <i class="fas fa-user"></i> My Account
+                    </a>
+                </li>
+                
+                <li><hr class="dropdown-divider"></li>
+                
+                <li>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="logout-btn-link">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+            <div class="search-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
                 <input type="text" placeholder="Search">
             </div>
         </div>
@@ -49,7 +78,7 @@
             </div>
             <div class="hero-img-container">
                 <div class="hero-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1544280590-410a8c2ab72a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Lapangan Hero">
+                    <img src="{{ asset('src/Foto_LogoBoma.png') }}" alt="Lapangan Hero">
                 </div>
             </div>
         </section>
@@ -58,17 +87,27 @@
             <div class="filter-bar">
                 <div class="filter-item">
                     <i class="fa-regular fa-calendar main-icon"></i>
-                    <span>Tanggal</span>
-                    <i class="fa-solid fa-chevron-down"></i>
+                    <input type="date" id="filterTanggal" class="filter-input">
                 </div>
+
                 <div class="filter-item">
                     <i class="fa-solid fa-running main-icon"></i>
-                    <span>Cabang Olahraga</span>
-                    <i class="fa-solid fa-chevron-down"></i>
-                </div>
+                    <select id="filterCabang" class="filter-input">
+                        <option value="" disabled selected>Cabang Olahraga</option>
+                        <option value="Futsal">Futsal</option>
+                        <option value="Basket">Basket</option>
+                        <option value="Badminton">Badminton</option>
+                    </select>
+                    </div>
+
                 <div class="filter-item">
                     <i class="fa-solid fa-location-dot main-icon"></i>
-                    <span>Kecamatan</span>
+                    <select id="filterKecamatan" class="filter-input">
+                        <option value="" disabled selected>Kecamatan</option>
+                        <option value="Cibiru">Cibiru</option>
+                        <option value="Ujung Berung">Ujung Berung</option>
+                        <option value="Madasuka">Madasuka</option>
+                    </select>
                 </div>
                 <button class="btn-search">Search</button>
             </div>
@@ -220,6 +259,7 @@
             </div>
         </div>
     </footer>
-
+    
+<script src="{{ asset('js/booking.js') }}"></script>
 </body>
 </html>
