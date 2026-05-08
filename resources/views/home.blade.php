@@ -32,22 +32,29 @@
     </nav>
 
     <div class="nav-right">
-        <div class="profile-dropdown">
-            <a href="#" class="profile-trigger">
-                <i class="fas fa-user-circle"></i> Profile <i class="fas fa-chevron-down small-icon"></i>
-            </a>
-            <ul class="dropdown-menu">
-                <li><hr class="dropdown-divider"></li>
-                <li>
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="logout-btn-link">
-                            <i class="fas fa-sign-out-alt"></i> Logout
-                        </button>
-                    </form>
-                </li>
-            </ul>
-        </div>
+    <div class="profile-dropdown">
+        <a href="#" class="profile-trigger">
+            <i class="fas fa-user-circle"></i> Profile <i class="fas fa-chevron-down small-icon"></i>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+                <a href="{{ route('profile.edit') }}" class="dropdown-item-link">
+                    <i class="fas fa-user"></i> My Account
+                </a>
+            </li>
+            
+            <li><hr class="dropdown-divider"></li>
+            
+            <li>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="logout-btn-link">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </div>
 
         <div class="search-btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">

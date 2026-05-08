@@ -1,0 +1,128 @@
+/* --- Profile Page Styling (Compact Version) --- */
+
+.profile-container {
+    padding-top: 80px; /* Jarak pas di bawah navbar, nggak lebay */
+    max-width: 650px;  /* Lebih ramping biar fokus */
+    margin: 0 auto;
+    padding-bottom: 20px;
+}
+
+.profile-header {
+    margin-bottom: 10px;
+}
+
+.profile-header h1 {
+    color: #008774;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 20px; /* Ukuran teks proporsional layar laptop */
+    margin: 0;
+}
+
+.profile-divider {
+    border: 0;
+    border-top: 2px solid #e2e8f0;
+    margin: 5px 0 15px 0; /* Jarak garis ke card sangat tipis */
+}
+
+/* --- Card Styling --- */
+.profile-card {
+    background: white;
+    padding: 20px 30px; /* Padding dalam diperkecil */
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border-top: 5px solid #008774;
+    margin-top: 0;
+}
+
+/* --- Alerts --- */
+.alert-success, .alert-danger {
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+/* --- Form Groups --- */
+.action-header {
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    margin-bottom: 12px; /* Jarak antar input jadi rapet */
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #334155;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+}
+
+.profile-input {
+    width: 100%;
+    padding: 8px 12px; /* Input lebih tipis */
+    border-radius: 8px;
+    border: 1.5px solid #e2e8f0;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    background-color: #f8fafc;
+}
+
+.profile-input:disabled {
+    color: #94a3b8;
+    cursor: not-allowed;
+    border-color: #f1f5f9;
+}
+
+.profile-input:not(:disabled):focus {
+    border-color: #008774;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(0, 135, 116, 0.1);
+    outline: none;
+}
+
+.input-note {
+    color: #64748b;
+    font-size: 11px;
+    margin-top: 2px;
+}
+
+/* --- Buttons --- */
+.button-group {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column; /* Tombol tumpuk ke bawah */
+    gap: 10px; /* Jarak antar tombol */
+}
+
+/* Pastikan semua tombol lebarnya sama */
+/* Update bagian button di profile.css */
+.btn-save, .btn-cancel {
+    display: none; /* WAJIB ADA INI */
+}
+
+.button-group {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column; 
+    gap: 10px;
+}
+
+.btn-edit, .btn-save, .btn-cancel {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.btn-edit { background: #ffa500; color: white; display: block; }
+.btn-save { background: #008774; color: white; }
+.btn-cancel { background: #64748b; color: white; }
