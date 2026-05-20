@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Models\Schedule; // WAJIB ADA INI BIAR GAK ERROR!
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Admin\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +17,7 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
+// User Biasa Dashboard
 Route::get('/dashboard', function () {
     return view('home');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -58,4 +60,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';    
+// 5. Jalur Khusus Admin BOMA (Nama Rute Diubah Jadi 'panel' Biar Gak Tabrakan)
+Route::middleware(['auth', 'checkrole:admin'])->prefix('admin')->name('admin.')->group(function () {
+    // Mengubah rute name dari 'dashboard' menjadi 'panel' agar tidak bentrok dengan rute user biasa
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('panel');
+});
+
+require __DIR__.'/auth.php';

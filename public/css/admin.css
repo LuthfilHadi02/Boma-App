@@ -1,0 +1,169 @@
+:root {
+    --teal-deep-dark: #003b33;
+    --teal-dark: #006557;
+    --teal-hover: #004c41;
+    --teal-accent: #008774;
+    --teal-cta-hover: #009883;
+    --teal-soft-bg: #e6f6f4;
+    --teal-soft-border: #b0e4dd;
+    
+    --boma-main-bg: #f8fafc;
+    --card-border: #cbd5e1;
+}
+
+body {
+    background-color: var(--boma-main-bg);
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+/* SIDEBAR KIRI - SEKARANG DILEBARIN BIAR LUAS */
+
+/* PENGATURAN LOGO SIDEBAR */
+.sidebar-logo {
+    height: 45px;      /* Ukuran logo disesuaikan supaya lebih terlihat */
+    width: auto;
+    object-fit: contain;
+    margin-left: 10px; /* Kasih jarak sedikit antara teks dan logo */
+}
+
+.brand-text {
+    line-height: 1.1;
+}
+
+.boma-sidebar {
+    width: 300px; /* Ukuran dilebarin dari 260px ke 300px biar teks gak sempit */
+    min-height: 100vh;
+    background-color: var(--teal-deep-dark);
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.boma-main-content {
+    background-color: var(--boma-main-bg);
+    min-height: 100vh;
+}
+
+/* NAV LINKS SIDEBAR */
+.boma-sidebar .nav-link {
+    font-size: 0.95rem;
+    padding: 12px 15px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.boma-sidebar .nav-link:hover {
+    background-color: var(--teal-hover);
+    color: #ffffff !important;
+}
+
+.boma-sidebar .nav-link.active {
+    background-color: var(--teal-dark) !important;
+    font-weight: 600;
+}
+
+.text-teal-light {
+    color: #a7f3d0 !important;
+}
+
+.style-badge {
+    font-size: 0.75rem;
+}
+
+/* TOP NAVBAR */
+.vertical-divider {
+    width: 1px;
+    height: 18px;
+    background-color: #cbd5e1;
+}
+
+/* BANNER UTAMA */
+.boma-welcome-banner {
+    background: linear-gradient(135deg, var(--teal-deep-dark) 0%, #022c22 100%);
+    border: none;
+}
+
+/* CARDS CONFIGURATION */
+.boma-card {
+    background-color: #ffffff;
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+}
+
+/* Styling buat list group compact */
+.list-group-item {
+    transition: background 0.2s;
+    border-radius: 6px !important;
+}
+
+.list-group-item:hover {
+    background-color: var(--teal-soft-bg);
+}
+
+/* Badge mini di notifikasi */
+.badge-sm {
+    padding: 4px 8px;
+    font-size: 0.7rem;
+}
+
+/* Biar card ga terlalu lebar/penuh */
+.boma-card {
+    border-radius: 10px;
+}
+
+.boma-card-critical {
+    border-left: 5px solid var(--teal-dark) !important;
+}
+
+/* WORKSPACE BOX NOTIFIKASI */
+.task-box {
+    background-color: #ffffff;
+    border-radius: 8px;
+}
+
+.task-box.border-teal-soft {
+    border: 1px solid var(--teal-soft-border);
+    background-color: var(--teal-soft-bg);
+}
+
+.task-box.border-danger-soft {
+    border: 1px solid #fca5a5;
+    background-color: #fef2f2;
+}
+
+/* BUTTONS */
+.btn-teal-cta {
+    background-color: var(--teal-accent);
+    border: none;
+    transition: background-color 0.2s ease;
+}
+.btn-teal-cta:hover {
+    background-color: var(--teal-cta-hover);
+    color: #ffffff;
+}
+
+.btn-danger-cta {
+    background-color: #dc2626;
+    border: none;
+}
+.btn-danger-cta:hover {
+    background-color: #b91c1c;
+    color: #ffffff;
+}
+
+.text-teal-dark {
+    color: var(--teal-dark) !important;
+}
+
+.text-teal-accent {
+    color: var(--teal-accent) !important;
+}
+
+.badge-priority {
+    font-size: 0.7rem;
+    padding: 5px 8px;
+    font-weight: 700;
+}
+
