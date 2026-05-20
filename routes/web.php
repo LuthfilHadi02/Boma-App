@@ -61,9 +61,10 @@ Route::middleware('auth')->group(function () {
 });
 
 // 5. Jalur Khusus Admin BOMA (Nama Rute Diubah Jadi 'panel' Biar Gak Tabrakan)
-Route::middleware(['auth', 'checkrole:admin'])->prefix('admin')->name('admin.')->group(function () {
-    // Mengubah rute name dari 'dashboard' menjadi 'panel' agar tidak bentrok dengan rute user biasa
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('panel');
+// Ganti bagian 'admin' menjadi 'admin:admin'
+// Formatnya: middleware('nama_alias:parameter')
+Route::middleware(['auth', 'admin:admin'])->group(function () {
+    Route::get('/admin/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index']);
 });
 
 require __DIR__.'/auth.php';
