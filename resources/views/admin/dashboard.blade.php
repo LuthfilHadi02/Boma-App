@@ -32,7 +32,7 @@
                 <li>
                     <a href="#" class="nav-link text-white d-flex align-items-center justify-content-between">
                         <span><i class="fa-solid fa-building-user me-2"></i> Persetujuan Mitra</span>
-                        <span class="badge bg-teal-accent text-white style-badge">3</span>
+                        <span class="badge bg-danger text-white style-badge">3</span>
                     </a>
                 </li>
                 <li>
@@ -127,7 +127,7 @@
         <div class="card boma-card h-100 shadow-sm">
             <div class="card-body">
                 <div class="text-muted fw-semibold small mb-1">Total Penyewaan Lapangan</div>
-                <h2 class="fw-bold my-2">{{ number_format($totalBooking) }} <span class="fs-6 fw-normal text-muted">Sesi</span></h2>
+                <h2 class="fw-bold my-2">{{ number_format($totalBooking) }} <span class="fs-6 fw-normal text-muted">Order</span></h2>
                 <div class="small {{ $persenBooking >= 0 ? 'text-success' : 'text-danger' }} fw-medium">
                     {{ $persenBooking >= 0 ? '▲' : '▼' }} {{ number_format(abs($persenBooking), 2) }}% 
                     <span class="text-muted fw-normal">vs bulan lalu</span>
