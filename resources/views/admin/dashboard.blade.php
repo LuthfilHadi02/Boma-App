@@ -168,7 +168,7 @@
                 </div>
 
                 <!-- Footer -->
-                <footer class="mt-5 text-center text-muted small">
+                <footer class="mt-auto text-center text-muted small">
                     <p>BOMA System Operations &copy; 2026 • Mengikuti Regulasi Tata Kelola Data <strong>UU No. 27 Tahun 2022 tentang Perlindungan Data Pribadi (UU PDP)</strong></p>
                 </footer>
 
