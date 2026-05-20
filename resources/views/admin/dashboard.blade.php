@@ -57,6 +57,20 @@
                         <i class="fa-solid fa-gear me-2"></i> Pengaturan Sistem
                     </a>
                 </li>
+            <div class="p-4 border-t border-white/10">
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <a href="#" 
+                        onclick="event.preventDefault(); this.closest('form').submit();" 
+                        style="color: #ef4444 !important; text-decoration: none; display: flex; align-items: center; transition: 0.3s;"
+                        onmouseover="this.style.color='#f87171'" 
+                        onmouseout="this.style.color='#ef4444'">
+                        
+                        <i class="fa-solid fa-right-from-bracket mr-2" style="margin-right: 10px;"></i>
+                        <span>Keluar (Logout)</span>
+                        </a>
+                    </form>
+            </div>
             </ul>
         </div>
 
