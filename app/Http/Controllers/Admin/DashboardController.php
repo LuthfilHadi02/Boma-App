@@ -43,6 +43,13 @@ class DashboardController extends Controller
             'persenUser'      => $persenUser,
         ];
 
-        return view('admin.dashboard', $data);
+        return view('admin.dashboard', compact(
+        'totalBooking', 
+        'persenBooking', 
+        'totalPendapatan', 
+        'persenPendapatan', 
+        'totalMitra', 
+        'persenUser'
+    ));
     }
 }

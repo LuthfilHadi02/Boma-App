@@ -5,6 +5,7 @@ use App\Models\Schedule; // WAJIB ADA INI BIAR GAK ERROR!
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\MitraApprovalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,11 +61,24 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// 5. Jalur Khusus Admin BOMA (Nama Rute Diubah Jadi 'panel' Biar Gak Tabrakan)
-// Ganti bagian 'admin' menjadi 'admin:admin'
-// Formatnya: middleware('nama_alias:parameter')
-Route::middleware(['auth', 'admin:admin'])->group(function () {
-    Route::get('/admin/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index']);
+// 5. Jalur Khusus Admin BOMA - DIBERESIN BIAR GAK MENTAL
+Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function () {
+    
+    // Pindahkan dashboard ke sini, url otomatis jadi boma-app.test/admin/dashboard
+    Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+
+    // Route untuk halaman persetujuan mitra (Grup yang sudah ada tinggal gabung)
+    Route::get('/mitra-approval', [MitraApprovalController::class, 'index'])->name('mitra.index');
+    Route::patch('/mitra-approval/{id}/status', [MitraApprovalController::class, 'updateStatus'])->name('mitra.updateStatus');
+});
+
+// Pastikan sudah ada group auth dan admin di sistem lu
+Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function () {
+    
+    // Route untuk halaman persetujuan mitra
+    Route::get('/mitra-approval', [MitraApprovalController::class, 'index'])->name('mitra.index');
+    Route::patch('/mitra-approval/{id}/status', [MitraApprovalController::class, 'updateStatus'])->name('mitra.updateStatus');
+
 });
 
 require __DIR__.'/auth.php';
