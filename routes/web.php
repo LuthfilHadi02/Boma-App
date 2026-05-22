@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MitraApprovalController;
+use App\Http\Controllers\Admin\FacilityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,24 +62,22 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// 5. Jalur Khusus Admin BOMA - DIBERESIN BIAR GAK MENTAL
+// 5. Jalur Khusus Admin BOMA
 Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function () {
     
-    // Pindahkan dashboard ke sini, url otomatis jadi boma-app.test/admin/dashboard
+    // Dashboard Admin
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
 
-    // Route untuk halaman persetujuan mitra (Grup yang sudah ada tinggal gabung)
-    Route::get('/mitra-approval', [MitraApprovalController::class, 'index'])->name('mitra.index');
-    Route::patch('/mitra-approval/{id}/status', [MitraApprovalController::class, 'updateStatus'])->name('mitra.updateStatus');
-});
+    // Persetujuan Mitra
+    Route::get('/mitra-approval', [App\Http\Controllers\Admin\MitraApprovalController::class, 'index'])->name('mitra.index');
+    Route::patch('/mitra-approval/{id}/status', [App\Http\Controllers\Admin\MitraApprovalController::class, 'updateStatus'])->name('mitra.updateStatus');
 
-// Pastikan sudah ada group auth dan admin di sistem lu
-Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function () {
-    
-    // Route untuk halaman persetujuan mitra
-    Route::get('/mitra-approval', [MitraApprovalController::class, 'index'])->name('mitra.index');
-    Route::patch('/mitra-approval/{id}/status', [MitraApprovalController::class, 'updateStatus'])->name('mitra.updateStatus');
+    // Kelola Fasilitas Lapangan (RUTE BARU KITA)
+Route::get('/facilities', [App\Http\Controllers\Admin\FacilityController::class, 'index'])->name('facilities.index');
+Route::post('/facilities', [App\Http\Controllers\Admin\FacilityController::class, 'store'])->name('facilities.store');
 
+// UBAH BARIS INI (Tambahkan App\Http\Controllers\Admin\ di depan FacilityController):
+Route::delete('/facilities/{id}', [App\Http\Controllers\Admin\FacilityController::class, 'destroy'])->name('facilities.destroy');
 });
 
 require __DIR__.'/auth.php';

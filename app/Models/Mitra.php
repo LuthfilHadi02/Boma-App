@@ -24,4 +24,9 @@ class Mitra extends Model
     public function bookings() {
         return $this->hasMany(Booking::class);
     }
+
+    public function facilities()
+    {
+        return $this->hasMany(Facility::class, 'mitra_id');
+    }
 }

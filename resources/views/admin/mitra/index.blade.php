@@ -22,46 +22,46 @@
                 <img src="{{ asset('src/Foto_LogoBoma.png') }}" alt="Logo BOMA" class="sidebar-logo">
             </div>
     <ul class="nav nav-pills flex-column mb-auto gap-1 list-unstyled">
-        <li class="nav-item">
-            <a href="{{ url('/admin/dashboard') }}" class="nav-link text-white">
-                <i class="fa-solid fa-chart-pie me-2"></i> Dashboard Overview
+    <li class="nav-item">
+        <a href="{{ url('/admin/dashboard') }}" class="nav-link text-white {{ Request::is('admin/dashboard') ? 'active' : '' }}">
+            <i class="fa-solid fa-chart-pie me-2"></i> Dashboard Overview
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{{ route('admin.mitra.index') }}" class="nav-link text-white {{ Request::is('admin/mitra*') ? 'active' : '' }}">
+            <i class="fa-solid fa-building-user me-2"></i> Persetujuan Mitra
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{{ route('admin.facilities.index') }}" class="nav-link text-white {{ Request::is('admin/facilities*') || Request::is('admin/facility*') ? 'active' : '' }}">
+            <i class="fa-solid fa-map-location-dot me-2"></i> Kelola Fasilitas Lapangan
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="#" class="nav-link text-white">
+            <i class="fa-solid fa-users me-2"></i> Verifikasi Akun Pengguna
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="#" class="nav-link text-white">
+            <i class="fa-solid fa-receipt me-2"></i> Transaksi & Refund
+        </a>
+    </li>
+    
+    <hr class="bg-secondary opacity-25">
+    
+    <li class="nav-item">
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <a href="#" 
+               onclick="event.preventDefault(); this.closest('form').submit();" 
+               style="color: #ef4444 !important; text-decoration: none; display: flex; align-items: center; padding: 8px 16px;">
+                <i class="fa-solid fa-right-from-bracket me-2"></i>
+                <span>Keluar (Logout)</span>
             </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('admin.mitra.index') }}" class="nav-link text-white active">
-                <i class="fa-solid fa-building-user me-2"></i> Persetujuan Mitra
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link text-white">
-                <i class="fa-solid fa-map-location-dot me-2"></i> Kelola Fasilitas Lapangan
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link text-white">
-                <i class="fa-solid fa-users me-2"></i> Verifikasi Akun Pengguna
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link text-white">
-                <i class="fa-solid fa-receipt me-2"></i> Transaksi & Refund
-            </a>
-        </li>
-        
-        <hr class="bg-secondary opacity-25">
-        
-        <li class="nav-item">
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <a href="#" 
-                onclick="event.preventDefault(); this.closest('form').submit();" 
-                style="color: #ef4444 !important; text-decoration: none; display: flex; align-items: center; padding: 8px 16px;">
-                    <i class="fa-solid fa-right-from-bracket me-2"></i>
-                    <span>Keluar (Logout)</span>
-                </a>
-            </form>
-        </li>
-    </ul> 
+        </form>
+    </li>
+</ul>
     </div>
 
         <div class="boma-main-content flex-grow-1">

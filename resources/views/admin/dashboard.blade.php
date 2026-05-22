@@ -25,17 +25,17 @@
             
 <ul class="nav nav-pills flex-column mb-auto gap-1 list-unstyled">
     <li class="nav-item">
-        <a href="{{ url('/admin/dashboard') }}" class="nav-link text-white active">
+        <a href="{{ url('/admin/dashboard') }}" class="nav-link text-white {{ Request::is('admin/dashboard') ? 'active' : '' }}">
             <i class="fa-solid fa-chart-pie me-2"></i> Dashboard Overview
         </a>
     </li>
     <li class="nav-item">
-        <a href="{{ route('admin.mitra.index') }}" class="nav-link text-white">
+        <a href="{{ route('admin.mitra.index') }}" class="nav-link text-white {{ Request::is('admin/mitra*') ? 'active' : '' }}">
             <i class="fa-solid fa-building-user me-2"></i> Persetujuan Mitra
         </a>
     </li>
     <li class="nav-item">
-        <a href="#" class="nav-link text-white">
+        <a href="{{ route('admin.facilities.index') }}" class="nav-link text-white {{ Request::is('admin/facilities*') || Request::is('admin/facility*') ? 'active' : '' }}">
             <i class="fa-solid fa-map-location-dot me-2"></i> Kelola Fasilitas Lapangan
         </a>
     </li>
@@ -63,8 +63,7 @@
             </a>
         </form>
     </li>
-</ul> 
-        </div>
+</ul>        </div>
 
         <!-- Main Content -->
         <div class="boma-main-content flex-grow-1">
