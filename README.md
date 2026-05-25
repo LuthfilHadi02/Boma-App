@@ -48,5 +48,5 @@ This platform acts as a bridge connecting two distinct ecosystems:
 
 1. **Clone the Repository**
    ```bash
-   git clone [https://github.com/USERNAME/REPOSITORY_NAME.git](https://github.com/USERNAME/REPOSITORY_NAME.git)
-   cd REPOSITORY_NAME
+   git clone [https://github.com/LuthfilHadi02/Boma-App.git](https://github.com/LutgfilHadi02/Boma-App.git)
+   cd Boma-App
