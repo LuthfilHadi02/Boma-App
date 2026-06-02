@@ -81,3 +81,10 @@ Route::delete('/facilities/{id}', [App\Http\Controllers\Admin\FacilityController
 });
 
 require __DIR__.'/auth.php';
+
+// '/divisi/basket' = URL cantiknya (yang diketik di browser)
+Route::get('/divisi/basket', function () {
+    
+    // 'basket' = Nama file aslinya di folder views (basket.blade.php)
+    return view('basket'); 
+});

@@ -1,0 +1,262 @@
+/* ================================================================
+   BASKETBALL DIVISION PAGE STYLES
+   (Terintegrasi dengan Tema Global)
+================================================================ */
+
+/* Local variable biar aura basketnya (orange) tetep dapet */
+:root {
+    --basket-accent: #d97706; 
+}
+
+/* HERO SECTION */
+.basket-hero {
+    position: relative;
+    background-image: url('https://images.unsplash.com/photo-1519861531473-9200262188bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+}
+
+.basket-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    /* Menggunakan overlay dengan warna dasar accent-color lu */
+    background: linear-gradient(to right, rgba(5, 150, 105, 0.95), rgba(17, 24, 39, 0.7)); 
+}
+
+.hero-content-basket {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+    max-width: 600px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.badge-divisi {
+    background-color: var(--basket-accent);
+    color: #fff;
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 16px;
+}
+
+.hero-content-basket h1 {
+    font-size: 56px;
+    color: #fff;
+    font-style: italic;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+}
+
+.hero-content-basket p {
+    font-size: 16px;
+    margin-bottom: 32px;
+    opacity: 0.9;
+}
+
+/* ABOUT SECTION */
+.about-basket-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.about-text h2 {
+    color: var(--accent-color);
+    margin-bottom: 20px;
+}
+
+.stats-row {
+    display: flex;
+    gap: 40px;
+    margin-top: 30px;
+}
+
+.stat-box h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 40px;
+    color: var(--basket-accent);
+    line-height: 1;
+    margin-bottom: 8px;
+}
+
+.stat-box span {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.about-img img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* ROSTER SECTION */
+.roster-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+.tab-btn {
+    padding: 10px 32px;
+    border: 2px solid var(--accent-color);
+    background: transparent;
+    color: var(--accent-color);
+    border-radius: 50px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active, .tab-btn:hover {
+    background: var(--accent-color);
+    color: #fff;
+}
+
+.roster-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 24px;
+}
+
+.player-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.player-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+}
+
+.player-img {
+    height: 280px;
+    width: 100%;
+    object-fit: cover;
+    object-position: top;
+}
+
+.player-info {
+    padding: 20px;
+}
+
+.player-name {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.player-pos {
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.player-number {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: var(--basket-accent);
+    color: #fff;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: 800;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* SCHEDULE BANNER */
+.schedule-banner {
+    background-color: var(--accent-color);
+    border-radius: 16px;
+    padding: 60px 40px;
+    text-align: center;
+    color: #fff;
+}
+
+.schedule-banner h2 {
+    color: #fff;
+    margin-bottom: 16px;
+}
+
+.schedule-banner p {
+    color: #fff;
+    opacity: 0.9;
+    margin-bottom: 32px;
+}
+
+.jadwal-badges {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.badge-waktu {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-basket-join {
+    background-color: var(--basket-accent);
+    color: #fff;
+    border: none;
+    padding: 14px 40px;
+    border-radius: 4px;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-basket-join:hover {
+    background-color: #b45309; 
+}
+
+/* RESPONSIVE */
+@media screen and (max-width: 768px) {
+    .about-basket-grid {
+        grid-template-columns: 1fr;
+    }
+    .hero-content-basket h1 {
+        font-size: 40px;
+    }
+    .jadwal-badges {
+        flex-direction: column;
+    }
+}

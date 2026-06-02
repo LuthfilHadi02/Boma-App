@@ -122,7 +122,7 @@
                     <div class="card-content">
                         <h2 class="card-title">Bidang Basket</h2>
                         <p class="card-desc">Informasi seputar jadwal latihan, roster, turnamen antar fakultas, dan pencapaian tim basket kampus.</p>
-                        <a href="#" class="btn-primary">Learn More</a>
+                        <a href="/divisi/basket" class="btn-primary">Learn More</a>
                     </div>
                 </article>
 
