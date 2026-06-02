@@ -131,7 +131,7 @@
                     <div class="card-content">
                         <h2 class="card-title">Bidang Futsal</h2>
                         <p class="card-desc">Kawal tim futsal kebanggaanmu. Pantau klasemen liga kampus dan jadwal latih tanding di sini.</p>
-                        <a href="#" class="btn-primary">Learn More</a>
+                        <a href="/divisi/futsal" class="btn-primary">Learn More</a>
                     </div>
                 </article>
 

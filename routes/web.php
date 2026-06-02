@@ -88,3 +88,7 @@ Route::get('/divisi/basket', function () {
     // 'basket' = Nama file aslinya di folder views (basket.blade.php)
     return view('basket'); 
 });
+
+Route::get('/divisi/futsal', function () {
+    return view('futsal'); 
+});
