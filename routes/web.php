@@ -63,21 +63,39 @@ Route::middleware('auth')->group(function () {
 });
 
 // 5. Jalur Khusus Admin BOMA
-Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function () {
     
     // Dashboard Admin
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+    // Pastikan ada baris ini di routes/web.php lu, bro!
+    Route::put('/admin/roster/{id}', [App\Http\Controllers\Admin\RosterController::class, 'update'])->name('admin.roster.update');
+
 
     // Persetujuan Mitra
     Route::get('/mitra-approval', [App\Http\Controllers\Admin\MitraApprovalController::class, 'index'])->name('mitra.index');
     Route::patch('/mitra-approval/{id}/status', [App\Http\Controllers\Admin\MitraApprovalController::class, 'updateStatus'])->name('mitra.updateStatus');
 
     // Kelola Fasilitas Lapangan (RUTE BARU KITA)
-Route::get('/facilities', [App\Http\Controllers\Admin\FacilityController::class, 'index'])->name('facilities.index');
-Route::post('/facilities', [App\Http\Controllers\Admin\FacilityController::class, 'store'])->name('facilities.store');
+    Route::get('/facilities', [App\Http\Controllers\Admin\FacilityController::class, 'index'])->name('facilities.index');
+    Route::post('/facilities', [App\Http\Controllers\Admin\FacilityController::class, 'store'])->name('facilities.store');
 
-// UBAH BARIS INI (Tambahkan App\Http\Controllers\Admin\ di depan FacilityController):
-Route::delete('/facilities/{id}', [App\Http\Controllers\Admin\FacilityController::class, 'destroy'])->name('facilities.destroy');
+    // UBAH BARIS INI (Tambahkan App\Http\Controllers\Admin\ di depan FacilityController):
+    Route::delete('/facilities/{id}', [App\Http\Controllers\Admin\FacilityController::class, 'destroy'])->name('facilities.destroy');
+
+    // Roster Management
+// Roster Management (Udah rapi & gak double prefix)
+    Route::get('/roster', [App\Http\Controllers\Admin\RosterController::class, 'index'])->name('roster.index');
+    Route::post('/roster', [App\Http\Controllers\Admin\RosterController::class, 'store'])->name('roster.store');
+    Route::put('/roster/{id}', [App\Http\Controllers\Admin\RosterController::class, 'update'])->name('roster.update');
+    Route::delete('/roster/{id}', [App\Http\Controllers\Admin\RosterController::class, 'destroy'])->name('roster.destroy');
+
+    // Route Payment & Refund Baru 🚀
+// Route Utama untuk nampilin Tab Transaksi & Refund
+    Route::get('/payments', [App\Http\Controllers\Admin\PaymentManagementController::class, 'index'])->name('payments.index');
+    
+    // Aksi POST untuk eksekusi Refund dari dalam tab
+    Route::post('/refunds/{id}/approve', [App\Http\Controllers\Admin\PaymentManagementController::class, 'approveRefund'])->name('refunds.approve');
+    Route::post('/refunds/{id}/reject', [App\Http\Controllers\Admin\PaymentManagementController::class, 'rejectRefund'])->name('refunds.reject');
 });
 
 require __DIR__.'/auth.php';

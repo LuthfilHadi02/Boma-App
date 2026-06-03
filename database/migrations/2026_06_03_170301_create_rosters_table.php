@@ -1,0 +1,32 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('rosters', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');           // Nama pemain
+            $table->string('position');       // Posisi (Point Guard, Striker, dll)
+            $table->integer('number');        // Nomor punggung
+            $table->string('team_category');  // Contoh: 'basket', 'futsal'
+            $table->string('photo')->nullable(); // Path foto pemain
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('rosters');
+    }
+};
