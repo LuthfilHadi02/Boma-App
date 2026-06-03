@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MitraApprovalController;
 use App\Http\Controllers\Admin\FacilityController;
+use App\Http\Controllers\Mitra\MitraDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +20,7 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
-// User Biasa Dashboard
+// User Biasa Dashboard (Student)
 Route::get('/dashboard', function () {
     return view('home');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -46,9 +47,13 @@ Route::post('/jadwal/ikut/{id}', function ($id) {
     return back()->with('error', 'Yah, telat. Kuota udah penuh pak!');
 })->name('jadwal.ikut');
 
-// 3. Jalur Fasilitas & Booking
+// 3. Jalur Fasilitas & Booking Commercial (Sudah Di-integrate dengan Data Mitra!)
 Route::get('/booking', function () {
-    return view('booking');
+    // 1. Tarik semua data lapangan aktif yang diinput oleh mitra dari database
+    $facilities = \App\Models\Facility::with('mitra')->where('is_active', true)->latest()->get();
+    
+    // 2. Lempar variabel $facilities ke file view booking milik user
+    return view('booking', compact('facilities'));
 })->name('booking');
 
 Route::get('/detail-lapangan', function () {
@@ -62,30 +67,35 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// 5. Jalur Khusus Admin BOMA
-Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function () {
+// 5. Jalur Khusus Admin BOMA (Menggunakan role:admin)
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     
     // Dashboard Admin
-    Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Persetujuan Mitra
-    Route::get('/mitra-approval', [App\Http\Controllers\Admin\MitraApprovalController::class, 'index'])->name('mitra.index');
-    Route::patch('/mitra-approval/{id}/status', [App\Http\Controllers\Admin\MitraApprovalController::class, 'updateStatus'])->name('mitra.updateStatus');
+    Route::get('/mitra-approval', [MitraApprovalController::class, 'index'])->name('mitra.index');
+    Route::patch('/mitra-approval/{id}/status', [MitraApprovalController::class, 'updateStatus'])->name('mitra.updateStatus');
 
-    // Kelola Fasilitas Lapangan (RUTE BARU KITA)
-Route::get('/facilities', [App\Http\Controllers\Admin\FacilityController::class, 'index'])->name('facilities.index');
-Route::post('/facilities', [App\Http\Controllers\Admin\FacilityController::class, 'store'])->name('facilities.store');
-
-// UBAH BARIS INI (Tambahkan App\Http\Controllers\Admin\ di depan FacilityController):
-Route::delete('/facilities/{id}', [App\Http\Controllers\Admin\FacilityController::class, 'destroy'])->name('facilities.destroy');
+    // Kelola Fasilitas Lapangan
+    Route::get('/facilities', [FacilityController::class, 'index'])->name('facilities.index');
+    Route::post('/facilities', [FacilityController::class, 'store'])->name('facilities.store');
+    Route::delete('/facilities/{id}', [FacilityController::class, 'destroy'])->name('facilities.destroy');
 });
 
-require __DIR__.'/auth.php';
-
-// '/divisi/basket' = URL cantiknya (yang diketik di browser)
-Route::get('/divisi/basket', function () {
+// 6. Jalur Khusus Mitra Lapangan (Role: mitra)
+Route::middleware(['auth', 'role:mitra'])->prefix('mitra')->name('mitra.')->group(function () {
+    // Halaman utama Dashboard Mitra
+    Route::get('/dashboard', [MitraDashboardController::class, 'index'])->name('dashboard');
     
-    // 'basket' = Nama file aslinya di folder views (basket.blade.php)
+    // JALUR BARU: Kelola Lapangan Sisi Mitra (Nembak ke FacilityController)
+    Route::get('/facilities', [FacilityController::class, 'index'])->name('facilities.index');
+    Route::get('/facilities/create', [FacilityController::class, 'create'])->name('facilities.create');
+    Route::post('/facilities', [FacilityController::class, 'store'])->name('facilities.store');
+});
+
+// 7. Divisi Cabang Olahraga BOMA
+Route::get('/divisi/basket', function () {
     return view('basket'); 
 });
 
@@ -96,3 +106,5 @@ Route::get('/divisi/futsal', function () {
 Route::get('/divisi/bulutangkis', function () {
     return view('bulutangkis'); 
 });
+
+require __DIR__.'/auth.php';
