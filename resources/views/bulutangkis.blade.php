@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bidang Futsal - BOMA</title>
+    <title>Bidang Bulu Tangkis - BOMA</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="{{ asset('css/global.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}"> 
-    <link rel="stylesheet" href="{{ asset('css/futsal.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/bulutangkis.css') }}">
 </head>
 <body>
 
@@ -39,46 +39,46 @@
         </div>
     </header>
 
-    <section class="futsal-hero">
-        <div class="container hero-content-futsal">
+    <section class="badminton-hero">
+        <div class="container hero-content-badminton">
             <span class="badge-divisi">DIVISI OLAHRAGA</span>
-            <h1>FUTSAL</h1>
-            <p>Mengasah kelincahan, taktik cepat, dan kekompakan tim di atas lapangan. Kami bermain dengan kebanggaan dan sportivitas.</p>
-            <a href="#" class="btn-primary">Lihat Roster Tim</a>
+            <h1>BADMINTON</h1>
+            <p>Fokus, kecepatan, dan presisi. Kami mencetak atlet tangguh yang siap mengharumkan nama kampus di setiap pukulan smash.</p>
+            <a href="#roster" class="btn-primary">Lihat Roster Tim</a>
         </div>
     </section>
 
     <main class="container">
         <section class="section-padding">
-            <div class="about-futsal-grid">
+            <div class="about-badminton-grid">
                 <div class="about-text">
-                    <h2>Sejarah & Visi Divisi Futsal</h2>
-                    <p>Bidang Futsal BOMA menjadi salah satu divisi dengan peminat tertinggi. Kami berdedikasi untuk mencetak talenta-talenta berbakat yang siap bertarung di berbagai liga kampus dan kejuaraan nasional, dengan menjunjung tinggi nilai persaudaraan.</p>
+                    <h2>Sejarah & Visi Divisi Bulu Tangkis</h2>
+                    <p>Bidang Bulu Tangkis BOMA adalah tempat bertemunya para pecinta tepok bulu. Kami melatih ketangkasan fisik dan mental untuk berlaga di nomor tunggal maupun ganda, serta membangun semangat pantang menyerah.</p>
                     <div class="stats-row">
                         <div class="stat-box">
-                            <h3>20+</h3>
-                            <span>Trofi Liga</span>
+                            <h3>30+</h3>
+                            <span>Medali Emas</span>
                         </div>
                         <div class="stat-box">
-                            <h3>65</h3>
-                            <span>Anggota Aktif</span>
+                            <h3>50</h3>
+                            <span>Atlet Aktif</span>
                         </div>
                         <div class="stat-box">
-                            <h3>3</h3>
-                            <span>Pelatih Berlisensi</span>
+                            <h3>2</h3>
+                            <span>Pelatih Nasional</span>
                         </div>
                     </div>
                 </div>
                 <div class="about-img">
-                    <img src="https://images.unsplash.com/photo-1511886929837-354d827aae26?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Tim Futsal BOMA">
+                    <img src="https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Tim Bulu Tangkis BOMA">
                 </div>
             </div>
         </section>
 
         <section id="roster" class="section-padding">
             <div style="text-align: center; margin-bottom: 40px;">
-                <h2 class="section-title">Roster Tim Futsal</h2>
-                <p>Kenali para punggawa andalan lapangan kami musim ini</p>
+                <h2 class="section-title">Roster Atlet Bulu Tangkis</h2>
+                <p>Kenali para atlet andalan yang siap berlaga di berbagai sektor</p>
             </div>
 
             <div class="roster-tabs">
@@ -93,13 +93,13 @@
         <section class="section-padding">
             <div class="schedule-banner">
                 <h2>Ingin Bergabung Bersama Kami?</h2>
-                <p>Latihan rutin diadakan di Lapangan Futsal Utama. Ayo asah skill kamu!</p>
+                <p>Latihan rutin diadakan di GOR Kampus. Siapkan raketmu dan mari berlatih!</p>
                 <div class="jadwal-badges">
-                    <span class="badge-waktu"><i class="fa-regular fa-calendar"></i> Senin & Rabu</span>
-                    <span class="badge-waktu"><i class="fa-regular fa-clock"></i> 19.00 - 21.00 WIB</span>
+                    <span class="badge-waktu"><i class="fa-regular fa-calendar"></i> Rabu & Jumat</span>
+                    <span class="badge-waktu"><i class="fa-regular fa-clock"></i> 15.00 - 18.00 WIB</span>
                 </div>
                 <a href="#">
-                    <button class="btn-futsal-join">Daftar Anggota Baru</button>
+                    <button class="btn-badminton-join">Daftar Anggota Baru</button>
                 </a>
             </div>
         </section>
@@ -111,6 +111,6 @@
         </div>
     </footer>
 
-    <script src="{{ asset('js/futsal.js') }}"></script>
+    <script src="{{ asset('js/bulutangkis.js') }}"></script>
 </body>
 </html>

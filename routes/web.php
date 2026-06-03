@@ -92,3 +92,7 @@ Route::get('/divisi/basket', function () {
 Route::get('/divisi/futsal', function () {
     return view('futsal'); 
 });
+
+Route::get('/divisi/bulutangkis', function () {
+    return view('bulutangkis'); 
+});

@@ -1,0 +1,80 @@
+:root {
+    --badminton-accent: #2563eb; /* Biru Sporty */
+}
+
+/* HERO SECTION */
+.badminton-hero {
+    position: relative;
+    background-image: url('https://images.unsplash.com/photo-1613918431703-931070e28e14?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+}
+.badminton-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(5, 150, 105, 0.95), rgba(17, 24, 39, 0.7)); 
+}
+.hero-content-badminton {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+    max-width: 600px;
+    margin: 0 auto;
+    width: 100%;
+}
+.badge-divisi {
+    background-color: var(--badminton-accent);
+    color: #fff;
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 16px;
+}
+.hero-content-badminton h1 { font-size: 56px; color: #fff; font-style: italic; letter-spacing: 2px; margin-bottom: 16px; }
+.hero-content-badminton p { font-size: 16px; margin-bottom: 32px; opacity: 0.9; }
+
+/* ABOUT SECTION */
+.about-badminton-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+.about-text h2 { color: var(--accent-color); margin-bottom: 20px; }
+.stats-row { display: flex; gap: 40px; margin-top: 30px; }
+.stat-box h3 { font-family: 'Montserrat', sans-serif; font-size: 40px; color: var(--badminton-accent); line-height: 1; margin-bottom: 8px; }
+.stat-box span { font-size: 14px; font-weight: 600; color: var(--text-secondary); }
+.about-img img { width: 100%; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+
+/* ROSTER SECTION */
+.roster-tabs { display: flex; justify-content: center; gap: 16px; margin-bottom: 40px; }
+.tab-btn { padding: 10px 32px; border: 2px solid var(--accent-color); background: transparent; color: var(--accent-color); border-radius: 50px; font-weight: 600; font-family: 'Inter', sans-serif; cursor: pointer; transition: all 0.3s ease; }
+.tab-btn.active, .tab-btn:hover { background: var(--accent-color); color: #fff; }
+.roster-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 24px; }
+.player-card { background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; text-align: center; transition: all 0.3s ease; position: relative; }
+.player-card:hover { transform: translateY(-8px); box-shadow: 0 12px 24px rgba(0,0,0,0.08); }
+.player-img { height: 280px; width: 100%; object-fit: cover; object-position: top; }
+.player-info { padding: 20px; }
+.player-name { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 18px; color: var(--text-primary); margin-bottom: 4px; }
+.player-pos { color: var(--text-secondary); font-size: 14px; font-weight: 500; }
+
+/* Menghilangkan nomor punggung karena badminton jarang pakai nomor punggung */
+.player-number { display: none; }
+
+/* SCHEDULE BANNER */
+.schedule-banner { background-color: var(--accent-color); border-radius: 16px; padding: 60px 40px; text-align: center; color: #fff; }
+.schedule-banner h2, .schedule-banner p { color: #fff; margin-bottom: 16px; }
+.jadwal-badges { display: flex; justify-content: center; gap: 24px; margin-bottom: 32px; }
+.badge-waktu { background: rgba(255, 255, 255, 0.15); padding: 12px 24px; border-radius: 8px; font-weight: 600; display: flex; align-items: center; gap: 10px; border: 1px solid rgba(255, 255, 255, 0.2); }
+.btn-badminton-join { background-color: var(--badminton-accent); color: #fff; border: none; padding: 14px 40px; border-radius: 4px; font-size: 14px; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: background 0.3s ease; }
+.btn-badminton-join:hover { background-color: #1d4ed8; }
+
+@media screen and (max-width: 768px) {
+    .about-badminton-grid { grid-template-columns: 1fr; }
+    .hero-content-badminton h1 { font-size: 40px; }
+    .jadwal-badges { flex-direction: column; }
+}

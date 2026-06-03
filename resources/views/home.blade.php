@@ -140,7 +140,7 @@
                     <div class="card-content">
                         <h2 class="card-title">Bidang Bulu Tangkis</h2>
                         <p class="card-desc">Cek ketersediaan lapangan, pendaftaran anggota baru, dan raihan medali dari divisi bulu tangkis.</p>
-                        <a href="#" class="btn-primary">Learn More</a>
+                        <a href="/divisi/bulutangkis" class="btn-primary">Learn More</a>
                     </div>
                 </article>
             </div>
