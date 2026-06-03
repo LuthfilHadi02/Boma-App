@@ -31,29 +31,27 @@
         </nav>
 
         <div class="nav-right">
-        <div class="profile-dropdown">
-            <a href="#" class="profile-trigger">
-                <i class="fas fa-user-circle"></i> Profile <i class="fas fa-chevron-down small-icon"></i>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="{{ route('profile.edit') }}" class="dropdown-item-link">
-                        <i class="fas fa-user"></i> My Account
-                    </a>
-                </li>
-                
-                <li><hr class="dropdown-divider"></li>
-                
-                <li>
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="logout-btn-link">
-                            <i class="fas fa-sign-out-alt"></i> Logout
-                        </button>
-                    </form>
-                </li>
-            </ul>
-        </div>
+            <div class="profile-dropdown">
+                <a href="#" class="profile-trigger">
+                    <i class="fas fa-user-circle"></i> Profile <i class="fas fa-chevron-down small-icon"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ route('profile.edit') }}" class="dropdown-item-link">
+                            <i class="fas fa-user"></i> My Account
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="logout-btn-link">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
 
             <div class="search-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -65,7 +63,7 @@
         </div>
     </header>
 
-    <main class="container">
+    <main class="container" style="min-height: 60vh;">
         <section class="hero">
             <div class="hero-text">
                 <h1>Sewa Lapangan Lebih Cepat dan Hemat Di Bandung</h1>
@@ -98,7 +96,7 @@
                         <option value="Basket">Basket</option>
                         <option value="Badminton">Badminton</option>
                     </select>
-                    </div>
+                </div>
 
                 <div class="filter-item">
                     <i class="fa-solid fa-location-dot main-icon"></i>
@@ -113,176 +111,89 @@
             </div>
         </section>
 
-        <section class="mb-50">
-            <h2 class="section-title">Lebih Banyak</h2>
+        <!-- SECTION UTAMA YANG SUDAH TERINTEGRASI (EFEK DOMINO) -->
+        <section class="mb-50" style="margin-bottom: 80px;">
+            <h2 class="section-title">Lapangan yang Tersedia</h2>
             <div class="grid-banyak">
+                
+                {{-- Loop data lapangan kiriman dari database Mitra --}}
+                @forelse($facilities as $item)
+                    <a href="/detail-lapangan" style="text-decoration: none; display: contents;">
+                        <div class="card-img-overlay">
+                            @if($item->image)
+                                <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}">
+                            @else
+                                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Default Image">
+                            @endif
+                            
+                            <div class="badge-price">Rp {{ number_format($item->price_per_hour, 0, ',', '.') }}/Jam</div>
+                            <div class="content">
+                                <h3>{{ $item->name }}</h3>
+                                <p>{{ $item->mitra->brand_name ?? 'Gor BOMA' }} - {{ $item->floor_type }}</p>
+                                <small style="color: #cbd5e1; font-size: 11px;">📍 {{ $item->mitra->address ?? 'Bandung' }}</small>
+                            </div>
+                        </div>
+                    </a>
+                @empty
+                    <div style="col-span-full; text-align: center; padding: 60px 20px; color: #64748b; font-style: italic; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 16px; width: 100%;">
+                        <span style="font-size: 2rem; display: block; mb-2;">🏟️</span>
+                        📢 Belum ada lapangan aktif yang didaftarkan oleh Mitra saat ini.
+                    </div>
+                @endforelse
 
-            <a href="/detail-lapangan" style="text-decoration: none; display: contents;">
-                <div class="card-img-overlay tall-card">
-                    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Triditi Futsal">
-                    <div class="badge-price">Rp 100.000/Jam</div>
-                    <div class="content">
-                        <h3>Triditi Futsal Corner</h3>
-                        <p>Cibiru, Kota Bandung</p>
-                    </div>
-                </div>
-                <div class="card-img-overlay">
-                    <img src="https://images.unsplash.com/photo-1504450758481-7338eba7524a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Rabbani Basket">
-                    <div class="badge-price">Rp 100.000/Jam</div>
-                    <div class="content">
-                        <h3>Rabbani Basket</h3>
-                        <p>Ujung Berung, Kota Bandung</p>
-                    </div>
-                </div>
-                <div class="card-img-overlay">
-                    <img src="https://images.unsplash.com/photo-1511886929837-354d827aae26?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Futsal Erlangga">
-                    <div class="badge-price">Rp 150.000/Jam</div>
-                    <div class="content">
-                        <h3>Futsal Erlangga</h3>
-                        <p>Cibiru, Kota Bandung</p>
-                    </div>
-                </div>
-                <div class="card-img-overlay">
-                    <img src="https://images.unsplash.com/photo-1629851606558-7c8dd76e2cba?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Gor Hidayat">
-                    <div class="badge-price">Rp 150.000/Jam</div>
-                    <div class="content">
-                        <h3>Gor Hidayat Badminton</h3>
-                        <p>Cibiru, Kota Bandung</p>
-                    </div>
-                </div>
-                <div class="card-img-overlay">
-                    <img src="https://images.unsplash.com/photo-1551958219-acbc608c6aff?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Futsal Majasari">
-                    <div class="badge-price">Rp 150.000/Jam</div>
-                    <div class="content">
-                        <h3>Line Futsal Majasari</h3>
-                        <p>Cibiru, Kota Bandung</p>
-                    </div>
-                </div>
             </div>
         </section>
+    </main> <!-- RE-POSITIONED: Tag penutup main dikunci di sini sebelum footer -->
 
-        <section class="mb-50">
-            <h2 class="section-title">Lapangan Futsal</h2>
-            <div class="grid-4">
-                <div class="card-standard">
-                    <div class="img-box">
-                        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=400&q=80" alt="Futsal">
-                        <span class="badge-popular">Popular Choice</span>
+    <footer class="site-footer" id="articles">
+        <div class="container">
+            <div class="footer-grid">
+                
+                <div class="footer-col">
+                    <h4>BADAN OLAHRAGA MAHASISWA</h4>
+                    <p class="footer-address">
+                        Jl. Pendidikan No.15, Cibiru Wetan, <br>
+                        Kec. Cileunyi, Kabupaten Bandung, <br>
+                        Jawa Barat 40625.
+                    </p>
+                    <div class="copyright-bottom">
+                        © 2026 BOMA UPI Cibiru.
                     </div>
-                    <h3>Triditi Futsal Corner</h3>
-                    <p>Cibiru, Kota Bandung</p>
                 </div>
-                <div class="card-standard">
-                    <div class="img-box">
-                        <img src="https://images.unsplash.com/photo-1551958219-acbc608c6aff?auto=format&fit=crop&w=400&q=80" alt="Futsal">
+
+                <div class="footer-col">
+                    <h4>TENTANG KAMI</h4>
+                    <ul>
+                        <li><a href="#">Data Atlet & Staff</a></li>
+                        <li><a href="#">Dokumentasi Kegiatan</a></li>
+                        <li><a href="#">E-Learning Olahraga</a></li>
+                        <li><a href="#">Ikatan Alumni BOMA</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>KONTAK KAMI</h4>
+                    <div class="contact-info">
+                        <p><i class="fa-solid fa-envelope"></i> boma@upicibiru.ac.id</p>
+                        <p><i class="fa-solid fa-phone"></i> (022) 7801332</p>
                     </div>
-                    <h3>Futsal Madasuka</h3>
-                    <p>Madasuka, Kota Bandung</p>
-                </div>
-                <div class="card-standard">
-                    <div class="img-box">
-                        <img src="https://images.unsplash.com/photo-1511886929837-354d827aae26?auto=format&fit=crop&w=400&q=80" alt="Futsal">
+                    <div class="social-pills">
+                        <a href="https://www.instagram.com/boma_upicibiru/" class="pill">
+                            <i class="fa-brands fa-instagram"></i> Instagram
+                        </a>
+                        <a href="#" class="pill">
+                            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                        </a>
+                        <a href="https://www.youtube.com/@KampusUPI" class="pill">
+                            <i class="fa-brands fa-youtube"></i> YouTube
+                        </a>
                     </div>
-                    <h3>Futsal Cihuniuk</h3>
-                    <p>Cihuniuk</p>
                 </div>
-                <div class="card-standard">
-                    <div class="img-box">
-                        <img src="https://images.unsplash.com/photo-1629851606558-7c8dd76e2cba?auto=format&fit=crop&w=400&q=80" alt="Futsal">
-                    </div>
-                    <h3>Futsal Erlangga</h3>
-                    <p>Cibiru</p>
-                </div>
+
             </div>
-        </section>
-
-        <section class="mb-50">
-            <h2 class="section-title">Lapangan Basket</h2>
-            <div class="grid-4">
-                <div class="card-standard">
-                    <div class="img-box">
-                        <img src="https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&w=400&q=80" alt="Basket">
-                        <span class="badge-popular">Popular Choice</span>
-                    </div>
-                    <h3>Rabbani Basket</h3>
-                    <p>Ujung Berung, Kota Bandung</p>
-                </div>
-                <div class="card-standard">
-                    <div class="img-box">
-                        <img src="https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&w=400&q=80" alt="Basket">
-                        <span class="badge-popular">Popular Choice</span>
-                    </div>
-                    <h3>Rabbani Basket</h3>
-                    <p>Ujung Berung, Kota Bandung</p>
-                </div>
-                <div class="card-standard">
-                    <div class="img-box">
-                        <img src="https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&w=400&q=80" alt="Basket">
-                        <span class="badge-popular">Popular Choice</span>
-                    </div>
-                    <h3>Rabbani Basket</h3>
-                    <p>Ujung Berung, Kota Bandung</p>
-                </div>
-                <div class="card-standard">
-                    <div class="img-box">
-                        <img src="https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&w=400&q=80" alt="Basket">
-                        <span class="badge-popular">Popular Choice</span>
-                    </div>
-                    <h3>Rabbani Basket</h3>
-                    <p>Ujung Berung, Kota Bandung</p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-<footer class="site-footer" id="articles">
-    <div class="container">
-        <div class="footer-grid">
-            
-            <div class="footer-col">
-                <h4>BADAN OLAHRAGA MAHASISWA</h4>
-                <p class="footer-address">
-                    Jl. Pendidikan No.15, Cibiru Wetan, <br>
-                    Kec. Cileunyi, Kabupaten Bandung, <br>
-                    Jawa Barat 40625.
-                </p>
-                <div class="copyright-bottom">
-                    © 2026 BOMA UPI Cibiru.
-                </div>
-            </div>
-
-            <div class="footer-col">
-                <h4>TENTANG KAMI</h4>
-                <ul>
-                    <li><a href="#">Data Atlet & Staff</a></li>
-                    <li><a href="#">Dokumentasi Kegiatan</a></li>
-                    <li><a href="#">E-Learning Olahraga</a></li>
-                    <li><a href="#">Ikatan Alumni BOMA</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4>KONTAK KAMI</h4>
-                <div class="contact-info">
-                    <p><i class="fa-solid fa-envelope"></i> boma@upicibiru.ac.id</p>
-                    <p><i class="fa-solid fa-phone"></i> (022) 7801332</p>
-                </div>
-                <div class="social-pills">
-                    <a href="https://www.instagram.com/boma_upicibiru/" class="pill">
-                        <i class="fa-brands fa-instagram"></i> Instagram
-                    </a>
-                    <a href="#" class="pill">
-                        <i class="fa-brands fa-whatsapp"></i> WhatsApp
-                    </a>
-                    <a href="https://www.youtube.com/@KampusUPI" class="pill">
-                        <i class="fa-brands fa-youtube"></i> YouTube
-                    </a>
-                </div>
-            </div>
-
         </div>
-    </div>
-</footer>    
-<script src="{{ asset('js/booking.js') }}"></script>
+    </footer>    
+
+    <script src="{{ asset('js/booking.js') }}"></script>
 </body>
 </html>
