@@ -39,6 +39,11 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a href="{{ route('admin.schedule.index') }}" class="nav-link text-white {{ Request::is('admin/schedule*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-calendar-days me-2"></i> Kelola Jadwal Latihan
+                </a>
+            </li>            
+            <li class="nav-item">
                 <a href="#" class="nav-link text-white">
                     <i class="fa-solid fa-users me-2"></i> Verifikasi Akun Pengguna
                 </a>
