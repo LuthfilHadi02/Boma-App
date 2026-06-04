@@ -37,6 +37,11 @@ h1, h2, h3, h4 {
     font-weight: 700;
 }
 
+.roster-card:hover {
+    transform: translateY(-4px);
+    border-color: #cbd5e1;
+}
+
 a {
     text-decoration: none;
     color: inherit;

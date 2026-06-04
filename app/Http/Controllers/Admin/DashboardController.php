@@ -8,6 +8,7 @@ use App\Models\Booking;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 
+
 class DashboardController extends Controller
 {
     public function index()
