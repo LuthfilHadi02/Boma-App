@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Mitra; // Sesuaikan dengan nama model Lu (Mitra / MitraProfile)
+use App\Models\Mitra; 
+use App\Mail\KemitraanDisetujui; // 🟢 Robot Mailable pengirim kertas surat
+use Illuminate\Support\Facades\Mail; // 🟢 Panggil Facade Mail Laravel
 use Illuminate\Http\Request;
 
 class MitraApprovalController extends Controller
@@ -11,8 +13,8 @@ class MitraApprovalController extends Controller
     // 1. Tampilkan halaman daftar pengajuan mitra
     public function index()
     {
-        // Ambil data mitra yang statusnya masih pending untuk di-review admin 
-        $mitras = Mitra::where('status', 'Pending_Verification')->latest()->get();
+        // Ambil data mitra beserta akun user-nya yang statusnya masih Pending_Verification
+        $mitras = Mitra::with('user')->where('status', 'Pending_Verification')->latest()->get();
         
         return view('admin.mitra.index', compact('mitras'));
     }
@@ -21,18 +23,31 @@ class MitraApprovalController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
-            'status' => 'required|in:Approved,Suspended' // [cite: 81, 84]
+            'status' => 'required|in:Approved,Suspended'
         ]);
 
-        $mitra = Mitra::findOrFail($id);
+        // Tarik data mitra beserta akun user-nya dari database
+        $mitra = Mitra::with('user')->findOrFail($id);
+        
+        // Update status sesuai inputan tombol admin (Approved / Suspended)
         $mitra->update([
             'status' => $request->status
         ]);
 
+        // 🚀 SUNTIKAN SAKTI: Jika Admin ngeklik APPROVE, picu robot buat kirim email otomatis!
+        if ($request->status === 'Approved') {
+            try {
+                Mail::to($mitra->user->email)->send(new KemitraanDisetujui($mitra));
+            } catch (\Exception $e) {
+                // Kalau di lokal komputer lu belum konek internet, biar gak crash, dicatat aja di log
+                \Log::error('Gagal kirim email otomatis ke mitra: ' . $e->getMessage());
+            }
+        }
+
         $message = $request->status === 'Approved' 
-            ? 'Akun Mitra berhasil diverifikasi dan diaktifkan!' 
+            ? 'Akun Mitra berhasil diverifikasi dan diaktifkan! Email notifikasi juga berhasil meluncur bray.' 
             : 'Akun Mitra berhasil ditangguhkan/ditolak.';
 
-        return redirect()->route('admin.mitra.index')->with('success', $message);
+        return redirect()->back()->with('success', $message);
     }
 }

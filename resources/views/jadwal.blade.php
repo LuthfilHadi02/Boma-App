@@ -12,6 +12,7 @@
     
     <link rel="stylesheet" href="{{ asset('css/global.css')}}">
     <link rel="stylesheet" href="{{ asset('css/jadwal.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
@@ -34,29 +35,36 @@
         </nav>
 
         <div class="nav-right">
-        <div class="profile-dropdown">
-            <a href="#" class="profile-trigger">
-                <i class="fas fa-user-circle"></i> Profile <i class="fas fa-chevron-down small-icon"></i>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="{{ route('profile.edit') }}" class="dropdown-item-link">
-                        <i class="fas fa-user"></i> My Account
+            @auth
+                <div class="profile-dropdown">
+                    <a href="#" class="profile-trigger">
+                        <i class="fas fa-user-circle"></i> {{ Auth::user()->name }} <i class="fas fa-chevron-down small-icon"></i>
                     </a>
-                </li>
-                
-                <li><hr class="dropdown-divider"></li>
-                
-                <li>
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="logout-btn-link">
-                            <i class="fas fa-sign-out-alt"></i> Logout
-                        </button>
-                    </form>
-                </li>
-            </ul>
-        </div>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{ route('profile.edit') }}" class="dropdown-item-link">
+                                <i class="fas fa-user"></i> My Account
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST" id="logout-form-boma">
+                                @csrf
+                                <button type="submit" class="logout-btn-link" style="background: none; border: none; width: 100%; text-align: left; cursor: pointer;">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            @endauth
+
+            @guest
+                <div class="auth-buttons" style="display: flex; gap: 15px; align-items: center; margin-right: 15px;">
+                    <a href="{{ route('login') }}" class="btn-login-boma" style="color: white; text-decoration: none; font-weight: 600; font-size: 14px;">Log In</a>
+                    <a href="{{ route('register') }}" class="btn-register-boma" style="background-color: #008774; color: white; padding: 8px 18px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 14px; border: 2px solid white; transition: 0.3s;">Register</a>
+                </div>
+            @endguest
 
             <div class="search-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -99,54 +107,55 @@
         </section>
     </main>
 
-<footer class="site-footer" id="articles">
-    <div class="container">
-        <div class="footer-grid">
-            
-            <div class="footer-col">
-                <h4>BADAN OLAHRAGA MAHASISWA</h4>
-                <p class="footer-address">
-                    Jl. Pendidikan No.15, Cibiru Wetan, <br>
-                    Kec. Cileunyi, Kabupaten Bandung, <br>
-                    Jawa Barat 40625.
-                </p>
-                <div class="copyright-bottom">
-                    © 2026 BOMA UPI Cibiru.
+    <footer class="site-footer" id="articles">
+        <div class="container">
+            <div class="footer-grid">
+                
+                <div class="footer-col">
+                    <h4>BADAN OLAHRAGA MAHASISWA</h4>
+                    <p class="footer-address">
+                        Jl. Pendidikan No.15, Cibiru Wetan, <br>
+                        Kec. Cileunyi, Kabupaten Bandung, <br>
+                        Jawa Barat 40625.
+                    </p>
+                    <div class="copyright-bottom">
+                        © 2026 BOMA UPI Cibiru.
+                    </div>
                 </div>
-            </div>
 
-            <div class="footer-col">
-                <h4>TENTANG KAMI</h4>
-                <ul>
-                    <li><a href="#">Data Atlet & Staff</a></li>
-                    <li><a href="#">Dokumentasi Kegiatan</a></li>
-                    <li><a href="#">E-Learning Olahraga</a></li>
-                    <li><a href="#">Ikatan Alumni BOMA</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4>KONTAK KAMI</h4>
-                <div class="contact-info">
-                    <p><i class="fa-solid fa-envelope"></i> boma@upicibiru.ac.id</p>
-                    <p><i class="fa-solid fa-phone"></i> (022) 7801332</p>
+                <div class="footer-col">
+                    <h4>TENTANG KAMI</h4>
+                    <ul>
+                        <li><a href="#">Data Atlet & Staff</a></li>
+                        <li><a href="#">Dokumentasi Kegiatan</a></li>
+                        <li><a href="#">E-Learning Olahraga</a></li>
+                        <li><a href="#">Ikatan Alumni BOMA</a></li>
+                    </ul>
                 </div>
-                <div class="social-pills">
-                    <a href="https://www.instagram.com/boma_upicibiru/" class="pill">
-                        <i class="fa-brands fa-instagram"></i> Instagram
-                    </a>
-                    <a href="#" class="pill">
-                        <i class="fa-brands fa-whatsapp"></i> WhatsApp
-                    </a>
-                    <a href="https://www.youtube.com/@KampusUPI" class="pill">
-                        <i class="fa-brands fa-youtube"></i> YouTube
-                    </a>
-                </div>
-            </div>
 
+                <div class="footer-col">
+                    <h4>KONTAK KAMI</h4>
+                    <div class="contact-info">
+                        <p><i class="fa-solid fa-envelope"></i> boma@upicibiru.ac.id</p>
+                        <p><i class="fa-solid fa-phone"></i> (022) 7801332</p>
+                    </div>
+                    <div class="social-pills">
+                        <a href="https://www.instagram.com/boma_upicibiru/" class="pill">
+                            <i class="fa-brands fa-instagram"></i> Instagram
+                        </a>
+                        <a href="#" class="pill">
+                            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                        </a>
+                        <a href="https://www.youtube.com/@KampusUPI" class="pill">
+                            <i class="fa-brands fa-youtube"></i> YouTube
+                        </a>
+                    </div>
+                </div>
+
+            </div>
         </div>
-    </div>
-</footer>
+    </footer>
+
     <div id="modalKegiatan" class="modal-overlay">
         <div class="modal-container">
             <div class="modal-header">
@@ -160,28 +169,28 @@
                     <div class="activity-flex">
                         <img src="{{ asset('src/Basket.png') }}" alt="Latihan" class="activity-img" id="modalImg">
                         <div class="activity-info-col">
-                <div class="text-info">
-                    <p><strong>Agenda Kegiatan :</strong><br><span id="modalAgenda">Latihan Basket</span></p>
-                    <p><strong>Waktu :</strong><br><span id="modalWaktu">Rabu, 14 Maret 2026</span></p>
-                    <p><strong>Tempat :</strong><br><span id="modalTempat">Lapangan Kampus UPI di Cibiru</span></p>
-                    
-                    <div class="kuota-container" style="margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.2); border-radius: 12px;">
-                        <p style="margin-bottom: 8px; font-size: 13px;">
-                            <strong>Status Kuota:</strong> 
-                            <span id="kuotaTeks" style="float: right; font-weight: 700;">0/0 Terisi</span>
-                        </p>
-                        <div style="width: 100%; height: 8px; background: rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden;">
-                            <div id="kuotaBar" style="width: 0%; height: 100%; background: #059669; transition: 0.5s;"></div>
-                        </div>
-                        <p id="kuotaPeringatan" style="margin-top: 8px; font-size: 11px; color: #FF4B4B; display: none; font-weight: 600;">
-                            <i class="fa-solid fa-circle-exclamation"></i> Yah, kuota latihan udah penuh pak!
-                        </p>
-                    </div>
-                </div>
-                <div class="modal-actions">
-                    <button class="btn-confirm-yes" id="btnLanjutIsiData" onclick="showFormDiri()">Ya</button>
-                    <button class="btn-confirm-no" onclick="closeModal()">Tidak</button>
-                        </div>
+                            <div class="text-info">
+                                <p><strong>Agenda Kegiatan :</strong><br><span id="modalAgenda">Latihan Basket</span></p>
+                                <p><strong>Waktu :</strong><br><span id="modalWaktu">Rabu, 14 Maret 2026</span></p>
+                                <p><strong>Tempat :</strong><br><span id="modalTempat">Lapangan Kampus UPI di Cibiru</span></p>
+                                
+                                <div class="kuota-container" style="margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.2); border-radius: 12px;">
+                                    <p style="margin-bottom: 8px; font-size: 13px;">
+                                        <strong>Status Kuota:</strong> 
+                                        <span id="kuotaTeks" style="float: right; font-weight: 700;">0/0 Terisi</span>
+                                    </p>
+                                    <div style="width: 100%; height: 8px; background: rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden;">
+                                        <div id="kuotaBar" style="width: 0%; height: 100%; background: #059669; transition: 0.5s;"></div>
+                                    </div>
+                                    <p id="kuotaPeringatan" style="margin-top: 8px; font-size: 11px; color: #FF4B4B; display: none; font-weight: 600;">
+                                        <i class="fa-solid fa-circle-exclamation"></i> Yah, kuota latihan udah penuh pak!
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="modal-actions">
+                                <button class="btn-confirm-yes" id="btnLanjutIsiData" onclick="window.showFormDiri()">Ya</button>
+                                <button class="btn-confirm-no" onclick="window.closeModal()">Tidak</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -204,24 +213,17 @@
                         </div>
                         <div class="modal-actions" style="margin-top: 10px;">
                             <button type="submit" class="btn-confirm-yes">Benar, Ikut!</button>
-                            <button type="button" class="btn-confirm-no" onclick="closeModal()">Tidak</button>
+                            <button type="button" class="btn-confirm-no" onclick="window.closeModal()">Tidak</button>
                         </div>
                     </form>
                 </div>
             </div>  
         </div>
     </div>
-    <script>
-        // Bawa data database lu ke JS
-        window.dataJadwalDB = @json($schedules ?? []);
 
-        // Notif kalau sukses / gagal
-        @if(session('success'))
-            alert("{{ session('success') }}");
-        @endif
-        @if(session('error'))
-            alert("{{ session('error') }}");
-        @endif
+    <script>
+        window.isUserLoggedIn = @json(Auth::check());
+        window.dataJadwalDB = @json($schedules ?? []);
     </script>
 
     <script src="{{ asset('js/jadwal.js') }}"></script>

@@ -133,3 +133,19 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 });
+
+
+    function toggleMitraWidget(event) {
+        if(event) {
+            event.stopPropagation(); // Biar pas ngeklik tombol close gak memicu trigger buka lagi
+        }
+        const popCard = document.getElementById('mitraPopCard');
+        
+        if(popCard.classList.contains('show-widget')) {
+            popCard.classList.remove('show-widget');
+            setTimeout(() => { popCard.style.display = 'none'; }, 200);
+        } else {
+            popCard.style.display = 'block';
+            setTimeout(() => { popCard.classList.add('show-widget'); }, 10);
+        }
+    }

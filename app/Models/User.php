@@ -24,6 +24,7 @@ class User extends Authenticatable
         'password',
         'prodi',
         'phone',
+        'role', // 🟢 KUNCI MATI DI SINI BIAR RESMI BISA DIINPUT SEBAGAI MITRA, PAK!
     ];
 
     /**

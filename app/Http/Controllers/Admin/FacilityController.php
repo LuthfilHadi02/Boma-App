@@ -35,39 +35,45 @@ class FacilityController extends Controller
         return view('mitra.facilities.create');
     }
 
-    // 3. PROSES SIMPAN DATA LAPANGAN (Dinamis: Admin vs Mitra)
-    public function store(Request $request)
+   public function store(Request $request)
     {
         $user = auth()->user();
 
-        // Aturan Validasi Dasar (Sesuai SRS v4.0)
+        // 1. ATURAN VALIDASI (Kita tambahin rules amenities dan gmaps_link)
         $rules = [
             'name' => 'required|string|max:255',
-            'type' => 'required|in:Futsal,Basket,Badminton,Tenis,Basketball,Padel', 
+            'type' => 'required|in:Futsal, Basket, Badminton, Tenis, Basketball, Padel', 
             'floor_type' => 'required|string|max:255',
             'price_per_hour' => 'required|numeric|min:0',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Maksimal 2MB
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', 
             'description' => 'nullable|string',
+            'gmaps_link' => 'required|url', 
+            'amenities' => 'nullable|array', 
         ];
 
-        // Penentuan ID Mitra secara otomatis atau manual
         if ($user->role === 'admin') {
-            $rules['mitra_id'] = 'required|exists:mitras,id'; // Admin milih dari dropdown
+            $rules['mitra_id'] = 'required|exists:mitras,id';
             $mitraId = $request->mitra_id;
         } else {
-            $mitra = Mitra::where('user_id', $user->id)->first(); // Mitra otomatis ke-detect ID-nya
+            $mitra = \App\Models\Mitra::where('user_id', $user->id)->first();
             $mitraId = $mitra->id;
         }
 
         $request->validate($rules);
 
-        // Upload Gambar Lapangan
+        // 2. OLAH ARRAY CHECKBOX AMENITIES JADI JSON (Biar bisa masuk kolom teks database)
+        $amenitiesData = null;
+        if ($request->has('amenities')) {
+            $amenitiesData = json_encode($request->input('amenities'));
+        }
+
+        // 3. UPLOAD GAMBAR LAPANGAN
         $imagePath = null;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('facilities', 'public');
         }
 
-        // Create ke Database
+        // 4. EKSEKUSI INSERT DATA KE DATABASE
         Facility::create([
             'mitra_id' => $mitraId,
             'name' => $request->name,
@@ -76,6 +82,8 @@ class FacilityController extends Controller
             'price_per_hour' => $request->price_per_hour,
             'image' => $imagePath,
             'description' => $request->description,
+            'amenities' => $amenitiesData,   
+            'gmaps_link' => $request->gmaps_link, 
             'is_active' => true,
         ]);
 

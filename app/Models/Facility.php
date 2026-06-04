@@ -9,9 +9,18 @@ class Facility extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'mitra_id', 'name', 'type', 'floor_type', 'price_per_hour', 'image', 'description', 'is_active'
-    ];
+protected $fillable = [
+    'mitra_id',
+    'name',
+    'type',
+    'floor_type',
+    'price_per_hour',
+    'image',
+    'description',
+    'amenities',  // 🟢 Tambahin ini
+    'gmaps_link', // 🟢 Tambahin ini
+    'is_active',
+];
 
     // Hubungan data: Lapangan ini milik siapa
     public function mitra()
