@@ -153,40 +153,30 @@
             </div>
         </section>
 
-        <section class="section-padding container" id="recent">
-            <h2 class="section-title text-center">BERITA KEGIATAN</h2>
-            <div class="grid-3-cols">
-                <article class="card">
-                    <img src="{{ asset('src/Berita1.png') }}" alt="Berita 1" class="card-img" style="background-color: #ddd; height: 200px; display: block;">
-                    <div class="card-content">
-                        <span class="meta-text">26 Desember 2025</span>
-                        <h2 class="card-title">Juara 2 dan Juara 3</h2>
-                        <p class="card-desc">Muhammad Allen Al-Azizu, Mahasiswa Prodi Pendidikan Bisnis FPEB UPI Bersama Tim, Raih Juara 2 dan Juara 3 Kompetisi Basket Provinsi Jawa Barat.</p>
-                        <a href="https://fpeb.upi.edu/news/muhammad-allen-al-azizu-mahasiswa-prodi-pendidikan-bisnis-fpeb-upi-bersama-tim-raih-juara-2-dan-juara-3-kompetisi-basket-provinsi-jawa-barat" class="btn-primary">Read More</a>
-                    </div>
-                </article>
-
-                <article class="card">
-                    <img src="{{ asset('src/Berita2.png') }}" alt="Berita 2" class="card-img" style="background-color: #ddd; height: 200px; display: block;">
-                    <div class="card-content">
-                        <span class="meta-text">04 April 2026</span>
-                        <h2 class="card-title">Tim Futsal Puteri UPI Bandung Juara di Malaysia</h2>
-                        <p class="card-desc">Tim Futsal Putri Universitas Pendidikan Idonesia (UPI) Bandung berhasil mentasbihkan dirinya sebagai juara 1 setelah menghempaskan Tim Universitas Negeri Jakarta (UNJ) dengan skor 4-2 dalam ajang The 13th UiTM International Sports Fiesta 2018 di Panasonic Arena, Shah Alam, Malaysia.</p>
-                        <a href="https://berita.upi.edu/tim-futsal-puteri-upi-bandung-juara-di-malaysia/" class="btn-primary">Read More</a>
-                    </div>
-                </article>
-
-                <article class="card">
-                    <img src="{{ asset('src/Berita3.png') }}" alt="Berita 3" class="card-img" style="background-color: #ddd; height: 200px; display: block;">
-                    <div class="card-content">
-                        <span class="meta-text">03 April 2026</span>
-                        <h2 class="card-title">FPOK UPI Raih Dua Medali Perunggu</h2>
-                        <p class="card-desc">Kontingen Universitas Pendidikan Indonesia (UPI) kembali menorehkan prestasi gemilang di ajang Kejuaraan Nasional Bulutangkis antar Mahasiswa UM Cup 2025 yang berlangsung di Universitas Negeri Malang. Dari tiga nomor yang diikuti, UPI berhasil membawa pulang dua medali perunggu.</p>
-                        <a href="https://fpok.upi.edu/mahasiswa-fpok-upi-raih-dua-medali-perunggu-di-kejurnas-bulutangkis-antar-mahasiswa-um-cup-2025/" class="btn-primary">Read More</a>
-                    </div>
-                </article>
+ <section class="section-padding container" id="recent">
+    <h2 class="section-title text-center">BERITA KEGIATAN</h2>
+    <div class="grid-3-cols">
+        @forelse($beritas as $berita)
+            <article class="card">
+                <img src="{{ asset($berita->foto) }}" alt="{{ $berita->judul }}" class="card-img" style="height: 200px; object-fit: cover; display: block;">
+                <div class="card-content">
+                    <span class="meta-text">
+                        {{ \Carbon\Carbon::parse($berita->tanggal_kegiatan)->translatedFormat('d F Y') }}
+                    </span>
+                    <h2 class="card-title">{{ $berita->judul }}</h2>
+                    <p class="card-desc">{{ $berita->deskripsi_singkat }}</p>
+                    @if($berita->link)
+                        <a href="{{ $berita->link }}" target="_blank" class="btn-primary">Read More</a>
+                    @endif
+                </div>
+            </article>
+        @empty
+            <div class="col-12 text-center py-5">
+                <p>Belum ada berita kegiatan terbaru nih.</p>
             </div>
-        </section>
+        @endforelse
+    </div>
+</section>
     </main>
 
 <!-- ================================================================= -->

@@ -75,6 +75,13 @@ a {
     gap: 12px;
 }
 
+.logo-container img {
+    height: 55px ;
+    max-height: 55px ;
+    width: auto ;
+    object-fit: contain;
+}
+
 .logo-text {
     color: #FFFFFF;
     font-family: 'Montserrat', sans-serif;
