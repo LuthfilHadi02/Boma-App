@@ -9,20 +9,21 @@ class Facility extends Model
 {
     use HasFactory;
 
-protected $fillable = [
-    'mitra_id',
-    'name',
-    'type',
-    'floor_type',
-    'price_per_hour',
-    'image',
-    'description',
-    'amenities',  // 🟢 Tambahin ini
-    'gmaps_link', // 🟢 Tambahin ini
-    'is_active',
-];
+    // ✅ PAKAI VERSI DENIS — Akmal tidak punya 'amenities' dan 'gmaps_link'
+    // Tanpa ini, field baru dari migration Denis tidak bisa disimpan
+    protected $fillable = [
+        'mitra_id',
+        'name',
+        'type',
+        'floor_type',
+        'price_per_hour',
+        'image',
+        'description',
+        'amenities',
+        'gmaps_link',
+        'is_active',
+    ];
 
-    // Hubungan data: Lapangan ini milik siapa
     public function mitra()
     {
         return $this->belongsTo(Mitra::class, 'mitra_id');

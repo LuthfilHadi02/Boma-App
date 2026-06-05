@@ -1,144 +1,144 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\HomeController;           // ✅ DARI AKMAL
 use App\Models\Schedule;
+use App\Models\Roster;
+use App\Models\Facility;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MitraApprovalController;
 use App\Http\Controllers\Admin\FacilityController;
+use App\Http\Controllers\Admin\BeritaController;   // ✅ DARI AKMAL
 use App\Http\Controllers\Mitra\MitraDashboardController;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes - BOMA APP INTEGRATED VERSION (VIBE CODING BY AI)
+| Web Routes - BOMA APP INTEGRATED VERSION
 |--------------------------------------------------------------------------
 */
 
 // =========================================================================
-// 1. GERBANG UTAMA & HALAMAN PUBLIK (TERBUKA UNTUK GUEST / TANPA LOGIN) 🌐
+// 1. HALAMAN PUBLIK
 // =========================================================================
 
-Route::get('/', function () {
-    return view('home'); // Otomatis lari ke halaman Home utama BOMA saat pertama dibuka
-})->name('home');
+// ✅ PAKAI HOMECONTROLLER (AKMAL) — lebih clean, home jadi controller bukan closure
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Jalur Informasi Divisi Cabang Olahraga BOMA (Bisa dibaca Publik)
-Route::get('/divisi/basket', function () {
-    return view('basket'); 
-});
-
-Route::get('/divisi/futsal', function () {
-    return view('futsal'); 
-});
-
-Route::get('/divisi/bulutangkis', function () {
-    return view('bulutangkis'); 
-});
-
-// --- AKSI PUBLIK: JADWAL LATIHAN (Bisa dilihat siapa saja) ---
+// Jadwal publik
 Route::get('/jadwal', function () {
     $schedules = Schedule::all()->keyBy(function ($item) {
         return \Carbon\Carbon::parse($item->date)->format('Y-m-d');
-    }); 
+    });
     return view('jadwal', compact('schedules'));
 })->name('jadwal.index');
 
-// --- AKSI PUBLIK: KATALOG BOOKING LAPANGAN (Bisa dilihat siapa saja) ---
+// Katalog booking lapangan (publik)
 Route::get('/booking', function () {
-    // Tarik semua data lapangan aktif kiriman dari database Mitra
-    $facilities = \App\Models\Facility::with('mitra')->where('is_active', true)->latest()->get();
+    $facilities = Facility::with('mitra')->where('is_active', true)->latest()->get();
     return view('booking', compact('facilities'));
 })->name('booking');
 
-// 🟢 ROUTE REGISTRASI KHUSUS MITRA GOR (BEBAS DIAKSES GUEST DI LUAR AUTH)
+// ✅ HALAMAN DIVISI — PAKAI VERSI DINAMIS (AKMAL), load roster dari DB
+Route::get('/divisi/basket', function (Request $request) {
+    $gender = $request->query('gender', 'putra');
+    $rosters = Roster::where('team_category', 'Basket')->where('gender', $gender)->get();
+    return view('basket', compact('rosters', 'gender'));
+})->name('divisi.basket');
+
+Route::get('/divisi/futsal', function (Request $request) {
+    $gender = $request->query('gender', 'putra');
+    $rosters = Roster::where('team_category', 'Futsal')->where('gender', $gender)->get();
+    return view('futsal', compact('rosters', 'gender'));
+})->name('divisi.futsal');
+
+Route::get('/divisi/bulutangkis', function (Request $request) {
+    $gender = $request->query('gender', 'putra');
+    $rosters = Roster::where('team_category', 'Bulutangkis')->where('gender', $gender)->get();
+    return view('bulutangkis', compact('rosters', 'gender'));
+})->name('divisi.bulutangkis');
+
+// Register Mitra (guest boleh akses)
 Route::get('/mitra/register', [App\Http\Controllers\Auth\MitraRegisterController::class, 'showRegisterForm'])->name('mitra.register');
 Route::post('/mitra/register', [App\Http\Controllers\Auth\MitraRegisterController::class, 'store'])->name('mitra.register.store');
 
 
 // =========================================================================
-// 2. AREA AKURAT YANG WAJIB LOGIN DULU (MIDDLEWARE AUTH SECURITY) 🔒
+// 2. AREA WAJIB LOGIN (AUTH + VERIFIED)
 // =========================================================================
 Route::middleware(['auth', 'verified'])->group(function () {
-    
-    // User Biasa Dashboard Redirect (Bawaan Breeze)
-    Route::get('/dashboard', function () {
-        return view('home');
-    })->name('dashboard');
 
-    // ---------------------------------------------------------------------
-    // A. PROTEKSI JADWAL: IKUT LATIHAN BOMA (WAJIB LOGIN)
-    // ---------------------------------------------------------------------
+    // User biasa redirect ke home
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+
+    // Ikut latihan (wajib login)
     Route::post('/jadwal/ikut/{id}', function ($id) {
         $jadwal = Schedule::findOrFail($id);
-        
         if ($jadwal->current_quota < $jadwal->max_quota) {
             $jadwal->increment('current_quota');
             return back()->with('success', 'Mantap! Lu berhasil daftar latihan.');
         }
-        
         return back()->with('error', 'Yah, telat. Kuota udah penuh pak!');
     })->name('jadwal.ikut');
 
-    // ---------------------------------------------------------------------
-    // B. PROTEKSI BOOKING: DETAIL LAPANGAN DINAMIS (WAJIB LOGIN)
-    // ---------------------------------------------------------------------
+    // ✅ DETAIL LAPANGAN — PAKAI VERSI DENIS (pakai BookingController, ada booking.store)
     Route::get('/detail-lapangan/{id}', [App\Http\Controllers\BookingController::class, 'show'])->name('booking.detail');
-    
-    // 🟢 AKSI MENYIMPAN TRANSAKSI BOOKING MAHASISWA KE DATABASE (ANTI-HARDCODE)
     Route::post('/detail-lapangan/store', [App\Http\Controllers\BookingController::class, 'store'])->name('booking.store');
 
-    // ---------------------------------------------------------------------
-    // C. MANAGEMENT PROFILE PENGGUNA
-    // ---------------------------------------------------------------------
+    // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // ---------------------------------------------------------------------
-    // D. JALUR KHUSUS ADMIN BOMA (ROLE: ADMIN ONLY) 👑
-    // ---------------------------------------------------------------------
+
+    // -------------------------------------------------------------------------
+    // ADMIN ROUTES
+    // -------------------------------------------------------------------------
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
-        
-        // Dashboard Admin
+
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-        // Persetujuan Berkas KYC Mitra Baru
+        // Mitra approval
         Route::get('/mitra-approval', [MitraApprovalController::class, 'index'])->name('mitra.index');
         Route::patch('/mitra-approval/{id}/status', [MitraApprovalController::class, 'updateStatus'])->name('mitra.updateStatus');
 
-        // Kelola Fasilitas Lapangan Sisi Admin
+        // Fasilitas lapangan
         Route::get('/facilities', [FacilityController::class, 'index'])->name('facilities.index');
         Route::post('/facilities', [FacilityController::class, 'store'])->name('facilities.store');
         Route::delete('/facilities/{id}', [FacilityController::class, 'destroy'])->name('facilities.destroy');
 
-        // Roster Management Atlet
+        // Roster
         Route::get('/roster', [App\Http\Controllers\Admin\RosterController::class, 'index'])->name('roster.index');
         Route::post('/roster', [App\Http\Controllers\Admin\RosterController::class, 'store'])->name('roster.store');
         Route::put('/roster/{id}', [App\Http\Controllers\Admin\RosterController::class, 'update'])->name('roster.update');
         Route::delete('/roster/{id}', [App\Http\Controllers\Admin\RosterController::class, 'destroy'])->name('roster.destroy');
 
-        // Kelola Finansial Transaksi & Refund Admin
-        Route::get('/payments', [App\Http\Controllers\Admin\PaymentManagementController::class, 'index'])->name('payments.index');
-        Route::post('/refunds/{id}/approve', [App\Http\Controllers\Admin\PaymentManagementController::class, 'approveRefund'])->name('refunds.approve');
-        Route::post('/refunds/{id}/reject', [App\Http\Controllers\Admin\PaymentManagementController::class, 'rejectRefund'])->name('refunds.reject');
-
-        // JALUR FULL CRUD JADWAL LATIHAN BOMA (KARYA MURSYID DANISWARA) 🚀
+        // Jadwal
         Route::get('/schedule', [App\Http\Controllers\Admin\ScheduleController::class, 'index'])->name('schedule.index');
         Route::post('/schedule', [App\Http\Controllers\Admin\ScheduleController::class, 'store'])->name('schedule.store');
         Route::put('/schedule/{id}', [App\Http\Controllers\Admin\ScheduleController::class, 'update'])->name('schedule.update');
         Route::delete('/schedule/{id}', [App\Http\Controllers\Admin\ScheduleController::class, 'destroy'])->name('schedule.destroy');
+
+        // Payment & Refund
+        Route::get('/payments', [App\Http\Controllers\Admin\PaymentManagementController::class, 'index'])->name('payments.index');
+        Route::post('/refunds/{id}/approve', [App\Http\Controllers\Admin\PaymentManagementController::class, 'approveRefund'])->name('refunds.approve');
+        Route::post('/refunds/{id}/reject', [App\Http\Controllers\Admin\PaymentManagementController::class, 'rejectRefund'])->name('refunds.reject');
+
+        // ✅ BERITA — DARI AKMAL (tidak ada di Denis, harus ditambahkan)
+        Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
+        Route::post('/berita', [BeritaController::class, 'store'])->name('berita.store');
+        Route::delete('/berita/{id}', [BeritaController::class, 'destroy'])->name('berita.destroy');
     });
 
-    // ---------------------------------------------------------------------
-    // E. JALUR KHUSUS MITRA LAPANGAN (ROLE: MITRA ONLY) 🏢
-    // ---------------------------------------------------------------------
+
+    // -------------------------------------------------------------------------
+    // MITRA ROUTES
+    // -------------------------------------------------------------------------
     Route::middleware(['role:mitra'])->prefix('mitra')->name('mitra.')->group(function () {
-        
-        // Halaman Utama Dashboard Mitra
+
         Route::get('/dashboard', [MitraDashboardController::class, 'index'])->name('dashboard');
-        
-        // Kelola Lapangan Mandiri Sisi Mitra
+
         Route::get('/facilities', [FacilityController::class, 'index'])->name('facilities.index');
         Route::get('/facilities/create', [FacilityController::class, 'create'])->name('facilities.create');
         Route::post('/facilities', [FacilityController::class, 'store'])->name('facilities.store');
@@ -146,5 +146,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 });
 
-// Load Sistem Autentikasi Bawaan Laravel Breeze
 require __DIR__.'/auth.php';
