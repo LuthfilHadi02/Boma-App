@@ -61,6 +61,30 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         console.error("Waduh, elemen profile-trigger atau dropdown-menu nggak ketemu di HTML!");
     }
+
+    const cardLinks = document.querySelectorAll('.card-link');
+    
+    cardLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const isAuth = this.getAttribute('data-auth') === 'true';
+            
+            if (!isAuth) {
+                e.preventDefault(); // Batalkan pindah halaman
+                Swal.fire({
+                    title: 'Oops!',
+                    text: 'Login dulu ya buat booking lapangan!',
+                    icon: 'warning',
+                    confirmButtonText: 'Login Sekarang',
+                    confirmButtonColor: '#008774'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '/login'; // Lempar ke halaman login
+                    }
+                });
+            }
+        });
+    });
+});
     
     // =========================================
     // 1. STICKY NAVBAR (HIJAU TRANSISI)
@@ -170,8 +194,6 @@ document.addEventListener('DOMContentLoaded', function() {
         revealObserver.observe(el);
     });
 
-});
-
 
     function toggleMitraWidget(event) {
         if(event) {
@@ -187,3 +209,4 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => { popCard.classList.add('show-widget'); }, 10);
         }
     }
+

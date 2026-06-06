@@ -131,14 +131,17 @@
             <div class="grid-banyak">
                 
                 @forelse($facilities as $item)
-                    <a href="/detail-lapangan/{{ $item->id }}" style="text-decoration: none; display: contents;">
+                    <a href="/detail-lapangan/{{ $item->id }}" 
+                    class="card-link" 
+                    data-auth="{{ Auth::check() ? 'true' : 'false' }}"
+                    style="text-decoration: none; display: contents;">
                         <div class="card-img-overlay">
                             @if($item->image)
                                 <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}">
                             @else
                                 <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Default Image">
                             @endif
-                   
+                            
                             <div class="badge-price">Rp {{ number_format($item->price_per_hour, 0, ',', '.') }}/Jam</div>
                             <div class="content">
                                 <h3>{{ $item->name }}</h3>
@@ -148,11 +151,7 @@
                         </div>
                     </a>
                 @empty
-                    <div style="grid-column: span 3; text-align: center; padding: 60px 20px; color: #64748b; font-style: italic; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 16px; width: 100%;">
-                        <span style="font-size: 2rem; display: block; margin-bottom: 8px;">Field Not Found</span>
-                        📢 Belum ada lapangan aktif yang didaftarkan oleh Mitra saat ini.
-                    </div>
-                @endforelse
+                    @endforelse
 
             </div>
         </section>
