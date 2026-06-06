@@ -33,38 +33,45 @@
     </nav>
 
     <div class="nav-right">
-    <div class="profile-dropdown">
-        <a href="#" class="profile-trigger">
-            <i class="fas fa-user-circle"></i> Profile <i class="fas fa-chevron-down small-icon"></i>
-        </a>
-        <ul class="dropdown-menu">
-            <li>
-                <a href="{{ route('profile.edit') }}" class="dropdown-item-link">
-                    <i class="fas fa-user"></i> My Account
-                </a>
-            </li>
-            
-            <li><hr class="dropdown-divider"></li>
-            
-            <li>
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit" class="logout-btn-link">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </button>
-                </form>
-            </li>
-        </ul>
-    </div>
-
-        <div class="search-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            <input type="text" placeholder="Search">
+    @auth
+        <div class="profile-dropdown">
+            <a href="#" class="profile-trigger">
+                <i class="fas fa-user-circle"></i> {{ Auth::user()->name }} <i class="fas fa-chevron-down small-icon"></i>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="{{ route('profile.edit') }}" class="dropdown-item-link">
+                        <i class="fas fa-user"></i> My Account
+                    </a>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <form action="{{ route('logout') }}" method="POST" id="logout-form-boma">
+                        @csrf
+                        <button type="submit" class="logout-btn-link" style="background: none; border: none; width: 100%; text-align: left; cursor: pointer;">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </form>
+                </li>
+            </ul>
         </div>
+    @endauth
+
+    @guest
+        <div class="auth-buttons" style="display: flex; gap: 15px; align-items: center; margin-right: 15px;">
+            <a href="{{ route('login') }}" class="btn-login-boma" style="color: white; text-decoration: none; font-weight: 600; font-size: 14px;">Log In</a>
+            <a href="{{ route('register') }}" class="btn-register-boma" style="background-color: #008774; color: white; padding: 8px 18px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 14px; border: 2px solid white; transition: 0.3s;">Register</a>
+        </div>
+    @endguest
+
+    <div class="search-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" placeholder="Search">
     </div>
+</div>
 </header>
 
     <main>
@@ -146,39 +153,65 @@
             </div>
         </section>
 
-<section class="section-padding container" id="recent">
+ <section class="section-padding container" id="recent">
     <h2 class="section-title text-center">BERITA KEGIATAN</h2>
-    
     <div class="grid-3-cols">
         @forelse($beritas as $berita)
             <article class="card">
                 <img src="{{ asset($berita->foto) }}" alt="{{ $berita->judul }}" class="card-img" style="height: 200px; object-fit: cover; display: block;">
-                
                 <div class="card-content">
                     <span class="meta-text">
                         {{ \Carbon\Carbon::parse($berita->tanggal_kegiatan)->translatedFormat('d F Y') }}
                     </span>
-                    
                     <h2 class="card-title">{{ $berita->judul }}</h2>
-                    
                     <p class="card-desc">{{ $berita->deskripsi_singkat }}</p>
-                    
                     @if($berita->link)
-                        <a href="{{ $berita->link }}" target="_blank" class="btn-primary">
-                            Read More
-                        </a>
+                        <a href="{{ $berita->link }}" target="_blank" class="btn-primary">Read More</a>
                     @endif
                 </div>
             </article>
         @empty
             <div class="col-12 text-center py-5">
-                <p>Belum ada berita kegiatan terbaru nih, bre.</p>
+                <p>Belum ada berita kegiatan terbaru nih.</p>
             </div>
         @endforelse
     </div>
 </section>
-
     </main>
+
+<!-- ================================================================= -->
+<!-- 🏟️ FLOATING STICKY WIDGET MITRA BOMA (ANTI-SCROLL & INTERAKTIF) -->
+<!-- ================================================================= -->
+
+<!-- 1. Tombol Utama yang Melayang di Pojok Kanan Bawah -->
+<div class="boma-floating-trigger" id="mitraWidgetTrigger" onclick="toggleMitraWidget()">
+    <i class="fa-solid fa-store"></i>
+    <span>Gabung Mitra</span>
+</div>
+
+<!-- 2. Kotak Pop-up Mini (Bisa Muncul & Sembunyi) -->
+<div class="boma-floating-popcard" id="mitraPopCard">
+    <div class="popcard-header">
+        <h5>🚀 Peluang Bisnis GOR</h5>
+        <button onclick="toggleMitraWidget(event)">&times;</button>
+    </div>
+    <div class="popcard-body">
+        <h4>Punya Lapangan Nganggur?</h4>
+        <p>Yuk, daftarkan GOR lu jadi Mitra Resmi BOMA! Kelola jadwal sewa otomatis dan jangkau ratusan tim mahasiswa setiap hari.</p>
+        
+        <a href="/mitra/register" class="btn-popcard-submit">
+            Daftarkan Sekarang <i class="fa-solid fa-arrow-right-long"></i>
+        </a>
+    </div>
+</div>
+
+<!-- 🎨 STYLE NATIVE WIDGET (PENGAMANAN TOTAL DAN ANTI-TABRAKAN) -->
+<style>
+
+</style>
+
+
+
 
 <footer class="site-footer" id="articles">
     <div class="container">

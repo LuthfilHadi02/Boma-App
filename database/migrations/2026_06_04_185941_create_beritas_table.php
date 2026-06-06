@@ -1,4 +1,6 @@
 <?php
+// FILE INI HANYA ADA DI AKMAL — Denis tidak punya
+// Salin file ini ke: database/migrations/2026_06_04_185941_create_beritas_table.php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -6,25 +8,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-public function up(): void
-{
-    Schema::create('beritas', function (Blueprint $table) {
-        $table->id();
-        $table->string('judul');
-        $table->string('slug')->unique(); // Buat URL: boma.test/berita/juara-2-dan-juara-3
-        $table->text('deskripsi_singkat'); // Buat teks di kartu home
-        $table->longText('konten_lengkap'); // Isi berita pas diklik "Read More"
-        $table->string('foto');
-        $table->date('tanggal_kegiatan');
-        $table->timestamps();
-    });
-}
-    /**
-     * Reverse the migrations.
-     */
+    public function up(): void
+    {
+        Schema::create('beritas', function (Blueprint $table) {
+            $table->id();
+            $table->string('judul');
+            $table->string('slug')->unique();
+            $table->text('deskripsi_singkat');
+            $table->longText('konten_lengkap');
+            $table->string('foto');
+            $table->date('tanggal_kegiatan');
+            $table->timestamps();
+        });
+    }
+
     public function down(): void
     {
         Schema::dropIfExists('beritas');

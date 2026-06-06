@@ -12,7 +12,7 @@
 </head>
 <body>
 
-    <header class="navbar bg-accent">
+    <header class="navbar bg-accent" style="position: relative; z-index: 99999;">
         <div class="logo-container">
             <img src="{{ asset('src/Foto_LogoBoma.png') }}" alt="Logo BOMA" height="60">
             <div class="logo-text">
@@ -31,27 +31,36 @@
         </nav>
 
         <div class="nav-right">
-            <div class="profile-dropdown">
-                <a href="#" class="profile-trigger">
-                    <i class="fas fa-user-circle"></i> Profile <i class="fas fa-chevron-down small-icon"></i>
-                </a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a href="{{ route('profile.edit') }}" class="dropdown-item-link">
-                            <i class="fas fa-user"></i> My Account
-                        </a>
-                    </li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li>
-                        <form action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="logout-btn-link">
-                                <i class="fas fa-sign-out-alt"></i> Logout
-                            </button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
+            @auth
+                <div class="profile-dropdown">
+                    <a href="#" class="profile-trigger">
+                        <i class="fas fa-user-circle"></i> {{ Auth::user()->name }} <i class="fas fa-chevron-down small-icon"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{ route('profile.edit') }}" class="dropdown-item-link">
+                                <i class="fas fa-user"></i> My Account
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST" id="logout-form-boma">
+                                @csrf
+                                <button type="submit" class="logout-btn-link" style="background: none; border: none; width: 100%; text-align: left; cursor: pointer;">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            @endauth
+
+            @guest
+                <div class="auth-buttons" style="display: flex; gap: 15px; align-items: center; margin-right: 15px;">
+                    <a href="{{ route('login') }}" class="btn-login-boma" style="color: white; text-decoration: none; font-weight: 600; font-size: 14px;">Log In</a>
+                    <a href="{{ route('register') }}" class="btn-register-boma" style="background-color: #008774; color: white; padding: 8px 18px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 14px; border: 2px solid white; transition: 0.3s;">Register</a>
+                </div>
+            @endguest
 
             <div class="search-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -63,7 +72,7 @@
         </div>
     </header>
 
-    <main class="container" style="min-height: 60vh;">
+    <main class="container" style="min-height: 60vh; position: relative; z-index: 1;">
         <section class="hero">
             <div class="hero-text">
                 <h1>Sewa Lapangan Lebih Cepat dan Hemat Di Bandung</h1>
@@ -111,21 +120,19 @@
             </div>
         </section>
 
-        <!-- SECTION UTAMA YANG SUDAH TERINTEGRASI (EFEK DOMINO) -->
         <section class="mb-50" style="margin-bottom: 80px;">
             <h2 class="section-title">Lapangan yang Tersedia</h2>
             <div class="grid-banyak">
                 
-                {{-- Loop data lapangan kiriman dari database Mitra --}}
                 @forelse($facilities as $item)
-                    <a href="/detail-lapangan" style="text-decoration: none; display: contents;">
+                    <a href="/detail-lapangan/{{ $item->id }}" style="text-decoration: none; display: contents;">
                         <div class="card-img-overlay">
                             @if($item->image)
                                 <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}">
                             @else
                                 <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Default Image">
                             @endif
-                            
+                   
                             <div class="badge-price">Rp {{ number_format($item->price_per_hour, 0, ',', '.') }}/Jam</div>
                             <div class="content">
                                 <h3>{{ $item->name }}</h3>
@@ -135,20 +142,19 @@
                         </div>
                     </a>
                 @empty
-                    <div style="col-span-full; text-align: center; padding: 60px 20px; color: #64748b; font-style: italic; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 16px; width: 100%;">
-                        <span style="font-size: 2rem; display: block; mb-2;">🏟️</span>
+                    <div style="grid-column: span 3; text-align: center; padding: 60px 20px; color: #64748b; font-style: italic; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 16px; width: 100%;">
+                        <span style="font-size: 2rem; display: block; margin-bottom: 8px;">Field Not Found</span>
                         📢 Belum ada lapangan aktif yang didaftarkan oleh Mitra saat ini.
                     </div>
                 @endforelse
 
             </div>
         </section>
-    </main> <!-- RE-POSITIONED: Tag penutup main dikunci di sini sebelum footer -->
+    </main>
 
     <footer class="site-footer" id="articles">
         <div class="container">
             <div class="footer-grid">
-                
                 <div class="footer-col">
                     <h4>BADAN OLAHRAGA MAHASISWA</h4>
                     <p class="footer-address">
@@ -178,22 +184,51 @@
                         <p><i class="fa-solid fa-phone"></i> (022) 7801332</p>
                     </div>
                     <div class="social-pills">
-                        <a href="https://www.instagram.com/boma_upicibiru/" class="pill">
-                            <i class="fa-brands fa-instagram"></i> Instagram
-                        </a>
-                        <a href="#" class="pill">
-                            <i class="fa-brands fa-whatsapp"></i> WhatsApp
-                        </a>
-                        <a href="https://www.youtube.com/@KampusUPI" class="pill">
-                            <i class="fa-brands fa-youtube"></i> YouTube
-                        </a>
+                        <a href="https://www.instagram.com/boma_upicibiru/" class="pill"><i class="fa-brands fa-instagram"></i> Instagram</a>
                     </div>
                 </div>
-
             </div>
         </div>
-    </footer>    
+    </footer>
 
-    <script src="{{ asset('js/booking.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. LOGIKA DROPDOWN PROFILE
+            const profileTrigger = document.querySelector('.profile-trigger');
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+
+            if (profileTrigger && dropdownMenu) {
+                profileTrigger.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation(); // Amankan dari pemicu klik luar area
+                    dropdownMenu.classList.toggle('show');
+                    profileTrigger.classList.toggle('active');
+                });
+
+                window.addEventListener('click', function(e) {
+                    if (!profileTrigger.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                        dropdownMenu.classList.remove('show');
+                        profileTrigger.classList.remove('active');
+                    }
+                });
+            }
+
+            // 2. LOGIKA TOMBOL SEARCH FILTER
+            const btnSearch = document.querySelector('.btn-search');
+            if (btnSearch) {
+                btnSearch.addEventListener('click', function() {
+                    const tgl = document.getElementById('filterTanggal').value;
+                    const cabang = document.getElementById('filterCabang').value;
+                    const kecamatan = document.getElementById('filterKecamatan').value;
+
+                    if (!tgl && !cabang && !kecamatan) {
+                        alert("Pilih minimal satu filter dulu pak (Tanggal, Cabang, atau Kecamatan)!");
+                        return;
+                    }
+                    alert(`Mencari Lapangan:\n\n📅 Tanggal: ${tgl ? tgl : 'Semua Hari'}\n🏃 Cabang: ${cabang ? cabang : 'Semua Olahraga'}\n📍 Kecamatan: ${kecamatan ? kecamatan : 'Semua Area'}`);
+                });
+            }
+        });
+    </script>
 </body>
 </html>

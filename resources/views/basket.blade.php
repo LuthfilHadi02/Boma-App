@@ -17,7 +17,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased font-['Inter']">
 
-    <header class="navbar bg-accent sticky top-0 z-50 transition-all duration-300">
+    <header class="navbar bg-accentsticky top-0 z-50 transition-all duration-300">
         <div class="logo-container">
             <img src="{{ asset('src/Foto_LogoBoma.png') }}" alt="Logo BOMA" height="60" class="object-contain">
             <div class="logo-text">

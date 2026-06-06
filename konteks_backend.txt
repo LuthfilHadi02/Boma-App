@@ -1,0 +1,1936 @@
+﻿
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\database\migrations\0001_01_01_000000_create_users_table.php ===
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
+        });
+
+        Schema::create('password_reset_tokens', function (Blueprint $table) {
+            $table->string('email')->primary();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
+        });
+
+        Schema::create('sessions', function (Blueprint $table) {
+            $table->string('id')->primary();
+            $table->foreignId('user_id')->nullable()->index();
+            $table->string('ip_address', 45)->nullable();
+            $table->text('user_agent')->nullable();
+            $table->longText('payload');
+            $table->integer('last_activity')->index();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('users');
+        Schema::dropIfExists('password_reset_tokens');
+        Schema::dropIfExists('sessions');
+    }
+};
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\database\migrations\0001_01_01_000001_create_cache_table.php ===
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('cache', function (Blueprint $table) {
+            $table->string('key')->primary();
+            $table->mediumText('value');
+            $table->integer('expiration')->index();
+        });
+
+        Schema::create('cache_locks', function (Blueprint $table) {
+            $table->string('key')->primary();
+            $table->string('owner');
+            $table->integer('expiration')->index();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('cache');
+        Schema::dropIfExists('cache_locks');
+    }
+};
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\database\migrations\0001_01_01_000002_create_jobs_table.php ===
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('jobs', function (Blueprint $table) {
+            $table->id();
+            $table->string('queue')->index();
+            $table->longText('payload');
+            $table->unsignedTinyInteger('attempts');
+            $table->unsignedInteger('reserved_at')->nullable();
+            $table->unsignedInteger('available_at');
+            $table->unsignedInteger('created_at');
+        });
+
+        Schema::create('job_batches', function (Blueprint $table) {
+            $table->string('id')->primary();
+            $table->string('name');
+            $table->integer('total_jobs');
+            $table->integer('pending_jobs');
+            $table->integer('failed_jobs');
+            $table->longText('failed_job_ids');
+            $table->mediumText('options')->nullable();
+            $table->integer('cancelled_at')->nullable();
+            $table->integer('created_at');
+            $table->integer('finished_at')->nullable();
+        });
+
+        Schema::create('failed_jobs', function (Blueprint $table) {
+            $table->id();
+            $table->string('uuid')->unique();
+            $table->text('connection');
+            $table->text('queue');
+            $table->longText('payload');
+            $table->longText('exception');
+            $table->timestamp('failed_at')->useCurrent();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('jobs');
+        Schema::dropIfExists('job_batches');
+        Schema::dropIfExists('failed_jobs');
+    }
+};
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\database\migrations\2026_05_07_235633_add_prodi_and_phone_to_users_table.php ===
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+    Schema::table('users', function (Blueprint $table) {
+        $table->string('prodi')->nullable()->after('email');
+        $table->string('phone')->nullable()->after('prodi');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+    Schema::table('users', function (Blueprint $table) {
+        $table->dropColumn(['prodi', 'phone']);
+        });
+    }
+};
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\database\migrations\2026_05_08_143319_create_schedules_table.php ===
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('schedules', function (Blueprint $table) {
+            $table->id();
+            $table->string('title'); 
+            $table->date('date');    
+            $table->string('time');  
+            $table->string('location'); 
+            $table->integer('current_quota')->default(0); // Berapa yg udah daftar
+            $table->integer('max_quota')->default(20);    // Maksimal kuota
+            $table->timestamps();
+        });
+    }
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('schedules');
+    }
+};
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\database\migrations\2026_05_20_151338_add_role_to_users_table.php ===
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::table('users', function (Blueprint $table) {
+            // Menambahkan kolom role dengan default value 'student' (Sesuai SRS Persona)
+            $table->string('role')->default('student')->after('email');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('users', function (Blueprint $table) {
+            // Menghapus kolom jika migration di-rollback
+            $table->dropColumn('role');
+        });
+    }
+};
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\database\migrations\2026_05_20_182320_create_mitras_table.php ===
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+{
+        Schema::create('mitras', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('brand_name'); // Nama Bisnis/Klub [cite: 62]
+            $table->string('address'); // Alamat Lapangan [cite: 62]
+            $table->string('bank_name'); // Nama Bank untuk KYC [cite: 80, 81]
+            $table->string('bank_account_number'); // No Rekening [cite: 80, 81]
+            $table->string('bank_account_name'); // Nama di Rekening (harus match) 
+            $table->string('identity_document'); // Path file KTP/Izin Usaha 
+            $table->enum('status', ['Pending_Verification', 'Approved', 'Suspended'])
+                ->default('Pending_Verification'); // [cite: 81, 84]
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('mitras');
+    }
+};
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\database\migrations\2026_05_22_004545_create_facilities_table.php ===
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+public function up(): void
+    {
+        Schema::create('facilities', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('mitra_id')->constrained('mitras')->onDelete('cascade');
+            $table->string('name');
+            $table->string('type'); // Futsal, Basket, Badminton, Tenis
+            $table->string('floor_type'); // Interlock, Vinyl, Rumput, Semen
+            $table->integer('price_per_hour');
+            $table->string('image')->nullable();
+            $table->text('description')->nullable();
+            $table->boolean('is_active')->default(true);
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('facilities');
+    }
+};
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\database\migrations\2026_06_01_000001_create_bookings_table.php.php ===
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('bookings', function (Blueprint $table) {
+            $table->id();
+            // 1. Mengunci Mahasiswa/User yang memesan
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            
+            // 2. Mengunci Lapangan Spesifik yang disewa (Gua ganti dari mitra_id ke facility_id biar jelas lapangannya)
+            $table->foreignId('facility_id')->constrained('facilities')->onDelete('cascade');
+            
+            // 3. Data Waktu & Durasi Main Nyata (Biar ga hardcode!)
+            $table->date('booking_date'); // Tanggal main (Contoh: 2026-06-05)
+            $table->string('start_time'); // Jam mulai main (Contoh: "14:00")
+            $table->integer('jumlah_sesi'); // Berapa jam/sesi durasi mainnya (Mengikuti nama kolom Luthfil)
+            $table->integer('total_price'); // Menyimpan nominal total harga sewa riil
+            
+            // 4. Status Booking
+            $table->string('status')->default('pending'); // pending (belum bayar), paid (lunas), cancelled (batal)
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('bookings');
+    }
+};
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\database\migrations\2026_06_02_000001_create_payments_table.php ===
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('payments', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('booking_id')->constrained();
+            $table->decimal('amount', 15, 2);
+            $table->string('status')->default('pending'); // pending, paid, failed
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('payments');
+    }
+};
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\database\migrations\2026_06_03_170301_create_rosters_table.php ===
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('rosters', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');           // Nama pemain
+            $table->string('position');       // Posisi (Point Guard, Striker, dll)
+            $table->integer('number');        // Nomor punggung
+            $table->string('team_category');  // Contoh: 'basket', 'futsal'
+            $table->string('photo')->nullable(); // Path foto pemain
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('rosters');
+    }
+};
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\database\migrations\2026_06_03_175843_add_gender_to_rosters_table.php ===
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+{
+    Schema::table('rosters', function (Blueprint $table) {
+        // Menambahkan kolom gender setelah team_category
+        // Dikasih default 'putra' biar data yang lama gak ikutan error
+        $table->string('gender')->default('putra')->after('team_category');
+    });
+}
+
+public function down(): void
+{
+    Schema::table('rosters', function (Blueprint $table) {
+        $table->dropColumn('gender');
+    });
+}
+};
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\database\migrations\2026_06_03_193816_create_refunds_table.php ===
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+public function up()
+{
+    Schema::create('refunds', function (Blueprint $table) {
+        $table->id();
+        // Menghubungkan langsung ke tabel payments bawaan lu, bro!
+        $table->foreignId('payment_id')->constrained('payments')->onDelete('cascade');
+        $table->text('reason'); // Alasan user minta refund
+        $table->integer('amount'); // Jumlah dana yang dikembalikan
+        $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+        $table->text('admin_note')->nullable(); // Catatan admin jika ditolak
+        $table->timestamps();
+    });
+}
+
+public function down()
+{
+    Schema::dropIfExists('refunds');
+}
+};
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\database\migrations\2026_06_04_122704_add_details_to_facilities_table.php ===
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::table('facilities', function (Blueprint $table) {
+            // ðŸŸ¢ Suntik kolom penampung Fasilitas (Disimpan pake format JSON / Teks Tunggal)
+            $table->text('amenities')->nullable()->after('description');
+            
+            // ðŸŸ¢ Suntik kolom Link Google Maps / Alamat Tambahan Lapangan jika spesifik
+            $table->text('gmaps_link')->nullable()->after('amenities');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('facilities', function (Blueprint $table) {
+            $table->dropColumn(['amenities', 'gmaps_link']);
+        });
+    }
+};
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\database\migrations\2026_06_04_185941_create_beritas_table.php ===
+<?php
+// FILE INI HANYA ADA DI AKMAL â€” Denis tidak punya
+// Salin file ini ke: database/migrations/2026_06_04_185941_create_beritas_table.php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('beritas', function (Blueprint $table) {
+            $table->id();
+            $table->string('judul');
+            $table->string('slug')->unique();
+            $table->text('deskripsi_singkat');
+            $table->longText('konten_lengkap');
+            $table->string('foto');
+            $table->date('tanggal_kegiatan');
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('beritas');
+    }
+};
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\database\migrations\2026_06_04_200912_add_link_to_beritas_table.php ===
+<?php
+// FILE INI HANYA ADA DI AKMAL â€” Denis tidak punya
+// Salin ke: database/migrations/2026_06_04_200912_add_link_to_beritas_table.php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::table('beritas', function (Blueprint $table) {
+            $table->string('link')->nullable();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::table('beritas', function (Blueprint $table) {
+            $table->dropColumn('link');
+        });
+    }
+};
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\database\migrations\2026_06_06_000001_add_midtrans_fields_to_payments_table.php ===
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::table('payments', function (Blueprint $table) {
+            // Token dari Midtrans â€” dipakai untuk buka popup bayar di frontend
+            $table->string('snap_token')->nullable()->after('status');
+            // ID order yang kita kirim ke Midtrans, format: BOMA-{booking_id}-{timestamp}
+            $table->string('midtrans_order_id')->nullable()->after('snap_token');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::table('payments', function (Blueprint $table) {
+            $table->dropColumn(['snap_token', 'midtrans_order_id']);
+        });
+    }
+};
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\app\Http\Controllers\Admin\BeritaController.php ===
+<?php
+// FILE INI HANYA ADA DI AKMAL â€” Denis tidak punya
+// Salin ke: app/Http/Controllers/Admin/BeritaController.php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\Berita;
+use Illuminate\Support\Str;
+
+class BeritaController extends Controller
+{
+    public function index()
+    {
+        $beritas = Berita::latest()->get();
+        return view('admin.berita.index', compact('beritas'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'judul'              => 'required|max:255',
+            'deskripsi_singkat'  => 'required|max:200',
+            'konten_lengkap'     => 'required',
+            'tanggal_kegiatan'   => 'required|date',
+            'link'               => 'nullable|url',
+            'foto'               => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $berita                    = new Berita();
+        $berita->judul             = $request->judul;
+        $berita->slug              = Str::slug($request->judul);
+        $berita->deskripsi_singkat = $request->deskripsi_singkat;
+        $berita->konten_lengkap    = $request->konten_lengkap;
+        $berita->link              = $request->link;
+        $berita->tanggal_kegiatan  = $request->tanggal_kegiatan;
+
+        if ($request->hasFile('foto')) {
+            $file      = $request->file('foto');
+            $namaFoto  = time() . '_' . Str::random(5) . '_' . $file->getClientOriginalName();
+            $file->move(public_path('img/berita'), $namaFoto);
+            $berita->foto = 'img/berita/' . $namaFoto;
+        }
+
+        $berita->save();
+        return redirect()->back()->with('success', 'Berita berhasil ditambahkan!');
+    }
+
+    public function destroy($id)
+    {
+        $berita = Berita::findOrFail($id);
+        if ($berita->foto && file_exists(public_path($berita->foto))) {
+            unlink(public_path($berita->foto));
+        }
+        $berita->delete();
+        return redirect()->back()->with('success', 'Berita berhasil dihapus!');
+    }
+}
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\app\Http\Controllers\Admin\DashboardController.php ===
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Models\Booking;
+use App\Models\Payment;
+use Illuminate\Http\Request;
+
+class DashboardController extends Controller
+{
+    public function index()
+    {
+        $now = now();
+        $lastMonth = now()->subMonth();
+
+        // 1. Data Booking (Sesi)
+        $totalBooking = Booking::count();
+        $bookingsBulanIni = Booking::whereYear('created_at', $now->year)->whereMonth('created_at', $now->month)->count();
+        $bookingsBulanLalu = Booking::whereYear('created_at', $lastMonth->year)->whereMonth('created_at', $lastMonth->month)->count();
+        $persenBooking = ($bookingsBulanLalu > 0) ? (($bookingsBulanIni - $bookingsBulanLalu) / $bookingsBulanLalu) * 100 : 0;
+
+        // 2. Data Pendapatan (Escrow) - Disinkronkan dengan nama totalPendapatan
+        $totalPendapatan = Payment::where('status', 'paid')->sum('amount'); // Total keseluruhan
+        $pendapatanBulanIni = Payment::where('status', 'paid')->whereYear('created_at', $now->year)->whereMonth('created_at', $now->month)->sum('amount');
+        $pendapatanBulanLalu = Payment::where('status', 'paid')->whereYear('created_at', $lastMonth->year)->whereMonth('created_at', $lastMonth->month)->sum('amount');
+        $persenPendapatan = ($pendapatanBulanLalu > 0) ? (($pendapatanBulanIni - $pendapatanBulanLalu) / $pendapatanBulanLalu) * 100 : 0;
+
+        // 3. Data User (Diubah menjadi totalMitra agar sesuai dengan blade)
+        $totalMitra = User::whereNotNull('email_verified_at')->count();
+        $userBulanIni = User::whereYear('created_at', $now->year)->whereMonth('created_at', $now->month)->whereNotNull('email_verified_at')->count();
+        $userBulanLalu = User::whereYear('created_at', $lastMonth->year)->whereMonth('created_at', $lastMonth->month)->whereNotNull('email_verified_at')->count();
+        $persenUser = ($userBulanLalu > 0) ? (($userBulanIni - $userBulanLalu) / $userBulanLalu) * 100 : 0;
+
+        // Struktur data yang dikirim ke view (Sudah disinkronkan)
+        $data = [
+            'totalBooking'    => $totalBooking,
+            'persenBooking'   => $persenBooking,
+            'totalPendapatan' => $totalPendapatan,
+            'persenPendapatan'=> $persenPendapatan,
+            'totalMitra'      => $totalMitra,
+            'persenUser'      => $persenUser,
+        ];
+
+        return view('admin.dashboard', compact(
+        'totalBooking', 
+        'persenBooking', 
+        'totalPendapatan', 
+        'persenPendapatan', 
+        'totalMitra', 
+        'persenUser'
+    ));
+    }
+}
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\app\Http\Controllers\Admin\FacilityController.php ===
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Facility;
+use App\Models\Mitra;
+use Illuminate\Http\Request;
+
+class FacilityController extends Controller
+{
+    // 1. TAMPILKAN DAFTAR LAPANGAN (Dinamis: Admin vs Mitra)
+    public function index()
+    {
+        $user = auth()->user();
+
+        if ($user->role === 'mitra') {
+            $mitra = Mitra::where('user_id', $user->id)->first();
+            $facilities = Facility::where('mitra_id', $mitra->id)->latest()->get();
+            return view('mitra.facilities.index', compact('facilities'));
+        }
+
+        $facilities = Facility::with('mitra')->latest()->get();
+        $mitras = Mitra::whereIn('status', ['Approved', 'approved'])->get();
+
+        return view('admin.facility.index', compact('facilities', 'mitras'));
+    }
+
+    // 2. FORM TAMBAH LAPANGAN (Mitra)
+    public function create()
+    {
+        return view('mitra.facilities.create');
+    }
+
+    // 3. SIMPAN LAPANGAN
+    // âœ… PAKAI VERSI DENIS â€” sudah support amenities[] + gmaps_link
+    // Akmal punya versi lama yang belum ada dua field ini
+    public function store(Request $request)
+    {
+        $user = auth()->user();
+
+        $rules = [
+            'name'           => 'required|string|max:255',
+            'type'           => 'required|in:Futsal,Basket,Badminton,Tenis,Basketball,Padel',
+            'floor_type'     => 'required|string|max:255',
+            'price_per_hour' => 'required|numeric|min:0',
+            'image'          => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'description'    => 'nullable|string',
+            'gmaps_link'     => 'required|url',
+            'amenities'      => 'nullable|array',
+        ];
+
+        if ($user->role === 'admin') {
+            $rules['mitra_id'] = 'required|exists:mitras,id';
+            $mitraId = $request->mitra_id;
+        } else {
+            $mitra   = \App\Models\Mitra::where('user_id', $user->id)->first();
+            $mitraId = $mitra->id;
+        }
+
+        $request->validate($rules);
+
+        // Olah amenities array â†’ JSON
+        $amenitiesData = null;
+        if ($request->has('amenities')) {
+            $amenitiesData = json_encode($request->input('amenities'));
+        }
+
+        // Upload gambar
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('facilities', 'public');
+        }
+
+        Facility::create([
+            'mitra_id'      => $mitraId,
+            'name'          => $request->name,
+            'type'          => $request->type,
+            'floor_type'    => $request->floor_type,
+            'price_per_hour'=> $request->price_per_hour,
+            'image'         => $imagePath,
+            'description'   => $request->description,
+            'amenities'     => $amenitiesData,
+            'gmaps_link'    => $request->gmaps_link,
+            'is_active'     => true,
+        ]);
+
+        if ($user->role === 'mitra') {
+            return redirect()->route('mitra.facilities.index')->with('success', 'Lapangan baru berhasil ditambahkan.');
+        }
+
+        return redirect()->route('admin.facilities.index')->with('success', 'Lapangan baru berhasil ditambahkan.');
+    }
+
+    // 4. HAPUS LAPANGAN
+    public function destroy($id)
+    {
+        $facility = Facility::findOrFail($id);
+        $facility->delete();
+
+        if (auth()->user()->role === 'mitra') {
+            return redirect()->route('mitra.facilities.index')->with('success', 'Lapangan berhasil dihapus.');
+        }
+
+        return redirect()->route('admin.facilities.index')->with('success', 'Lapangan berhasil dihapus dari sistem.');
+    }
+}
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\app\Http\Controllers\Admin\MitraApprovalController.php ===
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Mitra;
+use App\Mail\KemitraanDisetujui; // âœ… DARI DENIS â€” email otomatis ke mitra
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
+
+class MitraApprovalController extends Controller
+{
+    // Tampilkan daftar pengajuan mitra
+    public function index()
+    {
+        // âœ… PAKAI VERSI DENIS â€” with('user') diperlukan untuk menampilkan nama di tabel
+        $mitras = Mitra::with('user')->where('status', 'Pending_Verification')->latest()->get();
+        return view('admin.mitra.index', compact('mitras'));
+    }
+
+    // Proses approve / suspend mitra
+    // âœ… PAKAI VERSI DENIS â€” ada kirim email otomatis saat Approved
+    // Versi Akmal tidak ada email notification
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:Approved,Suspended'
+        ]);
+
+        $mitra = Mitra::with('user')->findOrFail($id);
+        $mitra->update(['status' => $request->status]);
+
+        if ($request->status === 'Approved') {
+            try {
+                Mail::to($mitra->user->email)->send(new KemitraanDisetujui($mitra));
+            } catch (\Exception $e) {
+                \Log::error('Gagal kirim email ke mitra: ' . $e->getMessage());
+            }
+        }
+
+        $message = $request->status === 'Approved'
+            ? 'Akun Mitra berhasil diverifikasi! Email notifikasi berhasil dikirim.'
+            : 'Akun Mitra berhasil ditangguhkan.';
+
+        return redirect()->back()->with('success', $message);
+    }
+}
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\app\Http\Controllers\Admin\PaymentManagementController.php ===
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Payment;
+use App\Models\Refund;
+use Illuminate\Http\Request;
+
+class PaymentManagementController extends Controller
+{
+    // Cukup satu fungsi index untuk menampilkan semua data di satu halaman
+    public function index()
+    {
+        $payments = Payment::with('booking.user')->latest()->get();
+        $refunds = Refund::with('payment.booking.user')->latest()->get();
+
+        // Kita kirim kedua data ke satu file view yang sama
+        return view('admin.payments.index', compact('payments', 'refunds'));
+    }
+
+    // Aksi Admin Setujui Refund
+    public function approveRefund($id)
+    {
+        $refund = Refund::findOrFail($id);
+        $refund->status = 'approved';
+        $refund->save();
+
+        $payment = $refund->payment;
+        $payment->status = 'refunded'; 
+        $payment->save();
+
+        return back()->with('success', 'Refund berhasil disetujui!');
+    }
+
+    // Aksi Admin Tolak Refund
+    public function rejectRefund(Request $request, $id)
+    {
+        $request->validate(['admin_note' => 'required|string']);
+
+        $refund = Refund::findOrFail($id);
+        $refund->status = 'rejected';
+        $refund->admin_note = $request->admin_note;
+        $refund->save();
+
+        return back()->with('success', 'Pengajuan refund berhasil ditolak.');
+    }
+}
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\app\Http\Controllers\Admin\RosterController.php ===
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Roster;
+use Illuminate\Support\Facades\Storage;
+
+
+class RosterController extends Controller
+{
+   public function index(Request $request)
+    {
+        // Ambil parameter ?gender= dari URL. Kalau kosong, otomatis default ke 'putra'
+        $gender = $request->query('gender', 'putra');
+        
+        // Filter data pemain berdasarkan gender
+        $players = \App\Models\Roster::where('gender', $gender)->get();
+        
+        return view('admin.roster.index', compact('players', 'gender'));
+    }
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'position' => 'required',
+            'number' => 'required',
+            'team_category' => 'required',
+            'gender' => 'required|in:putra,putri',
+            'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        // Proses upload foto
+        $path = $request->file('photo')->store('roster_photos', 'public');
+
+        Roster::create([
+            'name' => $request->name,
+            'position' => $request->position,
+            'number' => $request->number,
+            'team_category' => $request->team_category,
+            'gender' => $request->gender,
+            'photo' => $path,
+        ]);
+
+        return back()->with('success', 'Pemain berhasil ditambahkan!');
+    }
+        //UPDATE ROASTER
+        public function update(Request $request, $id)
+    {
+        $player = Roster::findOrFail($id); 
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'position' => 'required|string|max:255',
+            'number' => 'required|integer',
+            'team_category' => 'required',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // nullable karena foto gak wajib diganti
+        ]);
+
+        $player->name = $request->name;
+        $player->position = $request->position;
+        $player->number = $request->number;
+        $player->team_category = $request->team_category;
+        $player->gender = $request->gender ?? $player->gender;
+
+        // Jika admin upload foto baru
+        if ($request->hasFile('photo')) {
+            // Hapus foto lama dari storage biar gak menumpuk jadi sampah
+            if ($player->photo && Storage::disk('public')->exists($player->photo)) {
+                Storage::disk('public')->delete($player->photo);
+            }
+            
+            // Simpan foto baru
+            $path = $request->file('photo')->store('rosters', 'public');
+            $player->photo = $path;
+        }
+
+        $player->save();
+
+        return redirect()->back()->with('success', 'Data pemain berhasil diperbarui!');
+    }
+    //DELETE ROASTER
+    public function destroy($id)
+        {
+            $player = Roster::findOrFail($id);
+
+            // Hapus file fotonya dari storage terlebih dahulu
+            if ($player->photo && Storage::disk('public')->exists($player->photo)) {
+                Storage::disk('public')->delete($player->photo);
+            }
+
+            // Hapus data dari database
+            $player->delete();
+
+            return redirect()->back()->with('success', 'Pemain berhasil dihapus dari roster!');
+        }
+}
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\app\Http\Controllers\Admin\ScheduleController.php ===
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Schedule;
+use Illuminate\Http\Request;
+
+class ScheduleController extends Controller
+{
+    // 1. TAMPILKAN HALAMAN UTAMA KELOLA JADWAL
+    public function index()
+    {
+        // Ambil semua jadwal latihan, urutkan dari yang paling baru
+        $schedules = Schedule::latest()->get();
+        return view('admin.schedule.index', compact('schedules'));
+    }
+
+    // 2. PROSES SIMPAN JADWAL BARU
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'date' => 'required|date',
+            'time' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'max_quota' => 'required|integer|min:1',
+        ]);
+
+        Schedule::create([
+            'title' => $request->title,
+            'date' => $request->date,
+            'time' => $request->time,
+            'location' => $request->location,
+            'max_quota' => $request->max_quota,
+            'current_quota' => 0,
+        ]);
+
+        return redirect()->route('admin.schedule.index')->with('success', 'Jadwal latihan baru berhasil diterbitkan!');
+    }
+
+    // 3. PROSES HAPUS JADWAL
+    public function destroy($id)
+    {
+        $schedule = Schedule::findOrFail($id);
+        $schedule->delete();
+
+        return redirect()->route('admin.schedule.index')->with('success', 'Jadwal latihan berhasil dihapus dari sistem.');
+    }
+
+
+// 3. PROSES UPDATE / EDIT JADWAL LATIHAN (TAMBAHAN REVISI) ðŸš€
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'date' => 'required|date',
+            'time' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'max_quota' => 'required|integer|min:1',
+        ]);
+
+        $schedule = Schedule::findOrFail($id);
+        
+        $schedule->update([
+            'title' => $request->title,
+            'date' => $request->date,
+            'time' => $request->time,
+            'location' => $request->location,
+            'max_quota' => $request->max_quota,
+        ]);
+
+        return redirect()->route('admin.schedule.index')->with('success', 'Jadwal latihan berhasil diperbarui!');
+    }
+
+}
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\app\Http\Controllers\Auth\AuthenticatedSessionController.php ===
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
+
+class AuthenticatedSessionController extends Controller
+{
+    /**
+     * Display the login view.
+     */
+    public function create(): View
+    {
+        return view('auth.login');
+    }
+
+    /**
+     * Handle an incoming authentication request.
+     */
+public function store(LoginRequest $request): RedirectResponse
+    {
+        $request->authenticate();
+
+        $request->session()->regenerate();
+
+        // 1. Ambil data user yang baru saja sukses login
+        $user = auth()->user();
+
+        // 2. Cek apakah dia Admin
+        if ($user->role === 'admin') {
+            return redirect()->intended(route('admin.dashboard'));
+        }
+
+        // 3. Cek apakah dia Mitra Lapangan
+        if ($user->role === 'mitra') {
+            return redirect()->intended(route('mitra.dashboard'));
+        }
+
+        // 4. Kalau bukan keduanya, berarti dia Student / User Umum
+        return redirect()->intended(route('dashboard'));
+    }
+
+    /**
+     * Destroy an authenticated session.
+     */
+    public function destroy(Request $request): RedirectResponse
+    {
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
+}
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\app\Http\Controllers\Auth\ConfirmablePasswordController.php ===
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
+
+class ConfirmablePasswordController extends Controller
+{
+    /**
+     * Show the confirm password view.
+     */
+    public function show(): View
+    {
+        return view('auth.confirm-password');
+    }
+
+    /**
+     * Confirm the user's password.
+     */
+    public function store(Request $request): RedirectResponse
+    {
+        if (! Auth::guard('web')->validate([
+            'email' => $request->user()->email,
+            'password' => $request->password,
+        ])) {
+            throw ValidationException::withMessages([
+                'password' => __('auth.password'),
+            ]);
+        }
+
+        $request->session()->put('auth.password_confirmed_at', time());
+
+        return redirect()->intended(route('dashboard', absolute: false));
+    }
+}
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\app\Http\Controllers\Auth\EmailVerificationNotificationController.php ===
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+
+class EmailVerificationNotificationController extends Controller
+{
+    /**
+     * Send a new email verification notification.
+     */
+    public function store(Request $request): RedirectResponse
+    {
+        if ($request->user()->hasVerifiedEmail()) {
+            return redirect()->intended(route('dashboard', absolute: false));
+        }
+
+        $request->user()->sendEmailVerificationNotification();
+
+        return back()->with('status', 'verification-link-sent');
+    }
+}
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\app\Http\Controllers\Auth\EmailVerificationPromptController.php ===
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
+
+class EmailVerificationPromptController extends Controller
+{
+    /**
+     * Display the email verification prompt.
+     */
+    public function __invoke(Request $request): RedirectResponse|View
+    {
+        return $request->user()->hasVerifiedEmail()
+                    ? redirect()->intended(route('dashboard', absolute: false))
+                    : view('auth.verify-email');
+    }
+}
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\app\Http\Controllers\Auth\MitraRegisterController.php ===
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Models\Mitra;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB; // ðŸŸ¢ Panggil DB Facade buat Transaction
+use Illuminate\Support\Facades\Storage; // ðŸŸ¢ Panggil Storage buat ngehapus file sampah kalau gagal
+
+class MitraRegisterController extends Controller
+{
+    public function showRegisterForm()
+    {
+        return view('auth.mitra-register');
+    }
+
+    public function store(Request $request)
+    {
+        // 1. Validasi Inputan
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'brand_name' => 'required|string|max:255',
+            'address' => 'required|string|max:500',
+            'bank_name' => 'required|string|max:100',
+            'bank_account_number' => 'required|string|max:50',
+            'bank_account_name' => 'required|string|max:255',
+            'identity_document' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+        ]);
+
+        // 2. Upload Dokumen Awal
+        $documentPath = null;
+        if ($request->hasFile('identity_document')) {
+            $documentPath = $request->file('identity_document')->store('identity_documents', 'public');
+        }
+
+        // 3. MULAI SISTEM PENGUNCIAN DB TRANSACTION ðŸ”’
+        DB::beginTransaction();
+
+        try {
+            // Langkah A: Buat User
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role' => 'mitra',
+            ]);
+
+            // Langkah B: Buat data Mitra (Status PENDING Kapital)
+            Mitra::create([
+                'user_id' => $user->id,
+                'brand_name' => $request->brand_name,
+                'address' => $request->address,
+                'bank_name' => $request->bank_name,
+                'bank_account_number' => $request->bank_account_number,
+                'bank_account_name' => $request->bank_account_name,
+                'identity_document' => $documentPath,
+            ]);
+
+            // Kalau Langkah A dan B sukses total tanpa eror, sahkan datanya!
+            DB::commit();
+
+            // Otomatis Login
+            Auth::login($user);
+
+            return redirect()->route('mitra.dashboard')->with('info', 'Registrasi berhasil! Akun lu berstatus PENDING. Silakan tunggu Admin BOMA memeriksa berkas KYC lu ya, pak.');
+
+        } catch (\Exception $e) {
+            // âŒ JIKA ADA YANG EROR DI TENGAH JALAN, BATALKAN SEMUANYA!
+            DB::rollBack();
+
+            // ðŸ—‘ï¸ Hapus juga file KTP yang telanjur ke-upload di folder storage biar gak menuh-menuhin hosting
+            if ($documentPath && Storage::disk('public')->exists($documentPath)) {
+                Storage::disk('public')->delete($documentPath);
+            }
+
+            // Balikin user ke halaman form dengan pesan eror aslinya biar ketahuan rusaknya di mana
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['error' => 'Waduh gagal bray! Sistem otomatis ngelakuin rollback data. Eror: ' . $e->getMessage()]);
+        }
+    }
+}
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\app\Http\Controllers\Auth\NewPasswordController.php ===
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rules;
+use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
+
+class NewPasswordController extends Controller
+{
+    /**
+     * Display the password reset view.
+     */
+    public function create(Request $request): View
+    {
+        return view('auth.reset-password', ['request' => $request]);
+    }
+
+    /**
+     * Handle an incoming new password request.
+     *
+     * @throws ValidationException
+     */
+    public function store(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'token' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+        // Here we will attempt to reset the user's password. If it is successful we
+        // will update the password on an actual user model and persist it to the
+        // database. Otherwise we will parse the error and return the response.
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function (User $user) use ($request) {
+                $user->forceFill([
+                    'password' => Hash::make($request->password),
+                    'remember_token' => Str::random(60),
+                ])->save();
+
+                event(new PasswordReset($user));
+            }
+        );
+
+        // If the password was successfully reset, we will redirect the user back to
+        // the application's home authenticated view. If there is an error we can
+        // redirect them back to where they came from with their error message.
+        return $status == Password::PASSWORD_RESET
+                    ? redirect()->route('login')->with('status', __($status))
+                    : back()->withInput($request->only('email'))
+                        ->withErrors(['email' => __($status)]);
+    }
+}
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\app\Http\Controllers\Auth\PasswordController.php ===
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
+
+class PasswordController extends Controller
+{
+    /**
+     * Update the user's password.
+     */
+    public function update(Request $request): RedirectResponse
+    {
+        $validated = $request->validateWithBag('updatePassword', [
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', Password::defaults(), 'confirmed'],
+        ]);
+
+        $request->user()->update([
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        return back()->with('status', 'password-updated');
+    }
+}
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\app\Http\Controllers\Auth\PasswordResetLinkController.php ===
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
+
+class PasswordResetLinkController extends Controller
+{
+    /**
+     * Display the password reset link request view.
+     */
+    public function create(): View
+    {
+        return view('auth.forgot-password');
+    }
+
+    /**
+     * Handle an incoming password reset link request.
+     *
+     * @throws ValidationException
+     */
+    public function store(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'email' => ['required', 'email'],
+        ]);
+
+        // We will send the password reset link to this user. Once we have attempted
+        // to send the link, we will examine the response then see the message we
+        // need to show to the user. Finally, we'll send out a proper response.
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        return $status == Password::RESET_LINK_SENT
+                    ? back()->with('status', __($status))
+                    : back()->withInput($request->only('email'))
+                        ->withErrors(['email' => __($status)]);
+    }
+}
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\app\Http\Controllers\Auth\RegisteredUserController.php ===
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
+use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
+
+class RegisteredUserController extends Controller
+{
+    /**
+     * Display the registration view.
+     */
+    public function create(): View
+    {
+        return view('auth.register');
+    }
+
+    /**
+     * Handle an incoming registration request.
+     *
+     * @throws ValidationException
+     */
+    public function store(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        event(new Registered($user));
+
+        Auth::login($user);
+
+        return redirect(route('dashboard', absolute: false));
+    }
+}
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\app\Http\Controllers\Auth\VerifyEmailController.php ===
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\Verified;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\RedirectResponse;
+
+class VerifyEmailController extends Controller
+{
+    /**
+     * Mark the authenticated user's email address as verified.
+     */
+    public function __invoke(EmailVerificationRequest $request): RedirectResponse
+    {
+        if ($request->user()->hasVerifiedEmail()) {
+            return redirect()->intended(route('dashboard', absolute: false).'?verified=1');
+        }
+
+        if ($request->user()->markEmailAsVerified()) {
+            event(new Verified($request->user()));
+        }
+
+        return redirect()->intended(route('dashboard', absolute: false).'?verified=1');
+    }
+}
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\app\Http\Controllers\Mitra\MitraDashboardController.php ===
+<?php
+
+namespace App\Http\Controllers\Mitra;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\Mitra;
+use App\Models\Booking; // Pastikan model Booking sudah ada nanti
+
+class MitraDashboardController extends Controller
+{
+    public function index()
+    {
+        $user = auth()->user();
+        
+        // Mengambil data profil mitra berdasarkan user_id yang sedang login
+        $mitraProfile = Mitra::where('user_id', $user->id)->first();
+
+        // Data dummy sementara untuk statistik (nanti bisa dihubungkan ke tabel bookings/venues)
+        $stat = [
+            'total_venues' => $mitraProfile ? 3 : 0, // Misal jumlah lapangan
+            'active_bookings' => 5,                  // Misal booking aktif
+            'balance' => 250000,                     // Misal saldo pendapatan mitra
+        ];
+
+        return view('mitra.dashboard', compact('user', 'mitraProfile', 'stat'));
+    }
+}
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\app\Http\Controllers\BookingController.php ===
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Facility;
+use App\Models\Booking;
+use App\Models\Payment;
+use Illuminate\Http\Request;
+
+class BookingController extends Controller
+{
+    public function show($id)
+    {
+        $facility = Facility::with('mitra')->findOrFail($id);
+        return view('detail-lapangan', compact('facility'));
+    }
+
+    public function store(Request $request)
+    {
+        // 1. VALIDASI INPUT
+        $request->validate([
+            'facility_id'  => 'required|exists:facilities,id',
+            'booking_date' => 'required|date|after_or_equal:today',
+            'start_time'   => 'required|string',
+            'jumlah_sesi'  => 'required|integer|min:1|max:8',
+        ]);
+
+        // 2. AMBIL DATA LAPANGAN
+        $facility   = Facility::findOrFail($request->facility_id);
+        $totalPrice = $facility->price_per_hour * $request->jumlah_sesi;
+
+        // 3. SIMPAN BOOKING
+        $booking = Booking::create([
+            'user_id'      => auth()->id(),
+            'facility_id'  => $facility->id,
+            'booking_date' => $request->booking_date,
+            'start_time'   => $request->start_time,
+            'jumlah_sesi'  => $request->jumlah_sesi,
+            'total_price'  => $totalPrice,
+            'status'       => 'pending',
+        ]);
+
+        // 4. BUAT ORDER ID UNIK UNTUK MIDTRANS
+        $orderId = 'BOMA-' . $booking->id . '-' . time();
+
+        // 5. HIT MIDTRANS API â€” MINTA SNAP TOKEN
+        $serverKey = config('midtrans.server_key');
+        $payload   = [
+            'transaction_details' => [
+                'order_id'     => $orderId,
+                'gross_amount' => (int) $totalPrice,
+            ],
+            'customer_details' => [
+                'first_name' => auth()->user()->name,
+                'email'      => auth()->user()->email,
+                'phone'      => auth()->user()->phone ?? '08000000000',
+            ],
+            'item_details' => [
+                [
+                    'id'       => 'LAP-' . $facility->id,
+                    'price'    => (int) $facility->price_per_hour,
+                    'quantity' => $request->jumlah_sesi,
+                    'name'     => $facility->name,
+                ],
+            ],
+        ];
+
+        $response = \Illuminate\Support\Facades\Http::withBasicAuth($serverKey, '')
+            ->post('https://app.sandbox.midtrans.com/snap/v1/transactions', $payload);
+
+        if (!$response->successful()) {
+            $booking->delete();
+            return redirect()->route('booking.detail', $facility->id)
+                ->with('error', 'Gagal menghubungi sistem pembayaran. Coba lagi ya.');
+        }
+
+        $snapToken = $response->json('token');
+
+        // 6. SIMPAN PAYMENT DENGAN SNAP TOKEN
+        $payment = Payment::create([
+            'booking_id'        => $booking->id,
+            'amount'            => $totalPrice,
+            'status'            => 'pending',
+            'snap_token'        => $snapToken,
+            'midtrans_order_id' => $orderId,
+        ]);
+
+        // 7. REDIRECT KE HALAMAN PAYMENT
+        return redirect()->route('payment.show', $payment->id);
+    }
+}
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\app\Http\Controllers\Controller.php ===
+<?php
+
+namespace App\Http\Controllers;
+
+abstract class Controller
+{
+    //
+}
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\app\Http\Controllers\HomeController.php ===
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Berita; // Import model Berita kita
+use Illuminate\Http\Request;
+
+class HomeController extends Controller
+{
+    public function index()
+    {
+        // Ambil 3 berita terbaru dari database
+        $beritas = Berita::latest()->take(3)->get();
+        
+        // Kirim data ke file home.blade.php
+        return view('home', compact('beritas'));
+    }
+}
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\app\Http\Controllers\PaymentController.php ===
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Payment;
+use App\Models\Booking;
+use Illuminate\Http\Request;
+
+class PaymentController extends Controller
+{
+    // =========================================================================
+    // SHOW: Halaman pembayaran â€” tampilkan snap popup Midtrans
+    // =========================================================================
+    public function show($id)
+    {
+        // Ambil data payment beserta relasi booking dan fasilitas
+        $payment = Payment::with('booking.facility')->findOrFail($id);
+
+        // Pastikan hanya pemilik booking yang bisa akses halaman ini
+        if ($payment->booking->user_id !== auth()->id()) {
+            abort(403, 'Akses ditolak.');
+        }
+
+        // Kalau sudah dibayar, langsung ke halaman sukses
+        if ($payment->status === 'paid') {
+            return redirect()->route('payment.success', $payment->id);
+        }
+
+        $clientKey = config('midtrans.client_key');
+
+        return view('payment', compact('payment', 'clientKey'));
+    }
+
+    // =========================================================================
+    // CALLBACK: Webhook dari Midtrans â€” dipanggil otomatis setelah user bayar
+    // =========================================================================
+    public function callback(Request $request)
+    {
+        $serverKey   = config('midtrans.server_key');
+        $orderId     = $request->order_id;
+        $statusCode  = $request->status_code;
+        $grossAmount = $request->gross_amount;
+
+        // 1. VERIFIKASI SIGNATURE â€” Pastikan request benar-benar dari Midtrans
+        // Format: SHA512(order_id + status_code + gross_amount + server_key)
+        $signatureKey = hash('sha512', $orderId . $statusCode . $grossAmount . $serverKey);
+
+        if ($signatureKey !== $request->signature_key) {
+            return response()->json(['message' => 'Invalid signature'], 403);
+        }
+
+        // 2. CARI PAYMENT BERDASARKAN ORDER ID
+        $payment = Payment::where('midtrans_order_id', $orderId)->first();
+
+        if (!$payment) {
+            return response()->json(['message' => 'Payment not found'], 404);
+        }
+
+        // 3. UPDATE STATUS BERDASARKAN NOTIFIKASI MIDTRANS
+        $transactionStatus = $request->transaction_status;
+        $fraudStatus       = $request->fraud_status ?? 'accept';
+
+        if ($transactionStatus === 'capture' && $fraudStatus === 'accept') {
+            // Kartu kredit â€” berhasil
+            $payment->status          = 'paid';
+            $payment->booking->status = 'confirmed';
+        } elseif ($transactionStatus === 'settlement') {
+            // Transfer bank / QRIS â€” dana sudah settle
+            $payment->status          = 'paid';
+            $payment->booking->status = 'confirmed';
+        } elseif (in_array($transactionStatus, ['cancel', 'deny', 'expire'])) {
+            // Dibatalkan / ditolak / kadaluarsa
+            $payment->status          = 'failed';
+            $payment->booking->status = 'cancelled';
+        } elseif ($transactionStatus === 'pending') {
+            // Masih menunggu (misalnya transfer manual belum dikonfirmasi bank)
+            $payment->status = 'pending';
+        }
+
+        $payment->save();
+        $payment->booking->save();
+
+        return response()->json(['message' => 'OK']);
+    }
+
+    // =========================================================================
+    // SUCCESS: Halaman konfirmasi pembayaran berhasil
+    // =========================================================================
+    public function success($id)
+    {
+        $payment = Payment::with('booking.facility')->findOrFail($id);
+
+        if ($payment->booking->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        return view('payment-success', compact('payment'));
+    }
+}
+=== END FILE ===
+
+=== START FILE: C:\xampp\htdocs\UasPemweb\Boma-App\app\Http\Controllers\ProfileController.php ===
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\View\View;
+
+class ProfileController extends Controller
+{
+    /**
+     * Display the user's profile form.
+     */
+    public function edit(Request $request): View
+{
+    return view('profile', [ // Sesuai nama file lu: profile.blade.php
+        'user' => $request->user(),
+    ]);
+}
+
+    /**
+     * Update the user's profile information.
+     */
+    public function update(ProfileUpdateRequest $request): RedirectResponse
+    {
+        $request->user()->fill($request->validated());
+
+        if ($request->user()->isDirty('email')) {
+            $request->user()->email_verified_at = null;
+        }
+
+        $request->user()->save();
+
+        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    }
+
+    /**
+     * Delete the user's account.
+     */
+    public function destroy(Request $request): RedirectResponse
+    {
+        $request->validateWithBag('userDeletion', [
+            'password' => ['required', 'current_password'],
+        ]);
+
+        $user = $request->user();
+
+        Auth::logout();
+
+        $user->delete();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return Redirect::to('/');
+    }
+}
+=== END FILE ===

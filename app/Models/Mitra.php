@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory; // Tambahkan ini untuk seeder/factory
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Mitra extends Model
 {
-    use HasFactory; // Tambahkan ini agar model bisa pakai Mitra::factory()
+    use HasFactory;
 
-    // Daftarkan semua field yang boleh diisi secara massal
     protected $fillable = [
         'user_id',
         'brand_name',
@@ -21,10 +20,20 @@ class Mitra extends Model
         'status',
     ];
 
-    public function bookings() {
+    // ✅ DARI DENIS — wajib ada untuk MitraApprovalController::index()
+    // yang pakai Mitra::with('user'), tanpa ini akan error
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    // Ada di kedua versi — aman
+    public function bookings()
+    {
         return $this->hasMany(Booking::class);
     }
 
+    // Ada di kedua versi — aman
     public function facilities()
     {
         return $this->hasMany(Facility::class, 'mitra_id');

@@ -46,6 +46,7 @@
 
                 <form action="{{ route('mitra.facilities.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                     @csrf
+                    
                     <div>
                         <label for="name" class="block text-sm font-semibold text-gray-700 mb-1">Nama Lapangan / Fasilitas <span class="text-red-500">*</span></label>
                         <input type="text" name="name" id="name" value="{{ old('name') }}" placeholder="Contoh: Lapangan Futsal Interlock Premium" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" required>
@@ -85,13 +86,48 @@
                     </div>
 
                     <div>
-                        <label for="description" class="block text-sm font-semibold text-gray-700 mb-1">Deskripsi & Fasilitas Tambahan</label>
-                        <textarea id="description" name="description" rows="3" placeholder="Fasilitas gratis rompi, parkir aman, dll..." class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm"></textarea>
+                        <label for="description" class="block text-sm font-semibold text-gray-700 mb-1">Deskripsi & Catatan Pengelola</label>
+                        <textarea id="description" name="description" rows="3" placeholder="Contoh: Lapangan futsal dengan sirkulasi udara yang baik, pencahayaan lampu LED terang standar turnamen, dan rompi gratis..." class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm"></textarea>
+                    </div>
+
+                    <div>
+                        <label for="gmaps_link" class="block text-sm font-semibold text-gray-700 mb-1">Link Share Google Maps GOR <span class="text-red-500">*</span></label>
+                        <input type="url" name="gmaps_link" id="gmaps_link" placeholder="Buka Google Maps -> Cari GOR -> Klik Bagikan/Share -> Copy Link, lalu paste di sini" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" required>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Fasilitas Pendukung (Centang yang tersedia):</label>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 bg-gray-50 p-5 rounded-xl border border-gray-200">
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input type="checkbox" name="amenities[]" value="Area Parkir Luas" class="rounded border-gray-300 text-blue-600 shadow-sm focus:ring-blue-500">
+                                <span class="ml-2 text-sm text-gray-600">🅿️ Free Parkir</span>
+                            </label>
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input type="checkbox" name="amenities[]" value="Toilet / Ruang Ganti" class="rounded border-gray-300 text-blue-600 shadow-sm focus:ring-blue-500">
+                                <span class="ml-2 text-sm text-gray-600">🚾 Toilet / Ruang Ganti</span>
+                            </label>
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input type="checkbox" name="amenities[]" value="Tersedia Makanan dan Minuman" class="rounded border-gray-300 text-blue-600 shadow-sm focus:ring-blue-500">
+                                <span class="ml-2 text-sm text-gray-600">🥤 Kantin / F&B</span>
+                            </label>
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input type="checkbox" name="amenities[]" value="Keamanan CCTV" class="rounded border-gray-300 text-blue-600 shadow-sm focus:ring-blue-500">
+                                <span class="ml-2 text-sm text-gray-600">📹 Kamera CCTV</span>
+                            </label>
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input type="checkbox" name="amenities[]" value="Mushola Tempat Ibadah" class="rounded border-gray-300 text-blue-600 shadow-sm focus:ring-blue-500">
+                                <span class="ml-2 text-sm text-gray-600">🕌 Mushola</span>
+                            </label>
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input type="checkbox" name="amenities[]" value="Koneksi Wi-Fi Gratis" class="rounded border-gray-300 text-blue-600 shadow-sm focus:ring-blue-500">
+                                <span class="ml-2 text-sm text-gray-600">📶 Wi-Fi Gratis</span>
+                            </label>
+                        </div>
                     </div>
 
                     <div class="flex justify-end pt-4 border-t border-gray-100">
                         <button type="submit" class="px-6 py-2.5 bg-blue-600 text-white font-semibold text-sm rounded-lg hover:bg-blue-700 shadow transition">
-                            🚀 Simpan Lapangan
+                            🚀 Simpan & Daftarkan Lapangan
                         </button>
                     </div>
                 </form>

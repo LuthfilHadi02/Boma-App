@@ -29,10 +29,10 @@
                     </a>
                 </li>
                 <li class="nav-item">
-        <a href="{{ route('admin.berita.index') }}" class="nav-link text-white {{ Request::is('admin/berita*') ? 'active' : '' }}">
-            <i class="fa-solid fa-newspaper me-2"></i> Kelola Berita Kegiatan
-        </a>
-    </li>
+                    <a href="{{ route('admin.berita.index') }}" class="nav-link text-white {{ Request::is('admin/berita*') ? 'active' : '' }}">
+                        <i class="fa-solid fa-newspaper me-2"></i> Kelola Berita Kegiatan
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.mitra.index') }}" class="nav-link text-white {{ Request::is('admin/mitra*') ? 'active' : '' }}">
                         <i class="fa-solid fa-building-user me-2"></i> Persetujuan Mitra
