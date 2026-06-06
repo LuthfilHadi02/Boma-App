@@ -32,9 +32,7 @@ class FacilityController extends Controller
         return view('mitra.facilities.create');
     }
 
-    // 3. SIMPAN LAPANGAN
-    // ✅ PAKAI VERSI DENIS — sudah support amenities[] + gmaps_link
-    // Akmal punya versi lama yang belum ada dua field ini
+    // 3. SIMPAN LAPANGAN (Suntikan Fix Jam Operasional)
     public function store(Request $request)
     {
         $user = auth()->user();
@@ -48,6 +46,9 @@ class FacilityController extends Controller
             'description'    => 'nullable|string',
             'gmaps_link'     => 'required|url',
             'amenities'      => 'nullable|array',
+            // SUNTIKAN FIX VALIDASI: Jam operasional wajib diisi pas bikin baru bray
+            'opening_time'   => 'required|date_format:H:i',
+            'closing_time'   => 'required|date_format:H:i|after:opening_time',
         ];
 
         if ($user->role === 'admin') {
@@ -72,6 +73,7 @@ class FacilityController extends Controller
             $imagePath = $request->file('image')->store('facilities', 'public');
         }
 
+        // SUNTIKAN FIX CREATE: Amankan opening_time & closing_time ke database
         Facility::create([
             'mitra_id'      => $mitraId,
             'name'          => $request->name,
@@ -82,47 +84,46 @@ class FacilityController extends Controller
             'description'   => $request->description,
             'amenities'     => $amenitiesData,
             'gmaps_link'    => $request->gmaps_link,
+            'opening_time'  => $request->opening_time,
+            'closing_time'  => $request->closing_time,
             'is_active'     => true,
         ]);
 
         if ($user->role === 'mitra') {
-            return redirect()->route('mitra.facilities.index')->with('success', 'Lapangan baru berhasil ditambahkan.');
+            return redirect()->route('mitra.facilities.index')->with('success', 'Lapangan baru berhasil ditambahkan bray!');
         }
 
-        return redirect()->route('admin.facilities.index')->with('success', 'Lapangan baru berhasil ditambahkan.');
+        return redirect()->route('admin.facilities.index')->with('success', 'Lapangan baru berhasil ditambahkan ke sistem oleh Admin.');
     }
 
     // 4. HAPUS LAPANGAN
-public function destroy($id)
-{
-    $facility = Facility::findOrFail($id);
+    public function destroy($id)
+    {
+        $facility = Facility::findOrFail($id);
 
-    // 1. Validasi Keamanan (Satpam)
-    if (auth()->user()->role === 'mitra') {
-        $mitra = \App\Models\Mitra::where('user_id', auth()->id())->first();
-        if (!$mitra || $facility->mitra_id !== $mitra->id) {
-            abort(403, 'Akses ditolak! Lu bukan pemilik lapangan ini.');
+        // Validasi Keamanan (Satpam)
+        if (auth()->user()->role === 'mitra') {
+            $mitra = \App\Models\Mitra::where('user_id', auth()->id())->first();
+            if (!$mitra || $facility->mitra_id !== $mitra->id) {
+                abort(403, 'Akses ditolak! Lu bukan pemilik lapangan ini.');
+            }
         }
+
+        // Proses Hapus (Hanya jalan kalau lolos validasi)
+        $facility->delete();
+
+        if (auth()->user()->role === 'mitra') {
+            return redirect()->route('mitra.facilities.index')->with('success', 'Lapangan berhasil dihapus.');
+        }
+
+        return redirect()->route('admin.facilities.index')->with('success', 'Lapangan berhasil dihapus dari sistem.');
     }
 
-    // 2. Proses Hapus (Hanya jalan kalau lolos validasi di atas)
-    $facility->delete();
-
-    // 3. Alur Redirect punya lu yang udah bener
-    if (auth()->user()->role === 'mitra') {
-        return redirect()->route('mitra.facilities.index')->with('success', 'Lapangan berhasil dihapus.');
-    }
-
-    return redirect()->route('admin.facilities.index')->with('success', 'Lapangan berhasil dihapus dari sistem.');
-}
-// =========================================================================
-    // 5. FORM EDIT LAPANGAN (Mitra)
-    // =========================================================================
+    // 5. FORM EDIT LAPANGAN
     public function edit($id)
     {
         $facility = \App\Models\Facility::findOrFail($id);
 
-        // Pastikan mitra hanya bisa edit lapangan miliknya sendiri
         if (auth()->user()->role === 'mitra') {
             $mitra = \App\Models\Mitra::where('user_id', auth()->id())->firstOrFail();
             if ($facility->mitra_id !== $mitra->id) {
@@ -130,7 +131,6 @@ public function destroy($id)
             }
         }
 
-        // Decode amenities dari JSON ke array supaya checkbox bisa pre-filled
         $selectedAmenities = $facility->amenities
             ? json_decode($facility->amenities, true)
             : [];
@@ -138,14 +138,11 @@ public function destroy($id)
         return view('mitra.facilities.edit', compact('facility', 'selectedAmenities'));
     }
 
-    // =========================================================================
     // 6. PROSES UPDATE LAPANGAN (PUT)
-    // =========================================================================
     public function update(Request $request, $id)
     {
         $facility = \App\Models\Facility::findOrFail($id);
 
-        // Authorization check
         if (auth()->user()->role === 'mitra') {
             $mitra = \App\Models\Mitra::where('user_id', auth()->id())->firstOrFail();
             if ($facility->mitra_id !== $mitra->id) {
@@ -162,19 +159,16 @@ public function destroy($id)
             'description'    => 'nullable|string',
             'gmaps_link'     => 'required|url',
             'amenities'      => 'nullable|array',
-            'opening_time'   => 'nullable|date_format:H:i',
-            'closing_time'   => 'nullable|date_format:H:i|after:opening_time',
+            'opening_time'   => 'required|date_format:H:i', // Ubah ke required bray biar konsisten aman
+            'closing_time'   => 'required|date_format:H:i|after:opening_time',
         ]);
 
-        // Olah amenities
         $amenitiesData = $request->has('amenities')
             ? json_encode($request->input('amenities'))
             : null;
 
-        // Upload gambar baru kalau ada, kalau tidak pakai yang lama
         $imagePath = $facility->image;
         if ($request->hasFile('image')) {
-            // Hapus foto lama dari storage
             if ($facility->image && \Illuminate\Support\Facades\Storage::disk('public')->exists($facility->image)) {
                 \Illuminate\Support\Facades\Storage::disk('public')->delete($facility->image);
             }
@@ -190,13 +184,45 @@ public function destroy($id)
             'description'    => $request->description,
             'amenities'      => $amenitiesData,
             'gmaps_link'     => $request->gmaps_link,
-            'opening_time'   => $request->opening_time ?: null,
-            'closing_time'   => $request->closing_time ?: null,
+            'opening_time'   => $request->opening_time,
+            'closing_time'   => $request->closing_time,
         ]);
 
-        return redirect()->route('mitra.facilities.index')
-            ->with('success', 'Data lapangan berhasil diperbarui!');
+        if (auth()->user()->role === 'mitra') {
+            return redirect()->route('mitra.facilities.index')->with('success', 'Data lapangan berhasil diperbarui!');
+        }
+        
+        return redirect()->route('admin.facilities.index')->with('success', 'Data lapangan berhasil diperbarui oleh Admin!');
     }
 
+        // SELIPKAN DI PALING BAWAH FILE FACILITYCONTROLLER LU BRAY
+    public function jadwalSewa()
+    {
+        $user = auth()->user();
+        
+        // Pastikan yang akses beneran Mitra bray
+        if ($user->role !== 'mitra') {
+            abort(403, 'Hanya Mitra yang bisa melihat jadwal sewa lapangan mereka.');
+        }
 
+        $mitra = \App\Models\Mitra::where('user_id', $user->id)->first();
+        
+        if (!$mitra) {
+            return redirect()->route('home')->with('error', 'Profil Mitra tidak ditemukan.');
+        }
+
+        // Ambil semua data lapangan milik mitra ini, sekalian angkut data bookings yang statusnya sukses/paid/confirmed
+        // Biar ketahuan siapa aja yang udah bayar dan berhak main bray
+        $facilities = \App\Models\Facility::where('mitra_id', $mitra->id)
+            ->with(['bookings' => function($query) {
+                $query->whereIn('status', ['confirmed', 'paid']) // Hanya tampilkan yang deal/lunas bray
+                    ->with('user') // Angkut data user mahasiswa yang booking
+                    ->orderBy('booking_date', 'asc')
+                    ->orderBy('start_time', 'asc');
+            }])
+            ->latest()
+            ->get();
+
+        return view('mitra.facilities.jadwal', compact('facilities'));
+    }
 }

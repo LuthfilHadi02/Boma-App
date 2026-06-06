@@ -129,17 +129,22 @@
                             <span class="badge bg-light text-secondary border">Lihat Semua</span>
                         </div>
                         
-                        <div class="list-group list-group-flush">
-                            <a href="#" class="list-group-item list-group-item-action d-flex align-items-center py-2 px-0 border-0">
-                                <span class="badge bg-warning-subtle text-warning me-3"><i class="fa-solid fa-circle-exclamation"></i></span>
-                                <div class="flex-grow-1 small">
-                                    <span class="fw-semibold text-dark">3 Mitra Menunggu Verifikasi</span>
-                                    <p class="mb-0 text-muted small">Butuh review sertifikasi lapangan olahraga baru.</p>
-                                </div>
-                                <i class="fa-solid fa-chevron-right text-muted small"></i>
-                            </a>
+                    <div class="list-group list-group-flush">
+                        <a href="{{ route('admin.mitra.index') }}" class="list-group-item list-group-item-action d-flex align-items-center py-2 px-0 border-0">
+                            {{-- SUNTIKAN DINAMIS: Warna badge berubah otomatis. Kalau ada request masuk jadi warning, kalau 0 jadi sukses/aman --}}
+                            <span class="badge {{ $pendingMitraRequests > 0 ? 'bg-warning-subtle text-warning' : 'bg-success-subtle text-success' }} me-3">
+                                <i class="fa-solid {{ $pendingMitraRequests > 0 ? 'fa-circle-exclamation' : 'fa-circle-check' }}"></i>
+                            </span>
+                            <div class="flex-grow-1 small">
+                                <span class="fw-semibold text-dark">{{ $pendingMitraRequests }} Mitra Menunggu Verifikasi</span>
+                                <p class="mb-0 text-muted small">
+                                    {{ $pendingMitraRequests > 0 ? 'Butuh review sertifikasi lapangan olahraga baru, pak.' : 'Semua request pendaftaran mitra aman terverifikasi!' }}
+                                </p>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-muted small"></i>
+                        </a>
                             
-                            <a href="#" class="list-group-item list-group-item-action d-flex align-items-center py-2 px-0 border-0">
+                        <a href="#" class="list-group-item list-group-item-action d-flex align-items-center py-2 px-0 border-0">
                                 <span class="badge bg-danger-subtle text-danger me-3"><i class="fa-solid fa-gavel"></i></span>
                                 <div class="flex-grow-1 small">
                                     <span class="fw-semibold text-dark">1 Sengketa Refund Pending</span>

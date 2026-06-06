@@ -21,7 +21,7 @@
                     </button>
                 @endif
                 
-                <a href="#" class="flex items-center px-4 py-2.5 text-sm font-medium text-gray-400 rounded-lg cursor-not-allowed" disabled>
+                <a href="{{ route('mitra.facilities.jadwal') }}" class="flex items-center px-4 py-2.5 text-sm font-medium text-gray-400 rounded-lg cursor-not-allowed" disabled>
                     <span class="mr-3 text-base">📅</span> Jadwal Sewa
                 </a>
                 <a href="#" class="flex items-center px-4 py-2.5 text-sm font-medium text-gray-400 rounded-lg cursor-not-allowed" disabled>

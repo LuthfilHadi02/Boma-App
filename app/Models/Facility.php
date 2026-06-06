@@ -30,4 +30,15 @@ class Facility extends Model
     {
         return $this->belongsTo(Mitra::class, 'mitra_id');
     }
+
+    // SELIPKAN INI DI DALAM CLASS MODEL FACILITY LU BRAY
+    public function bookings()
+    {
+        return $this->hasMany(\App\Models\Booking::class, 'facility_id');
+    }
+
+        public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class, 'user_id');
+    }
 }

@@ -12,7 +12,7 @@
                 <a href="{{ route('mitra.facilities.index') }}" class="flex items-center px-4 py-2.5 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg transition">
                     <span class="mr-3 text-base">🏟️</span> Kelola Lapangan
                 </a>
-                <a href="#" class="flex items-center px-4 py-2.5 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-50 transition">
+                <a href="{{ route('mitra.facilities.jadwal') }}" class="flex items-center px-4 py-2.5 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-50 transition">
                     <span class="mr-3 text-base">📅</span> Jadwal Sewa
                 </a>
                 <a href="#" class="flex items-center px-4 py-2.5 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-50 transition">
@@ -79,7 +79,19 @@
                         <label for="price_per_hour" class="block text-sm font-semibold text-gray-700 mb-1">Harga Sewa Per Jam (IDR) <span class="text-red-500">*</span></label>
                         <input type="number" name="price_per_hour" id="price_per_hour" min="0" placeholder="100000" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" required>
                     </div>
-
+                    {{-- SELIPKAN DI ATAS INPUT DESKRIPSI LU BRAY --}}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="opening_time" class="block text-sm font-semibold text-gray-700 mb-1">Jam Buka GOR <span class="text-red-500">*</span></label>
+                            <input type="time" name="opening_time" id="opening_time" value="{{ old('opening_time', '06:00') }}"
+                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" required>
+                        </div>
+                        <div>
+                            <label for="closing_time" class="block text-sm font-semibold text-gray-700 mb-1">Jam Tutup GOR <span class="text-red-500">*</span></label>
+                            <input type="time" name="closing_time" id="closing_time" value="{{ old('closing_time', '22:00') }}"
+                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" required>
+                        </div>
+                    </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Foto Lapangan</label>
                         <input type="file" name="image" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">

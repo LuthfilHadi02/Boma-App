@@ -100,6 +100,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Menghindari LaTeX rendering untuk persentase atau teks, murni markdown bray
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
@@ -145,11 +146,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
     // -------------------------------------------------------------------------
-    // MITRA ROUTES
+    // MITRA ROUTES (SUNTIKAN MONITORING JADWAL REAL)
     // -------------------------------------------------------------------------
     Route::middleware(['role:mitra'])->prefix('mitra')->name('mitra.')->group(function () {
 
         Route::get('/dashboard', [MitraDashboardController::class, 'index'])->name('dashboard');
+
+        // 📅 SUNTIKAN RUTE MONITORING JADWAL SEWA MITRA
+        Route::get('/jadwal-sewa', [FacilityController::class, 'jadwalSewa'])->name('facilities.jadwal');
 
         // Fasilitas lapangan mitra
         Route::get('/facilities', [FacilityController::class, 'index'])->name('facilities.index');

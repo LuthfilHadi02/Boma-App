@@ -13,7 +13,7 @@
                 <a href="{{ route('mitra.facilities.index') }}" class="flex items-center px-4 py-2.5 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg transition">
                     <span class="mr-3 text-base">🏟️</span> Kelola Lapangan
                 </a>
-                <a href="#" class="flex items-center px-4 py-2.5 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-50 transition">
+                <a href="{{ route('mitra.facilities.jadwal') }}" class="flex items-center px-4 py-2.5 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-50 transition">
                     <span class="mr-3 text-base">📅</span> Jadwal Sewa
                 </a>
                 <a href="#" class="flex items-center px-4 py-2.5 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-50 transition">
@@ -85,23 +85,21 @@
                             class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" required>
                     </div>
 
-                    {{-- Jam Operasional --}}
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label for="opening_time" class="block text-sm font-semibold text-gray-700 mb-1">Jam Buka GOR</label>
-                            <input type="time" name="opening_time" id="opening_time"
-                                value="{{ old('opening_time', $facility->opening_time ? \Carbon\Carbon::parse($facility->opening_time)->format('H:i') : '06:00') }}"
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
-                            <p class="text-xs text-gray-400 mt-1">Default: 06:00 jika dikosongkan</p>
+                                        {{-- TIMPA BLOK JAM OPERASIONAL LAMA LU PAKE INI BRAY --}}
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="opening_time" class="block text-sm font-semibold text-gray-700 mb-1">Jam Buka GOR <span class="text-red-500">*</span></label>
+                                <input type="time" name="opening_time" id="opening_time"
+                                    value="{{ old('opening_time', $facility->opening_time ? \Carbon\Carbon::parse($facility->opening_time)->format('H:i') : '06:00') }}"
+                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" required>
+                            </div>
+                            <div>
+                                <label for="closing_time" class="block text-sm font-semibold text-gray-700 mb-1">Jam Tutup GOR <span class="text-red-500">*</span></label>
+                                <input type="time" name="closing_time" id="closing_time"
+                                    value="{{ old('closing_time', $facility->closing_time ? \Carbon\Carbon::parse($facility->closing_time)->format('H:i') : '22:00') }}"
+                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" required>
+                            </div>
                         </div>
-                        <div>
-                            <label for="closing_time" class="block text-sm font-semibold text-gray-700 mb-1">Jam Tutup GOR</label>
-                            <input type="time" name="closing_time" id="closing_time"
-                                value="{{ old('closing_time', $facility->closing_time ? \Carbon\Carbon::parse($facility->closing_time)->format('H:i') : '22:00') }}"
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
-                            <p class="text-xs text-gray-400 mt-1">Default: 22:00 jika dikosongkan</p>
-                        </div>
-                    </div>
 
                     {{-- Foto --}}
                     <div>

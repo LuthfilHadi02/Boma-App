@@ -237,11 +237,11 @@
                                     <i class="fa-solid fa-xmark"></i> Batalkan
                                 </button>
                             </form>
-                        @elseif($booking->status === 'confirmed')
-                            <a href="{{ route('payment.success', $booking->latestPayment->id) }}" class="btn-sm btn-detail">
-                                <i class="fa-solid fa-receipt"></i> Lihat Detail
-                            </a>
-                        @endif
+                            @elseif($booking->status === 'confirmed')
+                                <a href="{{ $booking->latestPayment ? route('payment.success', $booking->latestPayment->id) : '#' }}" class="btn-sm btn-detail">
+                                    <i class="fa-solid fa-receipt"></i> Lihat Detail
+                                </a>
+                            @endif
                     </div>
                 </div>
             </div>
