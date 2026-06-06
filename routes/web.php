@@ -95,6 +95,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Halaman sukses setelah bayar di popup Snap
     Route::get('/payment/{id}/success', [PaymentController::class, 'success'])->name('payment.success');
 
+    // 📝 PR #3 — RIWAYAT BOOKING USER (PESANAN SAYA)
+    Route::get('/pesanan-saya', [App\Http\Controllers\BookingController::class, 'index'])->name('booking.history');
+
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -152,6 +155,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/facilities', [FacilityController::class, 'index'])->name('facilities.index');
         Route::get('/facilities/create', [FacilityController::class, 'create'])->name('facilities.create');
         Route::post('/facilities', [FacilityController::class, 'store'])->name('facilities.store');
+        Route::get('/facilities/{id}/edit', [FacilityController::class, 'edit'])->name('facilities.edit');
+        Route::put('/facilities/{id}', [FacilityController::class, 'update'])->name('facilities.update');
     });
 
 });
