@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Booking;
 use App\Models\Payment;
-use App\Models\Mitra; // Pastikan model Mitra ini di-import ya bray
+use App\Models\Mitra;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -40,11 +40,11 @@ class DashboardController extends Controller
         $usersBulanLalu = User::where('role', 'user')->whereYear('created_at', $lastMonth->year)->whereMonth('created_at', $lastMonth->month)->count();
         $persenUser = ($usersBulanLalu > 0) ? (($usersBulanIni - $usersBulanLalu) / $usersBulanLalu) * 100 : 0;
 
-        // SUNTIKAN FIX UTAMA: Hitung jumlah request pendaftaran mitra baru yang statusnya masih 'Pending_Verification' bray
-        // Berdasarkan file .sql lu, enum statusnya adalah: 'Pending_Verification', 'Approved', 'Suspended'
+        // 5. Data Notifikasi Pending (Kolaborasi Lu & Temen Lu)
         $pendingMitraRequests = Mitra::where('status', 'Pending_Verification')->count();
+        $pendingRefunds = Payment::where('status', 'refund_requested')->count();
 
-        // Lempar semua variabel ke view, termasuk si $pendingMitraRequests!
+        // Lempar semua variabel suci tanpa conflict
         return view('admin.dashboard', compact(
             'totalBooking', 
             'persenBooking', 
@@ -54,7 +54,8 @@ class DashboardController extends Controller
             'persenMitra',
             'totalUsers',
             'persenUser',
-            'pendingMitraRequests' // <-- Kita ikut sertakan di sini bray biar gak amnesia lagi Laravelnya
+            'pendingMitraRequests',
+            'pendingRefunds'
         ));
     }
 }
