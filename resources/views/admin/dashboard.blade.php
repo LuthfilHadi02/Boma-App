@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -122,34 +123,38 @@
                     <p class="mb-0 opacity-75 fs-6">Kelola request pendaftaran mitra BOMA, verifikasi fasilitas lapangan baru, dan audit data arus kas masuk di dalam ekosistem aplikasi hari ini.</p>
                 </div>
 
-                <div class="card mb-4 boma-card shadow-sm border-0">
-                    <div class="card-body p-3">
-                        <div class="d-flex align-items-center justify-content-between mb-3">
-                            <h6 class="fw-bold mb-0 text-teal-dark"><i class="fa-solid fa-bell me-2"></i>Status Operasional</h6>
-                            <span class="badge bg-light text-secondary border">Lihat Semua</span>
-                        </div>
-                        
-                        <div class="list-group list-group-flush">
-                            <a href="#" class="list-group-item list-group-item-action d-flex align-items-center py-2 px-0 border-0">
-                                <span class="badge bg-warning-subtle text-warning me-3"><i class="fa-solid fa-circle-exclamation"></i></span>
-                                <div class="flex-grow-1 small">
-                                    <span class="fw-semibold text-dark">3 Mitra Menunggu Verifikasi</span>
-                                    <p class="mb-0 text-muted small">Butuh review sertifikasi lapangan olahraga baru.</p>
-                                </div>
-                                <i class="fa-solid fa-chevron-right text-muted small"></i>
-                            </a>
-                            
-                            <a href="#" class="list-group-item list-group-item-action d-flex align-items-center py-2 px-0 border-0">
-                                <span class="badge bg-danger-subtle text-danger me-3"><i class="fa-solid fa-gavel"></i></span>
-                                <div class="flex-grow-1 small">
-                                    <span class="fw-semibold text-dark">1 Sengketa Refund Pending</span>
-                                    <p class="mb-0 text-muted small">Batas audit: 24 jam ke depan.</p>
-                                </div>
-                                <i class="fa-solid fa-chevron-right text-muted small"></i>
-                            </a>
-                        </div>
-                    </div>
+                <div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-4">
+        <h5 class="fw-bold mb-3">Status Operasional</h5>
+
+        @if($pendingMitras > 0)
+            <a href="{{ route('admin.mitra.index', ['status' => 'Pending_Verification']) }}" class="d-flex align-items-center p-3 border-bottom text-decoration-none text-dark">
+                <i class="fa-solid fa-user-clock text-warning me-3 fs-4"></i>
+                <div>
+                    <strong class="d-block">{{ $pendingMitras }} Mitra Menunggu Verifikasi</strong>
+                    <small class="text-muted">Perlu tindakan verifikasi sertifikasi.</small>
                 </div>
+            </a>
+        @endif
+
+        @if($pendingRefunds > 0)
+            <a href="{{ route('admin.payments.index') }}" class="d-flex align-items-center p-3 border-bottom text-decoration-none text-dark">
+                <i class="fa-solid fa-gavel text-danger me-3 fs-4"></i>
+                <div>
+                    <strong class="d-block">{{ $pendingRefunds }} Pengajuan Refund</strong>
+                    <small class="text-muted">Data ini memerlukan tindakan segera.</small>
+                </div>
+            </a>
+        @endif
+
+        @if($pendingMitras == 0 && $pendingRefunds == 0)
+            <div class="p-4 text-center text-muted">
+                <i class="fa-solid fa-check-circle text-success mb-2 fs-3"></i>
+                <p class="mb-0">Tidak ada tindakan yang memerlukan perhatian.</p>
+            </div>
+        @endif
+    </div>
+</div>
 
                 <div class="row">
                     <div class="row mb-4">
