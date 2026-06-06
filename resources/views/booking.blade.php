@@ -195,7 +195,12 @@
             </div>
         </div>
     </footer>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script src="{{ asset('js/booking.js') }}"></script>
+    <script>
+        // Suntikan pengaman biar file booking.js tahu user udah login atau belum
+        window.isUserLoggedIn = @json(Auth::check());
+    </script>
+    <script src="{{ asset('js/booking.js') }}"></script>
 </body>
 </html>
