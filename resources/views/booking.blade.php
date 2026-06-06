@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/global.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/style.css')}}">
     <link rel="stylesheet" href="{{ asset('css/booking.css') }}">
 </head>
 <body>
@@ -30,43 +31,52 @@
             <a href="/#articles">Tentang Kami</a>
         </nav>
 
-        <div class="nav-right">
-            @auth
-                <div class="profile-dropdown">
-                    <a href="#" class="profile-trigger">
-                        <i class="fas fa-user-circle"></i> {{ Auth::user()->name }} <i class="fas fa-chevron-down small-icon"></i>
+         <div class="nav-right">
+    @auth
+        <div class="profile-dropdown">
+            <a href="#" class="profile-trigger">
+                <i class="fas fa-user-circle"></i> {{ Auth::user()->name }} <i class="fas fa-chevron-down small-icon"></i>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="{{ route('profile.edit') }}" class="dropdown-item-link">
+                        <i class="fas fa-user"></i> My Account
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ route('profile.edit') }}" class="dropdown-item-link"><i class="fas fa-user"></i> My Account</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <form action="{{ route('logout') }}" method="POST" id="logout-form-boma">
-                                @csrf
-                                <button type="submit" class="logout-btn-link" style="background: none; border: none; width: 100%; text-align: left; cursor: pointer;">
-                                    <i class="fas fa-sign-out-alt"></i> Logout
-                                </button>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
-            @endauth
-
-            @guest
-                <div class="auth-buttons" style="display: flex; gap: 15px; align-items: center; margin-right: 15px;">
-                    <a href="{{ route('login') }}" class="btn-login-boma" style="color: white; text-decoration: none; font-weight: 600; font-size: 14px;">Log In</a>
-                    <a href="{{ route('register') }}" class="btn-register-boma" style="background-color: #008774; color: white; padding: 8px 18px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 14px; border: 2px solid white; transition: 0.3s;">Register</a>
-                </div>
-            @endguest
-
-            <div class="search-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-                <input type="text" placeholder="Search">
-            </div>
+                </li>
+                <li>
+                    <a href="{{ route('booking.history') }}" class="dropdown-item-link" style="color: #008774; font-weight: 600;">
+                        <i class="fas fa-receipt"></i> Pesanan Saya
+                    </a>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <form action="{{ route('logout') }}" method="POST" id="logout-form-boma">
+                        @csrf
+                        <button type="submit" class="logout-btn-link" style="background: none; border: none; width: 100%; text-align: left; cursor: pointer;">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </form>
+                </li>
+            </ul>
         </div>
-    </header>
+    @endauth
+
+    @guest
+        <div class="auth-buttons" style="display: flex; gap: 15px; align-items: center; margin-right: 15px;">
+            <a href="{{ route('login') }}" class="btn-login-boma" style="color: white; text-decoration: none; font-weight: 600; font-size: 14px;">Log In</a>
+            <a href="{{ route('register') }}" class="btn-register-boma" style="background-color: #008774; color: white; padding: 8px 18px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 14px; border: 2px solid white; transition: 0.3s;">Register</a>
+        </div>
+    @endguest
+
+    <div class="search-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" placeholder="Search">
+    </div>
+</div>
+</header>
 
     <main class="container" style="min-height: 60vh; position: relative; z-index: 1;">
         <section class="hero">
@@ -118,13 +128,17 @@
             <h2 class="section-title">Lapangan yang Tersedia</h2>
             <div class="grid-banyak">
                 @forelse($facilities as $item)
-                    <a href="/detail-lapangan/{{ $item->id }}" style="text-decoration: none; display: contents;">
+                    <a href="/detail-lapangan/{{ $item->id }}" 
+                    class="card-link" 
+                    data-auth="{{ Auth::check() ? 'true' : 'false' }}"
+                    style="text-decoration: none; display: contents;">
                         <div class="card-img-overlay">
                             @if($item->image)
                                 <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}">
                             @else
                                 <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Default Image">
                             @endif
+                            
                             <div class="badge-price">Rp {{ number_format($item->price_per_hour, 0, ',', '.') }}/Jam</div>
                             <div class="content">
                                 <h3>{{ $item->name }}</h3>
@@ -134,11 +148,8 @@
                         </div>
                     </a>
                 @empty
-                    <div style="grid-column: span 3; text-align: center; padding: 60px 20px; color: #64748b; font-style: italic; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 16px; width: 100%;">
-                        <span style="font-size: 2rem; display: block; margin-bottom: 8px;">Field Not Found</span>
-                        📢 Belum ada lapangan aktif yang didaftarkan oleh Mitra saat ini.
-                    </div>
-                @endforelse
+                    @endforelse
+
             </div>
         </section>
     </main>
@@ -180,6 +191,6 @@
         </div>
     </footer>
 
-    <script src="{{ asset('js/booking.js') }}"></script>
+<script src="{{ asset('js/booking.js') }}"></script>
 </body>
 </html>
