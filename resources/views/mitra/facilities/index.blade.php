@@ -55,15 +55,39 @@
                             </div>
                             <div class="text-sm text-gray-600 space-y-1 mb-4">
                                 <p>🛠️ <span class="font-medium">Lantai:</span> {{ $item->floor_type }}</p>
+                                
+                                {{-- Menampilkan Jam Operasional Kustom --}}
+                                <p>🕒 <span class="font-medium">Jam Ops:</span> 
+                                    {{ $item->opening_time ? \Carbon\Carbon::parse($item->opening_time)->format('H:i') : '06:00' }} - 
+                                    {{ $item->closing_time ? \Carbon\Carbon::parse($item->closing_time)->format('H:i') : '22:00' }} WIB
+                                </p>
+
                                 @if($item->description)
-                                    <p class="text-xs text-gray-400 italic">"{{ Str::limit($item->description, 60) }}"</p>
+                                    <p class="text-xs text-gray-400 italic mt-2">"{{ Str::limit($item->description, 60) }}"</p>
+                                AI-p>
                                 @endif
                             </div>
                         </div>
-                        <div class="px-5 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center">
-                            <p class="text-sm font-bold text-gray-900">
+                        
+                        {{-- Bagian Footer Card: Harga + Aksi Tombol Edit & Hapus --}}
+                        <div class="px-5 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center gap-2">
+                            <p class="text-sm font-bold text-gray-900 whitespace-nowrap">
                                 Rp {{ number_format($item->price_per_hour, 0, ',', '.') }} <span class="text-xs font-normal text-gray-500">/ Jam</span>
                             </p>
+                            
+                            <div class="flex gap-1.5">
+                                <a href="{{ route('mitra.facilities.edit', $item->id) }}"
+                                   class="px-2.5 py-1.5 text-xs font-semibold text-blue-700 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 transition">
+                                    ✏️ Edit
+                                </a>
+                                <form action="{{ route('admin.facilities.destroy', $item->id) }}" method="POST"
+                                      onsubmit="return confirm('Yakin hapus lapangan ini?')">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="px-2.5 py-1.5 text-xs font-semibold text-red-700 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 transition">
+                                        🗑️ Hapus
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 @empty

@@ -21,6 +21,8 @@ class Facility extends Model
         'description',
         'amenities',
         'gmaps_link',
+        'opening_time',
+        'closing_time',
         'is_active',
     ];
 

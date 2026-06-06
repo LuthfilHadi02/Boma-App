@@ -12,7 +12,7 @@
 </head>
 <body>
 
-    <header class="navbar bg-accent" style="position: relative; z-index: 99999;">
+    <header class="navbar bg-accent" style="position: sticky !important; top: 0 !important; width: 100% !important; z-index: 99999 !important;">
         <div class="logo-container">
             <img src="{{ asset('src/Foto_LogoBoma.png') }}" alt="Logo BOMA" height="60">
             <div class="logo-text">
@@ -37,11 +37,7 @@
                         <i class="fas fa-user-circle"></i> {{ Auth::user()->name }} <i class="fas fa-chevron-down small-icon"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        <li>
-                            <a href="{{ route('profile.edit') }}" class="dropdown-item-link">
-                                <i class="fas fa-user"></i> My Account
-                            </a>
-                        </li>
+                        <li><a href="{{ route('profile.edit') }}" class="dropdown-item-link"><i class="fas fa-user"></i> My Account</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <form action="{{ route('logout') }}" method="POST" id="logout-form-boma">
@@ -96,7 +92,6 @@
                     <i class="fa-regular fa-calendar main-icon"></i>
                     <input type="date" id="filterTanggal" class="filter-input">
                 </div>
-
                 <div class="filter-item">
                     <i class="fa-solid fa-running main-icon"></i>
                     <select id="filterCabang" class="filter-input">
@@ -106,7 +101,6 @@
                         <option value="Badminton">Badminton</option>
                     </select>
                 </div>
-
                 <div class="filter-item">
                     <i class="fa-solid fa-location-dot main-icon"></i>
                     <select id="filterKecamatan" class="filter-input">
@@ -123,7 +117,6 @@
         <section class="mb-50" style="margin-bottom: 80px;">
             <h2 class="section-title">Lapangan yang Tersedia</h2>
             <div class="grid-banyak">
-                
                 @forelse($facilities as $item)
                     <a href="/detail-lapangan/{{ $item->id }}" style="text-decoration: none; display: contents;">
                         <div class="card-img-overlay">
@@ -132,7 +125,6 @@
                             @else
                                 <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Default Image">
                             @endif
-                   
                             <div class="badge-price">Rp {{ number_format($item->price_per_hour, 0, ',', '.') }}/Jam</div>
                             <div class="content">
                                 <h3>{{ $item->name }}</h3>
@@ -147,7 +139,6 @@
                         📢 Belum ada lapangan aktif yang didaftarkan oleh Mitra saat ini.
                     </div>
                 @endforelse
-
             </div>
         </section>
     </main>
@@ -166,7 +157,6 @@
                         © 2026 BOMA UPI Cibiru.
                     </div>
                 </div>
-
                 <div class="footer-col">
                     <h4>TENTANG KAMI</h4>
                     <ul>
@@ -176,7 +166,6 @@
                         <li><a href="#">Ikatan Alumni BOMA</a></li>
                     </ul>
                 </div>
-
                 <div class="footer-col">
                     <h4>KONTAK KAMI</h4>
                     <div class="contact-info">
@@ -191,44 +180,6 @@
         </div>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // 1. LOGIKA DROPDOWN PROFILE
-            const profileTrigger = document.querySelector('.profile-trigger');
-            const dropdownMenu = document.querySelector('.dropdown-menu');
-
-            if (profileTrigger && dropdownMenu) {
-                profileTrigger.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation(); // Amankan dari pemicu klik luar area
-                    dropdownMenu.classList.toggle('show');
-                    profileTrigger.classList.toggle('active');
-                });
-
-                window.addEventListener('click', function(e) {
-                    if (!profileTrigger.contains(e.target) && !dropdownMenu.contains(e.target)) {
-                        dropdownMenu.classList.remove('show');
-                        profileTrigger.classList.remove('active');
-                    }
-                });
-            }
-
-            // 2. LOGIKA TOMBOL SEARCH FILTER
-            const btnSearch = document.querySelector('.btn-search');
-            if (btnSearch) {
-                btnSearch.addEventListener('click', function() {
-                    const tgl = document.getElementById('filterTanggal').value;
-                    const cabang = document.getElementById('filterCabang').value;
-                    const kecamatan = document.getElementById('filterKecamatan').value;
-
-                    if (!tgl && !cabang && !kecamatan) {
-                        alert("Pilih minimal satu filter dulu pak (Tanggal, Cabang, atau Kecamatan)!");
-                        return;
-                    }
-                    alert(`Mencari Lapangan:\n\n📅 Tanggal: ${tgl ? tgl : 'Semua Hari'}\n🏃 Cabang: ${cabang ? cabang : 'Semua Olahraga'}\n📍 Kecamatan: ${kecamatan ? kecamatan : 'Semua Area'}`);
-                });
-            }
-        });
-    </script>
+    <script src="{{ asset('js/booking.js') }}"></script>
 </body>
 </html>

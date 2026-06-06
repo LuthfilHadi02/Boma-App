@@ -28,12 +28,39 @@ class DashboardController extends Controller
         $pendapatanBulanLalu = Payment::where('status', 'paid')->whereYear('created_at', $lastMonth->year)->whereMonth('created_at', $lastMonth->month)->sum('amount');
         $persenPendapatan = ($pendapatanBulanLalu > 0) ? (($pendapatanBulanIni - $pendapatanBulanLalu) / $pendapatanBulanLalu) * 100 : 0;
 
-        // 3. Data User (Diubah menjadi totalMitra agar sesuai dengan blade)
-        $totalMitra = User::whereNotNull('email_verified_at')->count();
-        $userBulanIni = User::whereYear('created_at', $now->year)->whereMonth('created_at', $now->month)->whereNotNull('email_verified_at')->count();
-        $userBulanLalu = User::whereYear('created_at', $lastMonth->year)->whereMonth('created_at', $lastMonth->month)->whereNotNull('email_verified_at')->count();
-        $persenUser = ($userBulanLalu > 0) ? (($userBulanIni - $userBulanLalu) / $userBulanLalu) * 100 : 0;
+// 3. Data Mitra (Diubah agar benar-benar menghitung Mitra yang Approved, bukan sekadar User)
+        $totalMitra = \App\Models\Mitra::where('status', 'Approved')->count();
+        
+        $mitraBulanIni = \App\Models\Mitra::where('status', 'Approved')
+            ->whereYear('created_at', $now->year)
+            ->whereMonth('created_at', $now->month)
+            ->count();
+            
+        $mitraBulanLalu = \App\Models\Mitra::where('status', 'Approved')
+            ->whereYear('created_at', $lastMonth->year)
+            ->whereMonth('created_at', $lastMonth->month)
+            ->count();
+            
+        $persenMitra = ($mitraBulanLalu > 0) ? (($mitraBulanIni - $mitraBulanLalu) / $mitraBulanLalu) * 100 : 0;
 
+        // Struktur data yang dikirim ke view (Sudah disinkronkan)
+        $data = [
+            'totalBooking'    => $totalBooking,
+            'persenBooking'   => $persenBooking,
+            'totalPendapatan' => $totalPendapatan,
+            'persenPendapatan'=> $persenPendapatan,
+            'totalMitra'      => $totalMitra,
+            'persenMitra'     => $persenMitra, // Diubah biar konsisten namanya
+        ];
+
+        return view('admin.dashboard', compact(
+            'totalBooking', 
+            'persenBooking', 
+            'totalPendapatan', 
+            'persenPendapatan', 
+            'totalMitra', 
+            'persenMitra' // Diubah di sini juga
+        ));
         // Struktur data yang dikirim ke view (Sudah disinkronkan)
         $data = [
             'totalBooking'    => $totalBooking,

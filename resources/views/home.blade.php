@@ -44,6 +44,11 @@
                         <i class="fas fa-user"></i> My Account
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('booking.history') }}" class="dropdown-item-link" style="color: #008774; font-weight: 600;">
+                        <i class="fas fa-receipt"></i> Pesanan Saya
+                    </a>
+                </li>
                 <li><hr class="dropdown-divider"></li>
                 <li>
                     <form action="{{ route('logout') }}" method="POST" id="logout-form-boma">

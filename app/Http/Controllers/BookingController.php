@@ -10,6 +10,16 @@ use Carbon\Carbon;
 
 class BookingController extends Controller
 {
+    public function index()
+    {
+        $bookings = Booking::with(['facility.mitra', 'latestPayment'])
+            ->where('user_id', auth()->id())
+            ->latest()
+            ->paginate(8);
+
+        return view('booking-history', compact('bookings'));
+    }
+    
     public function show($id)
     {
         $facility = Facility::with('mitra')->findOrFail($id);

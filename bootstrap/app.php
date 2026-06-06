@@ -22,6 +22,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'payment/callback',
         ]);
     })
+
+     ->withSchedule(function (\Illuminate\Console\Scheduling\Schedule $schedule) {
+        $schedule->command('bookings:cancel-expired')->everyFifteenMinutes();
+    })
+    
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
