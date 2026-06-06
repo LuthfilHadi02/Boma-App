@@ -12,7 +12,7 @@
 </head>
 <body>
 
-    <header class="navbar bg-accent" style="position: relative; z-index: 99999;">
+    <header class="navbar bg-accent" style="position: sticky; z-index: 99999;">
         <div class="logo-container">
             <img src="{{ asset('src/Foto_LogoBoma.png') }}" alt="Logo BOMA" height="60">
             <div class="logo-text">
