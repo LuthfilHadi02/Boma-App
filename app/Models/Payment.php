@@ -6,14 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
 {
-    public function booking() {
-    return $this->belongsTo(Booking::class);
-}
+    protected $fillable = [
+        'booking_id',
+        'amount',
+        'status',
+        'snap_token',
+        'midtrans_order_id',
+    ];
 
-    // Relasi ke Refund (Satu payment bisa mengajukan satu refund)
-public function refund()
-{
-    return $this->hasOne(Refund::class, 'payment_id');
-}
+    public function booking()
+    {
+        return $this->belongsTo(Booking::class);
+    }
 
+    public function refund()
+    {
+        return $this->hasOne(Refund::class, 'payment_id');
+    }
 }

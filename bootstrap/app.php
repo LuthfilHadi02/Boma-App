@@ -11,10 +11,15 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // Daftarkan alias di sini
+        // 🔑 1. Tetap Jaga Kunci Gembok Role Kelompok Lu (Jangan Dihapus!)
         $middleware->alias([
             'admin' => \App\Http\Middleware\CheckRole::class,
             'role'  => \App\Http\Middleware\CheckRole::class,
+        ]);
+
+        // 🛡️ 2. Jalur Bypass Satpam CSRF untuk Midtrans (Laravel 11 Style)
+        $middleware->validateCsrfTokens(except: [
+            'payment/callback',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

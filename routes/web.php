@@ -12,10 +12,11 @@ use App\Http\Controllers\Admin\MitraApprovalController;
 use App\Http\Controllers\Admin\FacilityController;
 use App\Http\Controllers\Admin\BeritaController;   // ✅ DARI AKMAL
 use App\Http\Controllers\Mitra\MitraDashboardController;
+use App\Http\Controllers\PaymentController;        // ✅ CONTROLLER BARU MIDTRANS
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes - BOMA APP INTEGRATED VERSION
+| Web Routes - BOMA APP INTEGRATED VERSION (MIDTRANS READY)
 |--------------------------------------------------------------------------
 */
 
@@ -23,7 +24,6 @@ use App\Http\Controllers\Mitra\MitraDashboardController;
 // 1. HALAMAN PUBLIK
 // =========================================================================
 
-// ✅ PAKAI HOMECONTROLLER (AKMAL) — lebih clean, home jadi controller bukan closure
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Jadwal publik
@@ -40,7 +40,7 @@ Route::get('/booking', function () {
     return view('booking', compact('facilities'));
 })->name('booking');
 
-// ✅ HALAMAN DIVISI — PAKAI VERSI DINAMIS (AKMAL), load roster dari DB
+// ✅ HALAMAN DIVISI — PAKAI VERSI DINAMIS (AKMAL)
 Route::get('/divisi/basket', function (Request $request) {
     $gender = $request->query('gender', 'putra');
     $rosters = Roster::where('team_category', 'Basket')->where('gender', $gender)->get();
@@ -82,9 +82,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return back()->with('error', 'Yah, telat. Kuota udah penuh pak!');
     })->name('jadwal.ikut');
 
-    // ✅ DETAIL LAPANGAN — PAKAI VERSI DENIS (pakai BookingController, ada booking.store)
+    // ✅ DETAIL LAPANGAN — PAKAI VERSI DENIS
     Route::get('/detail-lapangan/{id}', [App\Http\Controllers\BookingController::class, 'show'])->name('booking.detail');
     Route::post('/detail-lapangan/store', [App\Http\Controllers\BookingController::class, 'store'])->name('booking.store');
+
+    // 🚨 SUNTIKAN JALUR PEMBATALAN BOOKING JADWAL LABIL (LANGKAH 2 KELAR ✅)
+    Route::patch('/booking/cancel/{id}', [App\Http\Controllers\BookingController::class, 'cancel'])->name('booking.cancel');
+
+    // 💳 MIDTRANS PAYMENT INTERACTION (WAJIB AUTH)
+    // Halaman invoice pembayaran (setelah checkout booking, sebelum klik tombol bayar)
+    Route::get('/payment/{id}', [PaymentController::class, 'show'])->name('payment.show');
+    // Halaman sukses setelah bayar di popup Snap
+    Route::get('/payment/{id}/success', [PaymentController::class, 'success'])->name('payment.success');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -125,7 +134,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/refunds/{id}/approve', [App\Http\Controllers\Admin\PaymentManagementController::class, 'approveRefund'])->name('refunds.approve');
         Route::post('/refunds/{id}/reject', [App\Http\Controllers\Admin\PaymentManagementController::class, 'rejectRefund'])->name('refunds.reject');
 
-        // ✅ BERITA — DARI AKMAL (tidak ada di Denis, harus ditambahkan)
+        // ✅ BERITA — DARI AKMAL
         Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
         Route::post('/berita', [BeritaController::class, 'store'])->name('berita.store');
         Route::delete('/berita/{id}', [BeritaController::class, 'destroy'])->name('berita.destroy');
@@ -139,11 +148,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::get('/dashboard', [MitraDashboardController::class, 'index'])->name('dashboard');
 
+        // Fasilitas lapangan mitra
         Route::get('/facilities', [FacilityController::class, 'index'])->name('facilities.index');
         Route::get('/facilities/create', [FacilityController::class, 'create'])->name('facilities.create');
         Route::post('/facilities', [FacilityController::class, 'store'])->name('facilities.store');
     });
 
 });
+
+// =========================================================================
+// 3. ROUTE WEBHOOK MIDTRANS (DI LUAR GROUP AUTH — NO LOGIN REQUIRED)
+// =========================================================================
+Route::post('/payment/callback', [PaymentController::class, 'callback'])->name('payment.callback');
 
 require __DIR__.'/auth.php';
