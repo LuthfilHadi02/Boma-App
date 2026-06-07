@@ -304,14 +304,14 @@
                     <button type="submit" class="login-btn-submit">Login</button>
                 </form>
 
-                <div class="login-social-area">
+                <!-- <div class="login-social-area">
                     <p>or continue with</p>
                     <div class="login-social-icons">
                         <svg width="40px" height="40px" viewBox="0 0 16 16">...</svg>
                         <svg width="40px" height="40px" viewBox="-1.5 0 20 20">...</svg>
                         <svg width="40px" height="40px" viewBox="-0.5 0 48 48">...</svg>
                     </div>
-                </div>
+                </div> -->
 
             </div>
         </div>
