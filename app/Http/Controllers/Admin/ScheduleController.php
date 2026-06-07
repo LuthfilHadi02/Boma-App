@@ -73,4 +73,13 @@ class ScheduleController extends Controller
         return redirect()->route('admin.schedule.index')->with('success', 'Jadwal latihan berhasil diperbarui!');
     }
 
+
+    public function participants($id)
+    {
+        // Mengambil data jadwal beserta user yang berelasi
+        $schedule = \App\Models\Schedule::with('users')->findOrFail($id);
+        
+        // Kirim ke view
+        return view('admin.schedule.participants', compact('schedule'));
+    }
 }

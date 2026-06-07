@@ -110,130 +110,186 @@
             </div>
         </nav>
 
-        <div class="p-4 container-fluid flex-grow-1">
-            <div class="card border-0 shadow-sm p-4 bg-white rounded-3">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div>
-                        <h3 class="fw-bold text-dark mb-1">Kelola Jadwal Latihan BOMA</h3>
-                        <p class="text-muted small mb-0">Manajemen kalender agenda latihan berkala, lokasi, serta kuota partisipasi mahasiswa UPI Cibiru.</p>
-                    </div>
-                    <button type="button" 
-                            class="btn px-4 py-2 fw-semibold rounded-3 shadow-sm" 
-                            style="background-color: #004d40; border-color: #004d40; color: white;"
-                            data-bs-toggle="modal" 
-                            data-bs-target="#modalTambahJadwal">
-                        <i class="fa-solid fa-circle-plus me-1"></i> Tambah Jadwal Latihan
-                    </button>
-                </div>
-
-                @if(session('success'))
-                    <div class="alert alert-success border-0 shadow-sm small mb-4">
-                        {{ session('success') }}
-                    </div>
-                @endif
-
-                <!-- TABEL DATA JADWAL (READ / VIEW ACTION) -->
-                <div class="table-responsive border rounded-3">
-                    <table class="table table-hover align-middle mb-0 text-sm">
-                        <thead class="table-light text-secondary small uppercase">
-                            <tr>
-                                <th class="px-4 py-3">Nama Agenda / Kegiatan</th>
-                                <th class="px-4 py-3">Tanggal Pelaksanaan</th>
-                                <th class="px-4 py-3">Waktu / Sesi Sparing</th>
-                                <th class="px-4 py-3">Lokasi / Tempat</th>
-                                <th class="px-4 py-3 text-center">Status Kuota</th>
-                                <th class="px-4 py-3 text-center">Aksi Operasional</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($schedules as $schedule)
-                                <tr>
-                                    <td class="px-4 py-3 fw-bold text-dark fs-6">{{ $schedule->title }}</td>
-                                    <td class="px-4 py-3 text-secondary">{{ \Carbon\Carbon::parse($schedule->date)->format('d M Y') }}</td>
-                                    <td class="px-4 py-3 font-monospace">{{ $schedule->time }} WIB</td>
-                                    <td class="px-4 py-3 text-muted"><i class="fa-solid fa-location-dot me-1 text-teal-dark"></i>{{ $schedule->location }}</td>
-                                    <td class="px-4 py-3 text-center">
-                                        <span class="badge bg-light text-dark border px-2.5 py-1.5 fw-bold" style="font-size: 0.75rem;">
-                                            {{ $schedule->current_quota }} / {{ $schedule->max_quota }} Anggota
-                                        </span>
-                                    </td>
-                                    <td class="px-4 py-3">
-                                        <div class="d-flex justify-content-center gap-2">
-                                            <!-- TOMBOL TRIGGER EDIT MODAL -->
-                                            <button type="button" class="btn btn-sm btn-outline-primary px-2.5 py-1 rounded-3" data-bs-toggle="modal" data-bs-target="#modalEditJadwal{{ $schedule->id }}">
-                                                <i class="fa-solid fa-pen-to-square"></i> Edit
-                                            </button>
-
-                                            <!-- TOMBOL DELETE ACTION -->
-                                            <form action="{{ route('admin.schedule.destroy', $schedule->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus jadwal latihan ini?')" class="d-inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-outline-danger btn-sm rounded-3 px-3">
-                                                    <i class="fa-solid fa-trash me-1"></i> Hapus
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <!-- 🔁 MODAL POP UP EDIT JADWAL (DIGENERATE OTOMATIS BERDASARKAN ID LOOPING) -->
-                                <div class="modal fade" id="modalEditJadwal{{ $schedule->id }}" tabindex="-1" aria-hidden="true" style="color: #333;">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content border-0 shadow-lg rounded-4">
-                                            <div class="modal-header bg-warning text-white px-4 py-3">
-                                                <h5 class="modal-title fw-bold"><i class="fa-solid fa-calendar-check me-2"></i>Perbarui Jadwal Latihan</h5>
-                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <form action="{{ route('admin.schedule.update', $schedule->id) }}" method="POST">
-                                                @csrf
-                                                @method('PUT')
-                                                <div class="modal-body p-4 text-start">
-                                                    <div class="mb-3">
-                                                        <label class="form-label text-secondary small uppercase fw-bold" style="font-size: 0.75rem;">Nama Agenda Kegiatan</label>
-                                                        <input type="text" name="title" class="form-control border rounded-3 p-2.5 text-sm" value="{{ $schedule->title }}" required>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-6 mb-3">
-                                                            <label class="form-label text-secondary small uppercase fw-bold" style="font-size: 0.75rem;">Tanggal Latihan</label>
-                                                            <input type="date" name="date" class="form-control border rounded-3 p-2.5 text-sm" value="{{ $schedule->date }}" required>
-                                                        </div>
-                                                        <div class="col-md-6 mb-3">
-                                                            <label class="form-label text-secondary small uppercase fw-bold" style="font-size: 0.75rem;">Jam Sesi (WIB)</label>
-                                                            <input type="text" name="time" class="form-control border rounded-3 p-2.5 text-sm" value="{{ $schedule->time }}" required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="form-label text-secondary small uppercase fw-bold" style="font-size: 0.75rem;">Lokasi Lapangan</label>
-                                                        <input type="text" name="location" class="form-control border rounded-3 p-2.5 text-sm" value="{{ $schedule->location }}" required>
-                                                    </div>
-                                                    <div class="mb-1">
-                                                        <label class="form-label text-secondary small uppercase fw-bold" style="font-size: 0.75rem;">Kuota Maksimal</label>
-                                                        <input type="number" name="max_quota" min="1" class="form-control border rounded-3 p-2.5 text-sm" value="{{ $schedule->max_quota }}" required>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer border-top bg-light px-4 py-3 rounded-bottom-4">
-                                                    <button type="button" class="btn btn-secondary px-3 py-2 text-sm rounded-3" data-bs-dismiss="modal">Batal</button>
-                                                    <button type="submit" class="btn btn-warning px-4 py-2 text-sm rounded-3 fw-semibold text-white">Simpan Perubahan</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            @empty
-                                <tr>
-                                    <td colspan="6" class="text-center py-5 text-muted">
-                                        <div class="fs-2 mb-2">📅</div>
-                                        <div class="fw-bold">Semua Bersih!</div>
-                                        <div class="small text-muted">Belum ada agenda latihan rutin BOMA yang diterbitkan saat ini.</div>
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
+<div class="p-4 container-fluid flex-grow-1">
+    <div class="card border-0 shadow-sm p-4 bg-white rounded-3 mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h3 class="fw-bold text-dark mb-1">Kelola Jadwal Latihan BOMA</h3>
+                <p class="text-muted small mb-0">Manajemen kalender agenda latihan berkala, lokasi, serta kuota partisipasi mahasiswa UPI Cibiru.</p>
             </div>
+            <button type="button" 
+                    class="btn px-4 py-2 fw-semibold rounded-3 shadow-sm" 
+                    style="background-color: #004d40; border-color: #004d40; color: white;"
+                    data-bs-toggle="modal" 
+                    data-bs-target="#modalTambahJadwal">
+                <i class="fa-solid fa-circle-plus me-1"></i> Tambah Jadwal Latihan
+            </button>
         </div>
 
+        @if(session('success'))
+            <div class="alert alert-success border-0 shadow-sm small mb-4">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <div class="table-responsive border rounded-3">
+            <table class="table table-hover align-middle mb-0 text-sm">
+                <thead class="table-light text-secondary small uppercase">
+                    <tr>
+                        <th class="px-4 py-3">Nama Agenda / Kegiatan</th>
+                        <th class="px-4 py-3">Tanggal Pelaksanaan</th>
+                        <th class="px-4 py-3">Waktu / Sesi Sparing</th>
+                        <th class="px-4 py-3">Lokasi / Tempat</th>
+                        <th class="px-4 py-3 text-center">Status Kuota</th>
+                        <th class="px-4 py-3 text-center">Aksi Operasional</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($schedules as $schedule)
+                        {{-- Deteksi apakah jadwal ini sedang dipilih oleh admin --}}
+                        @php
+                            $isSelected = request('schedule_id') == $schedule->id;
+                        @endphp
+                        <tr class="{{ $isSelected ? 'table-success-light' : '' }}" style="{{ $isSelected ? 'background-color: #f0fdf4;' : '' }}">
+                            <td class="px-4 py-3 fw-bold text-dark fs-6">{{ $schedule->title }}</td>
+                            <td class="px-4 py-3 text-secondary">{{ \Carbon\Carbon::parse($schedule->date)->format('d M Y') }}</td>
+                            <td class="px-4 py-3 font-monospace">{{ $schedule->time }} WIB</td>
+                            <td class="px-4 py-3 text-muted"><i class="fa-solid fa-location-dot me-1 text-teal-dark"></i>{{ $schedule->location }}</td>
+                            
+                            <td class="px-4 py-3 text-center">
+                                <a href="{{ route('admin.schedule.index', ['schedule_id' => $schedule->id]) }}" 
+                                   class="btn {{ $isSelected ? 'btn-success' : 'btn-light border' }} px-2.5 py-1.5 fw-bold rounded-3 shadow-sm w-100" 
+                                   style="font-size: 0.75rem;">
+                                    <i class="fa-solid fa-users me-1"></i>
+                                    {{ $schedule->users->count() }} / {{ $schedule->max_quota }} Anggota
+                                </a>
+                            </td>
+
+                            <td class="px-4 py-3">
+                                <div class="d-flex justify-content-center gap-2">
+                                    <button type="button" class="btn btn-sm btn-outline-primary px-2.5 py-1 rounded-3" data-bs-toggle="modal" data-bs-target="#modalEditJadwal{{ $schedule->id }}">
+                                        <i class="fa-solid fa-pen-to-square"></i> Edit
+                                    </button>
+
+                                    <form action="{{ route('admin.schedule.destroy', $schedule->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus jadwal latihan ini?')" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-outline-danger btn-sm rounded-3 px-3">
+                                            <i class="fa-solid fa-trash me-1"></i> Hapus
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <div class="modal fade" id="modalEditJadwal{{ $schedule->id }}" tabindex="-1" aria-hidden="true" style="color: #333;">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content border-0 shadow-lg rounded-4">
+                                    <div class="modal-header bg-warning text-white px-4 py-3">
+                                        <h5 class="modal-title fw-bold"><i class="fa-solid fa-calendar-check me-2"></i>Perbarui Jadwal Latihan</h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <form action="{{ route('admin.schedule.update', $schedule->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="modal-body p-4 text-start">
+                                            <div class="mb-3">
+                                                <label class="form-label text-secondary small uppercase fw-bold" style="font-size: 0.75rem;">Nama Agenda Kegiatan</label>
+                                                <input type="text" name="title" class="form-control border rounded-3 p-2.5 text-sm" value="{{ $schedule->title }}" required>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label text-secondary small uppercase fw-bold" style="font-size: 0.75rem;">Tanggal Latihan</label>
+                                                    <input type="date" name="date" class="form-control border rounded-3 p-2.5 text-sm" value="{{ $schedule->date }}" required>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label text-secondary small uppercase fw-bold" style="font-size: 0.75rem;">Jam Sesi (WIB)</label>
+                                                    <input type="text" name="time" class="form-control border rounded-3 p-2.5 text-sm" value="{{ $schedule->time }}" required>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label text-secondary small uppercase fw-bold" style="font-size: 0.75rem;">Lokasi Lapangan</label>
+                                                <input type="text" name="location" class="form-control border rounded-3 p-2.5 text-sm" value="{{ $schedule->location }}" required>
+                                            </div>
+                                            <div class="mb-1">
+                                                <label class="form-label text-secondary small uppercase fw-bold" style="font-size: 0.75rem;">Kuota Maksimal</label>
+                                                <input type="number" name="max_quota" min="1" class="form-control border rounded-3 p-2.5 text-sm" value="{{ $schedule->max_quota }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer border-top bg-light px-4 py-3 rounded-bottom-4">
+                                            <button type="button" class="btn btn-secondary px-3 py-2 text-sm rounded-3" data-bs-dismiss="modal">Batal</button>
+                                            <button type="submit" class="btn btn-warning px-4 py-2 text-sm rounded-3 fw-semibold text-white">Simpan Perubahan</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <tr>
+                            <td colspan="6" class="text-center py-5 text-muted">
+                                <div class="fs-2 mb-2">📅</div>
+                                <div class="fw-bold">Semua Bersih!</div>
+                                <div class="small text-muted">Belum ada agenda latihan rutin BOMA yang diterbitkan saat ini.</div>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    @if(request('schedule_id') && $selectedSchedule = $schedules->firstWhere('id', request('schedule_id')))
+        <div class="card border-0 shadow-sm p-4 bg-white rounded-3" id="section-peserta">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h4 class="fw-bold text-dark mb-1">
+                        <i class="fa-solid fa-clipboard-user me-2 text-success"></i>Peserta Latihan: {{ $selectedSchedule->title }}
+                    </h4>
+                    <p class="text-muted small mb-0">
+                        <i class="fa-regular fa-calendar me-1"></i> {{ \Carbon\Carbon::parse($selectedSchedule->date)->format('d M Y') }} 
+                        <span class="mx-2">|</span> 
+                        <i class="fa-regular fa-clock me-1"></i> {{ $selectedSchedule->time }} WIB
+                    </p>
+                </div>
+                {{-- Tombol untuk menyembunyikan kembali kotak peserta --}}
+                <a href="{{ route('admin.schedule.index') }}" class="btn btn-sm btn-outline-secondary rounded-3">
+                    <i class="fa-solid fa-xmark me-1"></i> Tutup Detail
+                </a>
+            </div>
+
+            <div class="table-responsive border rounded-3">
+                <table class="table table-hover align-middle mb-0 text-sm">
+                    <thead class="table-light text-secondary small uppercase">
+                        <tr>
+                            <th class="px-4 py-3" style="width: 8%;">No</th>
+                            <th class="py-3">Nama Lengkap</th>
+                            <th class="py-3">Email</th>
+                            <th class="px-4 py-3 text-center">Tanggal Gabung Sesi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($selectedSchedule->users as $index => $user)
+                            <tr>
+                                <td class="px-4 py-3 fw-bold text-secondary">{{ $index + 1 }}</td>
+                                <td class="py-3 fw-semibold text-dark">{{ $user->name }}</td>
+                                <td class="py-3 text-muted">{{ $user->email }}</td>
+                                <td class="px-4 py-3 text-center font-monospace small text-secondary">
+                                    {{ $user->pivot->created_at ? $user->pivot->created_at->format('d M Y, H:i') : '-' }}
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4" class="text-center py-4 text-muted">
+                                    <div class="small fw-semibold">Belum ada mahasiswa yang memesan slot kuota pada sesi latihan ini.</div>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    @endif
+</div>
         <footer class="text-center text-muted small py-3 border-top bg-white mt-auto">
             <p class="mb-0">BOMA System Operations &copy; 2026 • Mengikuti Undang-Undang Perlindungan Data Pribadi</p>
         </footer>
@@ -282,6 +338,7 @@
         </div>
     </div>
 </div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
