@@ -7,26 +7,48 @@
                 <p class="text-xs text-gray-500">Mitra BOMA</p>
             </div>
             <nav class="p-4 space-y-2">
+                {{-- 1. Dashboard Utama (Bisa selalu diakses mitra) --}}
                 <a href="{{ route('mitra.dashboard') }}" class="flex items-center px-4 py-2.5 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg transition">
                     <span class="mr-3 text-base">📊</span> Dashboard Utama
                 </a>
                 
+                {{-- 🔒 BLOK PENGAMAN SAKTI: Hanya terbuka kalau status Mitra sudah Approved --}}
                 @if($mitraProfile && ($mitraProfile->status === 'Approved' || $mitraProfile->status === 'approved'))
+                    
+                    {{-- Menu Kelola Lapangan (Aktif) --}}
                     <a href="{{ route('mitra.facilities.index') }}" class="flex items-center px-4 py-2.5 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition">
                         <span class="mr-3 text-base">🏟️</span> Kelola Lapangan
                     </a>
+                    
+                    {{-- Menu Jadwal Sewa (Aktif & Bebas Bug Kursor) --}}
+                    <a href="{{ route('mitra.facilities.jadwal') }}" class="flex items-center px-4 py-2.5 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition cursor-pointer">
+                        <span class="mr-3 text-base">📅</span> Jadwal Sewa
+                    </a>
+
+                    {{-- Menu Tarik Dana (Aktif) --}}
+                    <a href="#" class="flex items-center px-4 py-2.5 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition">
+                        <span class="mr-3 text-base">💰</span> Tarik Dana
+                    </a>
+
                 @else
+                    {{-- 🛑 KONDISI LOCK: Tampilan mode gembok kalau statusnya masih Pending / Belum Approved --}}
+                    
+                    {{-- Kelola Lapangan Terkunci --}}
                     <button class="w-full flex items-center px-4 py-2.5 text-sm font-medium text-gray-400 rounded-lg cursor-not-allowed text-left" disabled>
                         <span class="mr-3 text-base">🔒</span> Kelola Lapangan (Locked)
                     </button>
+                    
+                    {{-- Jadwal Sewa Terkunci (Fix Aman Gak Bisa Di-klik Malu-maluin) --}}
+                    <button class="w-full flex items-center px-4 py-2.5 text-sm font-medium text-gray-400 rounded-lg cursor-not-allowed text-left" disabled>
+                        <span class="mr-3 text-base">🔒</span> Jadwal Sewa (Locked)
+                    </button>
+
+                    {{-- Tarik Dana Terkunci --}}
+                    <button class="w-full flex items-center px-4 py-2.5 text-sm font-medium text-gray-400 rounded-lg cursor-not-allowed text-left" disabled>
+                        <span class="mr-3 text-base">🔒</span> Tarik Dana (Locked)
+                    </button>
+
                 @endif
-                
-                <a href="{{ route('mitra.facilities.jadwal') }}" class="flex items-center px-4 py-2.5 text-sm font-medium text-gray-400 rounded-lg cursor-not-allowed" disabled>
-                    <span class="mr-3 text-base">📅</span> Jadwal Sewa
-                </a>
-                <a href="#" class="flex items-center px-4 py-2.5 text-sm font-medium text-gray-400 rounded-lg cursor-not-allowed" disabled>
-                    <span class="mr-3 text-base">💰</span> Tarik Dana
-                </a>
             </nav>
         </aside>
 

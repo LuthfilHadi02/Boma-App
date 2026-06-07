@@ -162,6 +162,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/facilities', [FacilityController::class, 'store'])->name('facilities.store');
         Route::get('/facilities/{id}/edit', [FacilityController::class, 'edit'])->name('facilities.edit');
         Route::put('/facilities/{id}', [FacilityController::class, 'update'])->name('facilities.update');
+        Route::delete('/facilities/{id}', [FacilityController::class, 'destroy'])->name('facilities.destroy');
     });
 
 });

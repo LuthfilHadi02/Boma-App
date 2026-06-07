@@ -97,6 +97,7 @@ class FacilityController extends Controller
     }
 
     // 4. HAPUS LAPANGAN
+// 4. HAPUS LAPANGAN (REVISI SAKTI ANTI-ERROR 500)
     public function destroy($id)
     {
         $facility = Facility::findOrFail($id);
@@ -109,16 +110,29 @@ class FacilityController extends Controller
             }
         }
 
-        // Proses Hapus (Hanya jalan kalau lolos validasi)
-        $facility->delete();
+        // Proses Hapus dengan Jaring Pengaman Try-Catch bray
+        try {
+            $facility->delete();
 
-        if (auth()->user()->role === 'mitra') {
-            return redirect()->route('mitra.facilities.index')->with('success', 'Lapangan berhasil dihapus.');
+            if (auth()->user()->role === 'mitra') {
+                return redirect()->route('mitra.facilities.index')->with('success', 'Lapangan berhasil dihapus.');
+            }
+
+            return redirect()->route('admin.facilities.index')->with('success', 'Lapangan berhasil dihapus dari sistem.');
+
+        } catch (\Illuminate\Database\QueryException $e) {
+            // 🚨 JIKA GAGAL KARENA CONSTRAINT INTEGRITY (KODE ERROR 23000 / FOREIGN KEY KONFLIK)
+            if ($e->getCode() === '23000' || str_contains($e->getMessage(), '1451')) {
+                if (auth()->user()->role === 'mitra') {
+                    return redirect()->route('mitra.facilities.index')->with('error', 'Waduh pak, lapangan ini gagal dihapus karena masih terikat dengan data riwayat transaksi/booking mahasiswa.');
+                }
+                return redirect()->route('admin.facilities.index')->with('error', 'Lapangan tidak bisa dihapus karena masih ada transaksi yang terkait.');
+            }
+
+            // Jika ada error database tipe lain yang aneh-aneh
+            return back()->with('error', 'Terjadi kesalahan sistem saat mencoba menghapus data.');
         }
-
-        return redirect()->route('admin.facilities.index')->with('success', 'Lapangan berhasil dihapus dari sistem.');
     }
-
     // 5. FORM EDIT LAPANGAN
     public function edit($id)
     {

@@ -669,11 +669,25 @@
                                 </label>
                                 <select name="start_time" id="startTime" class="form-control-boma" required>
                                     <option value="">-- Pilih Jam --</option>
-                                    @foreach(['06:00','07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00'] as $jam)
-                                        <option value="{{ $jam }}" {{ old('start_time') == $jam ? 'selected' : '' }}>
-                                            {{ $jam }} WIB
+                                    
+                                    {{-- SUNTIKAN DINAMIS: Generate jam otomatis ngikut database lapangan --}}
+                                    @php
+                                        $open = \Carbon\Carbon::parse($facility->opening_time ?? '06:00');
+                                        $close = \Carbon\Carbon::parse($facility->closing_time ?? '22:00');
+                                        $current = $open->clone();
+                                    @endphp
+
+                                    @while ($current->lt($close))
+                                        @php
+                                            $timeString = $current->format('H:i');
+                                        @endphp
+                                        <option value="{{ $timeString }}" {{ old('start_time') == $timeString ? 'selected' : '' }}>
+                                            {{ $timeString }} WIB
                                         </option>
-                                    @endforeach
+                                        @php
+                                            $current->addHour();
+                                        @endphp
+                                    @endwhile
                                 </select>
                             </div>
 
