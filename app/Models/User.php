@@ -36,4 +36,8 @@ class User extends Authenticatable
             'password'          => 'hashed',
         ];
     }
+    public function schedules()
+{
+    return $this->belongsToMany(\App\Models\Schedule::class, 'schedule_user')->withTimestamps();
+}
 }

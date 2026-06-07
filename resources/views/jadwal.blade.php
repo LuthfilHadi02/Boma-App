@@ -51,6 +51,11 @@
                                 <i class="fas fa-receipt"></i> Pesanan Saya
                             </a>
                         </li>
+                        <li>
+                            <a href="{{ route('latihan.history') }}" class="dropdown-item-link" style="color: #008774; font-weight: 600; margin-top: 5px; display: block;">
+                                <i class="fas fa-dumbbell"></i> Latihan Saya
+                            </a>
+                        </li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <form action="{{ route('logout') }}" method="POST" id="logout-form-boma">
@@ -161,66 +166,50 @@
         </div>
     </footer>
 
-    <div id="modalKegiatan" class="modal-overlay">
-        <div class="modal-container">
+   <div id="modalKegiatan" class="modal-overlay">
+        <div class="modal-container" style="max-width: 600px;">
             <div class="modal-header">
                 <h2 id="modalTitle">Daftar Kegiatan</h2>
                 <p id="modalSub">Selasa, 20 Maret 2026</p>
             </div>
 
             <div class="modal-body-wrapper">
-                <div id="stepKonfirmasi" class="inner-green-card">
-                    <h3 class="card-title">Apakah Anda Ingin Mengikuti Latihan?</h3>
-                    <div class="activity-flex">
-                        <img src="{{ asset('src/Basket.png') }}" alt="Latihan" class="activity-img" id="modalImg">
+                <div id="stepKonfirmasi" class="inner-green-card" style="padding: 25px;">
+                    <h3 class="card-title" style="margin-bottom: 20px;">Apakah Anda Ingin Mengikuti Latihan Ini bray?</h3>
+                    
+                    <div class="activity-flex" style="gap: 20px;">
+                        <img src="{{ asset('src/Basket.png') }}" alt="Latihan" class="activity-img" id="modalImg" style="width: 180px; height: 130px;">
+                        
                         <div class="activity-info-col">
-                            <div class="text-info">
-                                <p><strong>Agenda Kegiatan :</strong><br><span id="modalAgenda">Latihan Basket</span></p>
-                                <p><strong>Waktu :</strong><br><span id="modalWaktu">Rabu, 14 Maret 2026</span></p>
-                                <p><strong>Tempat :</strong><br><span id="modalTempat">Lapangan Kampus UPI di Cibiru</span></p>
+                            <div class="text-info" style="font-size: 14px;">
+                                <p><strong>Agenda:</strong> <span id="modalAgenda">Latihan Basket</span></p>
+                                <p><strong>Waktu:</strong> <span id="modalWaktu">Rabu, 14 Maret 2026</span></p>
+                                <p><strong>Tempat:</strong> <span id="modalTempat">Lapangan Kampus UPI di Cibiru</span></p>
                                 
-                                <div class="kuota-container" style="margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.2); border-radius: 12px;">
-                                    <p style="margin-bottom: 8px; font-size: 13px;">
-                                        <strong>Status Kuota:</strong> 
+                                <div class="kuota-container" style="margin-top: 10px; padding: 10px; background: rgba(255,255,255,0.15); border-radius: 8px;">
+                                    <p style="margin-bottom: 5px; font-size: 12px;">
+                                        <strong>Status Slot Kuota:</strong> 
                                         <span id="kuotaTeks" style="float: right; font-weight: 700;">0/0 Terisi</span>
                                     </p>
-                                    <div style="width: 100%; height: 8px; background: rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden;">
+                                    <div style="width: 100%; height: 6px; background: rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden;">
                                         <div id="kuotaBar" style="width: 0%; height: 100%; background: #059669; transition: 0.5s;"></div>
                                     </div>
-                                    <p id="kuotaPeringatan" style="margin-top: 8px; font-size: 11px; color: #FF4B4B; display: none; font-weight: 600;">
+                                    <p id="kuotaPeringatan" style="margin-top: 5px; font-size: 11px; color: #FF4B4B; display: none; font-weight: 600;">
                                         <i class="fa-solid fa-circle-exclamation"></i> Yah, kuota latihan udah penuh pak!
                                     </p>
                                 </div>
                             </div>
-                            <div class="modal-actions">
-                                <button class="btn-confirm-yes" id="btnLanjutIsiData" onclick="window.showFormDiri()">Ya</button>
-                                <button class="btn-confirm-no" onclick="window.closeModal()">Tidak</button>
-                            </div>
+
+                            <form id="formIkutLatihan" method="POST" action="" style="margin-top: 15px;">
+                                @csrf
+                                <div class="modal-actions">
+                                    <button type="submit" class="btn-confirm-yes" id="btnLanjutIsiData" style="width: 100px; text-align: center;">Ya, Ikut!</button>
+                                    <button type="button" class="btn-confirm-no" onclick="window.closeModal()">Tidak</button>
+                                </div>
+                            </form>
+
                         </div>
                     </div>
-                </div>
-
-                <div id="stepDataDiri" class="inner-green-card" style="display: none;">
-                    <h3 class="card-title">Silahkan Isi Data Diri Anda</h3>
-                    <form id="formIkutLatihan" class="form-diri" method="POST" action="">
-                        @csrf 
-                        <div class="form-group-modal">
-                            <label>Nama Lengkap</label>
-                            <input type="text" id="inputNama" name="nama" placeholder="Nama anda" required>
-                        </div>
-                        <div class="form-group-modal">
-                            <label>Program Studi</label>
-                            <input type="text" id="inputProdi" name="prodi" placeholder="Contoh = RPL" required>
-                        </div>
-                        <div class="form-group-modal">
-                            <label>Angkatan</label>
-                            <input type="text" id="inputAngkatan" name="angkatan" placeholder="Contoh = 2025" required>
-                        </div>
-                        <div class="modal-actions" style="margin-top: 10px;">
-                            <button type="submit" class="btn-confirm-yes">Benar, Ikut!</button>
-                            <button type="button" class="btn-confirm-no" onclick="window.closeModal()">Tidak</button>
-                        </div>
-                    </form>
                 </div>
             </div>  
         </div>
@@ -230,6 +219,36 @@
         window.isUserLoggedIn = @json(Auth::check());
         window.dataJadwalDB = @json($schedules ?? []);
     </script>
+
+    @if(session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Mantap Terdaftar, Bray! 🎉',
+                    text: "{{ session('success') }}",
+                    icon: 'success',
+                    confirmButtonColor: '#008774',
+                    background: '#ffffff',
+                    customClass: { popup: 'rounded-2xl' }
+                });
+            });
+        </script>
+    @endif
+
+    @if(session('error'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Waduh, Gagal Pak! ⚠️',
+                    text: "{{ session('error') }}",
+                    icon: 'error',
+                    confirmButtonColor: '#ef4444',
+                    background: '#ffffff',
+                    customClass: { popup: 'rounded-2xl' }
+                });
+            });
+        </script>
+    @endif
 
     <script src="{{ asset('js/jadwal.js') }}"></script>
 </body>

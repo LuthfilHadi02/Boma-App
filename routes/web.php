@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\FacilityController;
 use App\Http\Controllers\Admin\BeritaController;   // ✅ DARI AKMAL
 use App\Http\Controllers\Mitra\MitraDashboardController;
 use App\Http\Controllers\PaymentController;        // ✅ CONTROLLER BARU MIDTRANS
+use App\Http\Controllers\UserScheduleController; // <-- WAJIB ADA INI BRAY! 
 
 /*
 |--------------------------------------------------------------------------
@@ -26,13 +27,8 @@ use App\Http\Controllers\PaymentController;        // ✅ CONTROLLER BARU MIDTRA
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Jadwal publik
-Route::get('/jadwal', function () {
-    $schedules = Schedule::all()->keyBy(function ($item) {
-        return \Carbon\Carbon::parse($item->date)->format('Y-m-d');
-    });
-    return view('jadwal', compact('schedules'));
-})->name('jadwal.index');
+    // 1. Rute Kalender Latihan (Bisa diakses umum / guest)
+    Route::get('/jadwal', [UserScheduleController::class, 'index'])->name('jadwal.index');
 
 // Katalog booking lapangan (publik)
 Route::get('/booking', function () {
@@ -72,16 +68,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // User biasa redirect ke home
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 
-    // Ikut latihan (wajib login)
-    Route::post('/jadwal/ikut/{id}', function ($id) {
-        $jadwal = Schedule::findOrFail($id);
-        if ($jadwal->current_quota < $jadwal->max_quota) {
-            $jadwal->increment('current_quota');
-            return back()->with('success', 'Mantap! Lu berhasil daftar latihan.');
-        }
-        return back()->with('error', 'Yah, telat. Kuota udah penuh pak!');
-    })->name('jadwal.ikut');
 
+    // Rombongan rute yang wajib login (Masukkan ke dalam group auth lu bray)
+    Route::middleware(['auth', 'verified'])->group(function () {
+    
+    // 2. Proses Ikut Latihan (Otomatis tanpa data diri manual)
+    Route::post('/jadwal/ikut/{id}', ['App\Http\Controllers\UserScheduleController', 'ikutLatihan'])->name('jadwal.ikut');
+
+    // 3. Halaman Riwayat Latihan Mahasiswa
+    Route::get('/latihan-saya', ['App\Http\Controllers\UserScheduleController', 'history'])->name('latihan.history');
+    
+    // 4. Rute Proses Batal Ikut Latihan bray
+    Route::post('/jadwal/batal/{id}', ['App\Http\Controllers\UserScheduleController', 'batalIkutLatihan'])->name('jadwal.batal');
+});
     // ✅ DETAIL LAPANGAN — PAKAI VERSI DENIS
     Route::get('/detail-lapangan/{id}', [App\Http\Controllers\BookingController::class, 'show'])->name('booking.detail');
     Route::post('/detail-lapangan/store', [App\Http\Controllers\BookingController::class, 'store'])->name('booking.store');
