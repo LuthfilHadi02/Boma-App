@@ -11,27 +11,7 @@
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col justify-between">
 
-    <header class="w-full bg-[#008774] text-white py-4 px-6 md:px-12 flex justify-between items-center shadow-md sticky top-0 z-50">
-        <div class="flex items-center gap-3">
-            <img src="{{ asset('src/Foto_LogoBoma.png') }}" alt="Logo BOMA" class="h-12">
-            <div class="text-xs font-bold leading-tight hidden sm:block">
-                BADAN OLAHRAGA<br>MAHASISWA
-            </div>
-        </div>
-        <nav class="hidden lg:flex gap-6 text-sm font-medium">
-            <a href="/" class="hover:text-teal-200 transition">Home</a>
-            <a href="/jadwal" class="text-teal-200 font-bold">Jadwal Latihan</a>
-            <a href="/booking" class="hover:text-teal-200 transition">Booking Lapang</a>
-        </nav>
-        <div class="flex items-center gap-4">
-            <span class="text-sm font-semibold bg-teal-900 px-4 py-1.5 rounded-full border border-teal-600">
-                <i class="fas fa-user-circle mr-1"></i> {{ Auth::user()->name }}
-            </span>
-            <a href="/jadwal" class="text-xs font-bold bg-white text-[#008774] px-4 py-2 rounded-lg hover:bg-teal-50 transition shadow-sm">
-                &larr; Balik ke Kalender
-            </a>
-        </div>
-    </header>
+@include('partials.navbar')
 
     <main class="flex-1 container mx-auto px-4 py-10 max-w-5xl">
         <div class="mb-8">
@@ -116,11 +96,8 @@
         </div>
     </main>
 
-    <footer class="w-full bg-gray-900 text-gray-400 text-xs py-6 text-center border-t border-gray-800">
-        <div class="container mx-auto px-4">
-            <p class="font-semibold text-gray-300">© 2026 BOMA UPI Cibiru. Integrated System Project.</p>
-        </div>
-    </footer>
+@include('partials.footer-mini')
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>

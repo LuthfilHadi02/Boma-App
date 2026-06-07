@@ -129,38 +129,7 @@
 </head>
 <body>
 
-    <header class="navbar bg-accent">
-        <div class="logo-container">
-            <img src="{{ asset('src/Foto_LogoBoma.png') }}" alt="Logo BOMA" height="60">
-            <div class="logo-text">Badan Olahraga<br>Mahasiswa</div>
-        </div>
-        <nav class="nav-links">
-            <a href="/">Home</a>
-            <a href="{{ route('booking') }}" class="active">Booking Lapang</a>
-        </nav>
-        <div class="nav-right">
-            @auth
-            <div class="profile-dropdown">
-                <a href="#" class="profile-trigger">
-                    <i class="fas fa-user-circle"></i> {{ Auth::user()->name }}
-                    <i class="fas fa-chevron-down small-icon"></i>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="{{ route('profile.edit') }}" class="dropdown-item-link"><i class="fas fa-user"></i> My Account</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li>
-                        <form action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="logout-btn-link" style="background:none;border:none;width:100%;text-align:left;cursor:pointer;">
-                                <i class="fas fa-sign-out-alt"></i> Logout
-                            </button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-            @endauth
-        </div>
-    </header>
+@include('partials.navbar')
 
     <div class="payment-wrapper">
 
@@ -302,6 +271,6 @@
             });
         }
     </script>
-
+@include('partials.footer-mini')
 </body>
 </html> 

@@ -14,71 +14,7 @@
 </head>
 <body>
 
-    <header class="navbar bg-accent">
-    <div class="logo-container">
-        <img src="{{ asset('src/Foto_LogoBoma.png') }}" alt="Logo BOMA" height="60">
-        <div class="logo-text">
-            Badan Olahraga<br>Mahasiswa
-        </div>
-    </div>
-
-    <nav class="nav-links">
-        <a href="#home">Home</a>
-        <a href="#profil">Visi-Misi</a>
-        <a href="#kategori">Divisi</a>
-        <a href="#recent">Berita</a>
-        <a href="/jadwal">Jadwal Latihan</a>
-        <a href="/booking">Booking Lapang</a>
-        <a href="#articles">Tentang Kami</a>
-    </nav>
-
-    <div class="nav-right">
-    @auth
-        <div class="profile-dropdown">
-            <a href="#" class="profile-trigger">
-                <i class="fas fa-user-circle"></i> {{ Auth::user()->name }} <i class="fas fa-chevron-down small-icon"></i>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="{{ route('profile.edit') }}" class="dropdown-item-link">
-                        <i class="fas fa-user"></i> My Account
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('booking.history') }}" class="dropdown-item-link" style="color: #008774; font-weight: 600;">
-                        <i class="fas fa-receipt"></i> Pesanan Saya
-                    </a>
-                </li>
-                <li><hr class="dropdown-divider"></li>
-                <li>
-                    <form action="{{ route('logout') }}" method="POST" id="logout-form-boma">
-                        @csrf
-                        <button type="submit" class="logout-btn-link" style="background: none; border: none; width: 100%; text-align: left; cursor: pointer;">
-                            <i class="fas fa-sign-out-alt"></i> Logout
-                        </button>
-                    </form>
-                </li>
-            </ul>
-        </div>
-    @endauth
-
-    @guest
-        <div class="auth-buttons" style="display: flex; gap: 15px; align-items: center; margin-right: 15px;">
-            <a href="{{ route('login') }}" class="btn-login-boma" style="color: white; text-decoration: none; font-weight: 600; font-size: 14px;">Log In</a>
-            <a href="{{ route('register') }}" class="btn-register-boma" style="background-color: #008774; color: white; padding: 8px 18px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 14px; border: 2px solid white; transition: 0.3s;">Register</a>
-        </div>
-    @endguest
-
-    <div class="search-btn">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        <input type="text" placeholder="Search">
-    </div>
-</div>
-</header>
-
+@include('partials.navbar')
     <main>
         <section class="hero-section" id="home" 
             style="background-image: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)), url('{{ asset('src/foto_landingpage.jpeg') }}');">
@@ -218,54 +154,7 @@
 
 
 
-<footer class="site-footer" id="articles">
-    <div class="container">
-        <div class="footer-grid">
-            
-            <div class="footer-col">
-                <h4>BADAN OLAHRAGA MAHASISWA</h4>
-                <p class="footer-address">
-                    Jl. Pendidikan No.15, Cibiru Wetan, <br>
-                    Kec. Cileunyi, Kabupaten Bandung, <br>
-                    Jawa Barat 40625.
-                </p>
-                <div class="copyright-bottom">
-                    © 2026 BOMA UPI Cibiru.
-                </div>
-            </div>
-
-            <div class="footer-col">
-                <h4>TENTANG KAMI</h4>
-                <ul>
-                    <li><a href="#">Data Atlet & Staff</a></li>
-                    <li><a href="#">Dokumentasi Kegiatan</a></li>
-                    <li><a href="#">E-Learning Olahraga</a></li>
-                    <li><a href="#">Ikatan Alumni BOMA</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4>KONTAK KAMI</h4>
-                <div class="contact-info">
-                    <p><i class="fa-solid fa-envelope"></i> boma@upicibiru.ac.id</p>
-                    <p><i class="fa-solid fa-phone"></i> (022) 7801332</p>
-                </div>
-                <div class="social-pills">
-                    <a href="https://www.instagram.com/boma_upicibiru/" class="pill">
-                        <i class="fa-brands fa-instagram"></i> Instagram
-                    </a>
-                    <a href="#" class="pill">
-                        <i class="fa-brands fa-whatsapp"></i> WhatsApp
-                    </a>
-                    <a href="https://www.youtube.com/@KampusUPI" class="pill">
-                        <i class="fa-brands fa-youtube"></i> YouTube
-                    </a>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</footer>
+@include('partials.footer')
 
 <script src="{{ asset('js/home.js') }}"></script>
 </body>

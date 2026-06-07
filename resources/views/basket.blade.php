@@ -17,56 +17,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased font-['Inter']">
 
-    <header class="navbar bg-accentsticky top-0 z-50 transition-all duration-300">
-        <div class="logo-container">
-            <img src="{{ asset('src/Foto_LogoBoma.png') }}" alt="Logo BOMA" height="60" class="object-contain">
-            <div class="logo-text">
-                Badan Olahraga<br>Mahasiswa
-            </div>
-        </div>
-
-        <nav class="nav-links">
-            <a href="/">Home</a>
-            <a href="/#profil">Visi-Misi</a>
-            <a href="/#kategori" class="active">Divisi</a>
-            <a href="/#recent">Berita</a>
-            <a href="/jadwal">Jadwal Latihan</a>
-            <a href="/booking">Sewa Lapangan</a>
-            <a href="/#articles">Tentang Kami</a>
-        </nav>
-
-        <div class="nav-right">
-            <div class="profile-dropdown relative group">
-                <a href="#" class="profile-trigger flex items-center gap-1">
-                    <i class="fas fa-user-circle text-lg"></i> Profile <i class="fas fa-chevron-down small-icon text-[10px]"></i>
-                </a>
-                <ul class="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                    <li>
-                        <a href="{{ route('profile.edit') }}" class="dropdown-item-link px-4 py-2.5 flex items-center gap-2 hover:bg-slate-50 text-slate-700 text-sm rounded-t-xl transition-colors">
-                            <i class="fas fa-user text-slate-400"></i> My Account
-                        </a>
-                    </li>
-                    <li><hr class="border-slate-100"></li>
-                    <li>
-                        <form action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="logout-btn-link w-full text-left px-4 py-2.5 flex items-center gap-2 hover:bg-red-50 text-red-600 text-sm rounded-b-xl transition-colors">
-                                <i class="fas fa-sign-out-alt"></i> Logout
-                            </button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-
-<div class="search-btn flex items-center gap-2 bg-white px-3 py-1.5 rounded-full border border-slate-200 focus-within:ring-2 focus-within:ring-emerald-800 transition-all">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-900">
-        <circle cx="11" cy="11" r="8"></circle>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-    </svg>
-    <input type="text" placeholder="Search" class="bg-transparent border-none outline-none text-emerald-900 text-sm placeholder-slate-400 w-24 focus:w-36 transition-all duration-300">
-</div>
-        </div>
-    </header>
+@include('partials.navbar')
 
     <section class="basket-hero min-h-[60vh] flex items-center relative overflow-hidden">
         <div class="container hero-content-basket relative z-10">
@@ -181,54 +132,7 @@
 
     </main>
 
-    <footer class="site-footer bg-slate-900 text-slate-400 pt-16 pb-8 border-t border-slate-800" id="articles">
-        <div class="container mx-auto px-4">
-            <div class="footer-grid grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
-                
-                <div class="footer-col space-y-4">
-                    <h4 class="text-white font-['Montserrat'] font-bold tracking-wider text-sm uppercase">BADAN OLAHRAGA MAHASISWA</h4>
-                    <p class="footer-address text-sm leading-relaxed">
-                        Jl. Pendidikan No.15, Cibiru Wetan, <br>
-                        Kec. Cileunyi, Kabupaten Bandung, <br>
-                        Jawa Barat 40625.
-                    </p>
-                    <div class="copyright-bottom text-xs text-slate-500 pt-4">
-                        &copy; 2026 BOMA UPI Cibiru.
-                    </div>
-                </div>
-
-                <div class="footer-col space-y-4">
-                    <h4 class="text-white font-['Montserrat'] font-bold tracking-wider text-sm uppercase">TENTANG KAMI</h4>
-                    <ul class="space-y-2.5 text-sm">
-                        <li><a href="#" class="hover:text-white transition-colors">Data Atlet & Staff</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Dokumentasi Kegiatan</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">E-Learning Olahraga</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Ikatan Alumni BOMA</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col space-y-4">
-                    <h4 class="text-white font-['Montserrat'] font-bold tracking-wider text-sm uppercase">KONTAK KAMI</h4>
-                    <div class="contact-info space-y-2 text-sm">
-                        <p class="flex items-center gap-2"><i class="fa-solid fa-envelope text-orange-500 w-4"></i> boma@upicibiru.ac.id</p>
-                        <p class="flex items-center gap-2"><i class="fa-solid fa-phone text-orange-500 w-4"></i> (022) 7801332</p>
-                    </div>
-                    <div class="social-pills flex flex-wrap gap-2 pt-2">
-                        <a href="https://www.instagram.com/boma_upicibiru/" class="pill bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 transition-colors">
-                            <i class="fa-brands fa-instagram text-pink-500"></i> Instagram
-                        </a>
-                        <a href="#" class="pill bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 transition-colors">
-                            <i class="fa-brands fa-whatsapp text-emerald-500"></i> WhatsApp
-                        </a>
-                        <a href="https://www.youtube.com/@KampusUPI" class="pill bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 transition-colors">
-                            <i class="fa-brands fa-youtube text-red-500"></i> YouTube
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </footer>
+@include('partials.footer')
 
 </body>
 </html>

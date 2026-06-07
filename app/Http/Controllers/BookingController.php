@@ -87,6 +87,9 @@ public function index(Request $request)
             'jumlah_sesi'  => 'required|integer|min:1|max:8',
         ]);
 
+        if ((int)$request->jumlah_sesi <= 0) {
+    return back()->withErrors(['jumlah_sesi' => 'Sesi booking gak valid, bray!'])->withInput();
+}
         $facility = Facility::findOrFail($request->facility_id);
 
         // 🧠 PARSING INTEGRASI TANGGAL + JAM KE OBJEK CARBON MURNI
@@ -155,7 +158,7 @@ public function index(Request $request)
         }
 
 
-        // =========================================================================
+// =========================================================================
         // STEP 5: PROSES LANJUTAN SIMPAN & TRANSAKSI MIDTRANS
         // =========================================================================
         $totalPrice = $facility->price_per_hour * $jumlahSesi;
@@ -191,6 +194,10 @@ public function index(Request $request)
                     'name'     => $facility->name,
                 ],
             ],
+            // 🚀 SUNTIKAN SAKTI ANTI EXAMPLE.COM DI SINI BRAY!
+            'callbacks' => [
+                'finish' => url('/booking-history') // Begitu sukses bayar, otomatis dibalikin ke page riwayat bray!
+            ]
         ];
 
         $response = \Illuminate\Support\Facades\Http::withBasicAuth($serverKey, '')
