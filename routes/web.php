@@ -116,12 +116,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/facilities', [FacilityController::class, 'index'])->name('facilities.index');
         Route::post('/facilities', [FacilityController::class, 'store'])->name('facilities.store');
         Route::delete('/facilities/{id}', [FacilityController::class, 'destroy'])->name('facilities.destroy');
-        Route::put('/admin/facilities/{id}', [App\Http\Controllers\Admin\FacilityController::class, 'update'])->name('admin.facilities.update');
+        Route::put('/facilities/{id}', [FacilityController::class, 'update'])->name('facilities.update');
 
         // Roster
         Route::get('/roster', [App\Http\Controllers\Admin\RosterController::class, 'index'])->name('roster.index');
         Route::post('/roster', [App\Http\Controllers\Admin\RosterController::class, 'store'])->name('roster.store');
-        Route::resource('facilities', FacilityController::class);
         Route::delete('/roster/{id}', [App\Http\Controllers\Admin\RosterController::class, 'destroy'])->name('roster.destroy');
 
         // Jadwal
