@@ -10,16 +10,65 @@ use Carbon\Carbon;
 
 class BookingController extends Controller
 {
-    public function index()
+public function index(Request $request)
+    {
+        // 1. Ambil data keyword filter dari Request URL bray
+        $tanggal   = $request->query('tanggal');
+        $cabang    = $request->query('cabang');
+        $kecamatan = $request->query('kecamatan');
+
+        // 🚀 2. DROPDOWN CABANG OLAHRAGA REAL DINAMIS
+        // Langsung narik dari kolom 'type' di table facilities tanpa di-hardcode bray
+        $listCabang = Facility::whereNotNull('type')
+            ->select('type')
+            ->distinct()
+            ->pluck('type');
+
+        // 🚀 3. DROPDOWN KECAMATAN DINAMIS (HANYA YANG PUNYA LAPANGAN AKTIF BRAY!)
+        // Kita query lewat Model Mitra, tapi diproteksi pake whereHas('facilities')
+        $listKecamatan = \App\Models\Mitra::whereNotNull('address')
+            ->whereHas('facilities', function ($query) {
+                // Pastiin lapangannya berstatus aktif juga bray
+                $query->where('is_active', true);
+            })
+            ->select('address')
+            ->distinct()
+            ->pluck('address');
+
+        // 🕵️‍♂️ 4. EKSEKUSI QUERY PENCARIAN UTAMA LAPANGAN
+        $facilities = Facility::with('mitra')
+            ->where('is_active', true)
+            
+            // 🏃 Saring murni berdasarkan kolom 'type' bray (Anti Gagal!)
+            ->when($cabang, function ($query, $cabang) {
+                return $query->where('type', $cabang);
+            })
+
+            // 📍 Saring berdasarkan Kecamatan Mitra tempat GOR berada
+            ->when($kecamatan, function ($query, $kecamatan) {
+                return $query->whereHas('mitra', function ($q) use ($kecamatan) {
+                    $q->where('address', 'LIKE', '%' . $kecamatan . '%');
+                });
+            })
+            ->latest()
+            ->get();
+
+        // 📦 5. Lempar semua data sakti ini ke view blade bray!
+        return view('booking', compact('facilities', 'listCabang', 'listKecamatan'));
+    }
+
+    // 📝 2. UNTUK RIWAYAT PESANAN USER (FUNGSI BARU LU BRAY - GANTI NAMA)
+    public function history()
     {
         $bookings = Booking::with(['facility.mitra', 'latestPayment'])
             ->where('user_id', auth()->id())
             ->latest()
             ->paginate(8);
 
+        // Pastiin nama view blade-nya sesuai ya bray, tadi di routes namanya booking-history
         return view('booking-history', compact('bookings'));
     }
-    
+
     public function show($id)
     {
         $facility = Facility::with('mitra')->findOrFail($id);

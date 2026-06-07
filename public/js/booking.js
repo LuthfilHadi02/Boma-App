@@ -61,23 +61,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // =========================================
-    // 3. LOGIKA TOMBOL SEARCH FILTER (ATAS)
-    // =========================================
-    const btnSearch = document.querySelector('.btn-search');
-    if (btnSearch) {
-        btnSearch.addEventListener('click', function() {
-            const tgl = document.getElementById('filterTanggal').value;
-            const cabang = document.getElementById('filterCabang').value;
-            const kecamatan = document.getElementById('filterKecamatan').value;
-
-            if (!tgl && !cabang && !kecamatan) {
-                alert("Pilih minimal satu filter dulu pak (Tanggal, Cabang, atau Kecamatan)!");
-                return;
-            }
-            alert(`Mencari Lapangan:\n\n📅 Tanggal: ${tgl ? tgl : 'Semua Hari'}\n🏃 Cabang: ${cabang ? cabang : 'Semua Olahraga'}\n📍 Kecamatan: ${kecamatan ? kecamatan : 'Semua Area'}`);
-        });
-    }
 
     // =========================================
     // 4. LIVE SEARCH INPUT (FILTER KATEGORI)
