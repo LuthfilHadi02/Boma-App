@@ -69,74 +69,128 @@
     color: #FFFFFF;
 }
 
+/* --- Glass Card --- */
 .login-form-box {
     width: 100%;
-    max-width: 380px;
+    max-width: 420px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
 
 /* --- Toggle Login/Register --- */
 .login-toggle-pill {
     display: flex;
-    padding: 6px;
-    margin-bottom: 40px;
-    background-color: #E6F4F1;
-    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 32px;
+    gap: 4px;
 }
 
 .toggle-pill-btn {
     flex: 1;
-    padding: 12px 0;
-    background: transparent;
+    padding: 10px 0;
     border: none;
-    border-radius: 50px;
-    color: #008773;
+    border-radius: 9px;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.3s ease;
+    transition: all 0.3s ease;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.6);
+    font-family: 'Inter', sans-serif;
 }
 
 .toggle-pill-btn.active {
-    background-color: #008773;
-    color: #FFFFFF;
+    background: #ffffff;
+    color: #047857;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.15);
+}
+
+.toggle-pill-btn:not(.active):hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
 }
 
 /* --- Form Inputs --- */
 .login-input-group {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 
 .login-input-group label {
     display: block;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+    font-weight: 500;
     margin-bottom: 8px;
-    font-size: 12px;
-    opacity: 0.9;
 }
 
+/* Input wrapper */
 .login-input-line {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #FFFFFF;
+    border-bottom: none;
+    gap: 0;
+    padding-bottom: 0;
 }
 
+/* Leading icon (mail/lock) */
+.login-input-line svg:first-child {
+    position: absolute;
+    left: 16px;
+    color: rgba(255, 255, 255, 0.6);
+    pointer-events: none;
+    z-index: 1;
+    flex-shrink: 0;
+}
+
+/* Eye icon */
 .login-input-line .icon {
-    margin: 0 8px 0 0;
-    font-size: 16px;
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.6);
+    transition: color 0.2s;
+    line-height: 0;
+    flex-shrink: 0;
 }
 
+.login-input-line .icon:hover {
+    color: #ffffff;
+}
+
+/* The actual input field */
 .login-input-line input {
-    flex: 1;
-    background: transparent;
-    border: none;
-    color: #FFFFFF;
-    font-size: 14px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 14px 44px 14px 46px;
+    color: #ffffff;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
     outline: none;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    flex: none;
 }
 
 .login-input-line input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.login-input-line input:focus {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05);
 }
 
 /* --- Form Options (Remember & Forgot) --- */
@@ -144,61 +198,110 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 40px;
-    font-size: 12px;
+    margin-bottom: 8px;
 }
 
 .login-remember {
     display: flex;
     align-items: center;
     gap: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
     cursor: pointer;
 }
 
+.login-remember span {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.login-remember input[type="checkbox"] {
+    accent-color: #ffffff;
+    width: 15px;
+    height: 15px;
+}
+
 .login-forgot {
-    color: #FFFFFF;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    font-weight: 500;
     text-decoration: none;
-    transition: 0.3s ease;
+    transition: color 0.3s;
 }
 
 .login-forgot:hover {
-    text-decoration: underline;
+    color: #ffffff;
+    text-decoration: none;
 }
 
 /* --- Submit Button --- */
 .login-btn-submit {
     width: 100%;
-    padding: 16px;
-    margin-bottom: 30px;
-    background-color: #E6F4F1;
+    background: #ffffff;
+    color: #047857;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 14px;
+    border-radius: 12px;
     border: none;
-    border-radius: 50px;
-    color: #008773;
-    font-size: 16px;
-    font-weight: 700;
     cursor: pointer;
-    transition: 0.3s ease;
+    transition: all 0.3s ease;
+    margin-top: 24px;
+    margin-bottom: 0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    font-family: 'Inter', sans-serif;
 }
 
 .login-btn-submit:hover {
-    background-color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.15);
+    background: #f8fafc;
 }
 
 /* --- Social Login --- */
 .login-social-area {
     text-align: center;
+    margin-top: 28px;
 }
 
 .login-social-area p {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 13px;
     margin-bottom: 16px;
-    font-size: 12px;
-    opacity: 0.9;
+    position: relative;
 }
+
+.login-social-area p::before,
+.login-social-area p::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 38%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.login-social-area p::before { left: 0; }
+.login-social-area p::after  { right: 0; }
 
 .login-social-icons {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 16px;
+}
+
+.login-social-icons svg {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-sizing: content-box;
+}
+
+.login-social-icons svg:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
 }
 
 .soc-icon {
@@ -228,7 +331,7 @@
     .login-split-wrapper {
         flex-direction: column;
     }
-    
+
     .login-split-left {
         display: block;
         flex: none;
@@ -250,7 +353,7 @@
         height: auto !important;
         object-fit: contain;
     }
-    
+
     .login-split-right {
         flex: none;
         width: 100%;
@@ -258,10 +361,11 @@
         align-items: flex-start;
         padding: 40px 24px 60px 24px;
     }
-    
+
     .login-form-box {
         width: 100%;
         max-width: 100%;
+        padding: 32px 24px;
     }
 
     .login-social-icons svg {
