@@ -97,35 +97,37 @@
         </section>
 
         <section class="filter-wrapper">
-            <div class="filter-bar">
+            <form action="{{ route('booking') }}" method="GET" class="filter-bar">
+                
                 <div class="filter-item">
                     <i class="fa-regular fa-calendar main-icon"></i>
-                    <input type="date" id="filterTanggal" class="filter-input">
+                    <input type="date" name="tanggal" id="filterTanggal" class="filter-input" value="{{ request('tanggal') }}">
                 </div>
 
                 <div class="filter-item">
                     <i class="fa-solid fa-running main-icon"></i>
-                    <select id="filterCabang" class="filter-input">
-                        <option value="" disabled selected>Cabang Olahraga</option>
-                        <option value="Futsal">Futsal</option>
-                        <option value="Basket">Basket</option>
-                        <option value="Badminton">Badminton</option>
+                    <select name="cabang" id="filterCabang" class="filter-input">
+                        <option value="" {{ !request('cabang') ? 'selected' : '' }}>Semua Cabang</option>
+                        @foreach($listCabang as $cb)
+                            <option value="{{ $cb }}" {{ request('cabang') == $cb ? 'selected' : '' }}>{{ $cb }}</option>
+                        @endforeach
                     </select>
                 </div>
 
                 <div class="filter-item">
                     <i class="fa-solid fa-location-dot main-icon"></i>
-                    <select id="filterKecamatan" class="filter-input">
-                        <option value="" disabled selected>Kecamatan</option>
-                        <option value="Cibiru">Cibiru</option>
-                        <option value="Ujung Berung">Ujung Berung</option>
-                        <option value="Madasuka">Madasuka</option>
+                    <select name="kecamatan" id="filterKecamatan" class="filter-input">
+                        <option value="" {{ !request('kecamatan') ? 'selected' : '' }}>Semua Kecamatan</option>
+                        @foreach($listKecamatan as $kec)
+                            <option value="{{ $kec }}" {{ request('kecamatan') == $kec ? 'selected' : '' }}>{{ $kec }}</option>
+                        @endforeach
                     </select>
                 </div>
-                <button class="btn-search">Search</button>
-            </div>
-        </section>
 
+                <button type="submit" class="btn-search">Search</button>
+            </form>
+        </section>
+        
         <section class="mb-50" style="margin-bottom: 80px;">
             <h2 class="section-title">Lapangan yang Tersedia</h2>
             <div class="grid-banyak">

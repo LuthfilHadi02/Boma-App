@@ -30,11 +30,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
     // 1. Rute Kalender Latihan (Bisa diakses umum / guest)
     Route::get('/jadwal', [UserScheduleController::class, 'index'])->name('jadwal.index');
 
-// Katalog booking lapangan (publik)
-Route::get('/booking', function () {
-    $facilities = Facility::with('mitra')->where('is_active', true)->latest()->get();
-    return view('booking', compact('facilities'));
-})->name('booking');
+// 🚀 GANTI JADI BEGINI BRAY DI WEB.PHP LU!
+Route::get('/booking', [\App\Http\Controllers\BookingController::class, 'index'])->name('booking');
 
 // ✅ HALAMAN DIVISI — PAKAI VERSI DINAMIS (AKMAL)
 Route::get('/divisi/basket', function (Request $request) {
@@ -95,7 +92,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/payment/{id}/success', [PaymentController::class, 'success'])->name('payment.success');
 
     // 📝 PR #3 — RIWAYAT BOOKING USER (PESANAN SAYA)
-    Route::get('/pesanan-saya', [App\Http\Controllers\BookingController::class, 'index'])->name('booking.history');
+    Route::get('/pesanan-saya', [App\Http\Controllers\BookingController::class, 'history'])->name('booking.history');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
