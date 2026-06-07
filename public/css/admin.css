@@ -39,11 +39,19 @@ body {
     position: sticky;
     top: 0;
     border-right: 1px solid rgba(255, 255, 255, 0.1);
+    width: 300px;
+    min-width: 300px; /* Menjaga lebar tetap */
+    flex-shrink: 0;   /* Mencegah sidebar mengecil saat browser diperkecil */
+    flex-grow: 0;     /* Mencegah sidebar melebar sendiri */
+    height: 100vh;
+    background-color: var(--teal-deep-dark);
 }
 
 .boma-main-content {
     background-color: var(--boma-main-bg);
     min-height: 100vh;
+    min-width: 0;
+    flex: 1;
 }
 
 /* NAV LINKS SIDEBAR */

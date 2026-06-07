@@ -94,7 +94,6 @@
             </li>
         </ul>
     </div>
-
         <div class="boma-main-content flex-grow-1">
             <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom px-4 py-3 shadow-sm">
                 <div class="container-fluid p-0">
@@ -111,16 +110,18 @@
 
             <div class="p-4 container-fluid">
                 
-                <div class="card border-0 shadow-sm p-4 bg-white rounded-3">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div>
-                            <h3 class="fw-bold text-dark mb-1">Persetujuan Pendaftaran Mitra</h3>
-                            <p class="text-muted small mb-0">Review dokumen sertifikasi lapangan dan verifikasi akun bank mitra baru.</p>
-                        </div>
-                        <span class="badge bg-warning text-dark px-3 py-2">
-                            {{ $mitras->count() }} Request Tertunda
-                        </span>
+            <div class="p-4 container-fluid">
+                
+                <div class="p-4 mb-4 text-white rounded-3 boma-welcome-banner shadow-sm d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 class="fw-bold mb-1">Persetujuan Pendaftaran Mitra</h3>
+                        <p class="mb-0 opacity-75 fs-6">Review dokumen sertifikasi lapangan dan verifikasi akun bank mitra baru.</p>
                     </div>
+
+                    <span class="badge bg-warning text-dark px-3 py-2">
+                        {{ $mitras->count() }} Request Tertunda
+                    </span>
+                </div>
 
                     @if(session('success'))
                         <div class="alert alert-success border-0 shadow-sm small mb-4">

@@ -117,7 +117,11 @@
                             <h3 class="fw-bold text-dark mb-1">Kelola Fasilitas Lapangan</h3>
                             <p class="text-muted small mb-0">Manajemen inventaris, tipe lantai, dan peninjauan operasional harga arena olahraga mitra BOMA.</p>
                         </div>
-                        <button type="button" class="btn btn-success px-4 py-2 fw-semibold rounded-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalTambahLapangan">
+                        <button type="button" 
+                                class="btn px-4 py-2 fw-semibold rounded-3 shadow-sm" 
+                                style="background-color: #004d40; border-color: #004d40; color: white;"
+                                data-bs-toggle="modal" 
+                                data-bs-target="#modalTambahLapangan">
                             <i class="fa-solid fa-circle-plus me-1"></i> Tambah Lapangan
                         </button>
                     </div>
@@ -175,12 +179,14 @@
                                         </td>
                                         <td class="px-4 py-3">
                                             <div class="d-flex justify-content-center gap-2">
-                                                <button class="btn btn-sm btn-outline-primary px-2.5 py-1" style="font-size: 0.75rem;">
+                                                <button class="btn btn-sm btn-outline-primary px-2.5 py-1" style="font-size: 0.75rem;" 
+                                                        data-bs-toggle="modal" data-bs-target="#editModal{{ $facility->id }}">
                                                     <i class="fa-solid fa-pen-to-square"></i> Edit
                                                 </button>
-                                                <form action="{{ route('admin.facilities.destroy', $facility->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus lapangan ini?')">
-                                                    @csrf
-                                                    @method('DELETE') <button type="submit" class="btn btn-outline-danger btn-sm rounded-3 px-3">
+
+                                                <form action="{{ route('admin.facilities.destroy', $facility->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin hapus?')">
+                                                    @csrf @method('DELETE')
+                                                    <button type="submit" class="btn btn-outline-danger btn-sm rounded-3 px-3">
                                                         <i class="fa-solid fa-trash me-1"></i> Hapus
                                                     </button>
                                                 </form>
@@ -273,5 +279,30 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    @foreach($facilities as $facility)
+<div class="modal fade" id="editModal{{ $facility->id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form action="{{ route('admin.facilities.update', $facility->id) }}" method="POST" enctype="multipart/form-data" class="modal-content">
+            @csrf @method('PUT')
+            <div class="modal-header"><h5 class="modal-title">Edit: {{ $facility->name }}</h5></div>
+            <div class="modal-body">
+                <div class="mb-3"><label>Nama</label><input type="text" name="name" class="form-control" value="{{ $facility->name }}" required></div>
+                <div class="mb-3"><label>Harga/Jam</label><input type="number" name="price_per_hour" class="form-control" value="{{ $facility->price_per_hour }}" required></div>
+                <div class="mb-3"><label>Jenis</label><select name="type" class="form-select">
+                    @foreach(['Futsal','Basket','Badminton','Tenis','Basketball','Padel'] as $t)<option value="{{$t}}" {{ $facility->type == $t ? 'selected' : '' }}>{{$t}}</option>@endforeach
+                </select></div>
+                <div class="mb-3"><label>Tipe Lantai</label><input type="text" name="floor_type" class="form-control" value="{{ $facility->floor_type }}" required></div>
+                <div class="mb-3"><label>Link Maps</label><input type="url" name="gmaps_link" class="form-control" value="{{ $facility->gmaps_link }}" required></div>
+                <div class="row">
+                    <div class="col-6"><label>Jam Buka</label><input type="time" name="opening_time" class="form-control" value="{{ date('H:i', strtotime($facility->opening_time)) }}" required></div>
+                    <div class="col-6"><label>Jam Tutup</label><input type="time" name="closing_time" class="form-control" value="{{ date('H:i', strtotime($facility->closing_time)) }}" required></div>
+                </div>
+            </div>
+            <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-success">Simpan</button></div>
+        </form>
+    </div>
+</div>
+@endforeach
 </body>
 </html>

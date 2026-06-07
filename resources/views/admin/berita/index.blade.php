@@ -97,13 +97,31 @@
 
         <!-- Main Content -->
 
-<div class="container-fluid p-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h3 class="fw-bold text-dark mb-0">Manajemen Berita Kegiatan</h3>
-            <p class="text-muted small">Kelola publikasi berita dan prestasi olahraga mahasiswa BOMA.</p>
-        </div>
-    </div>
+        <div class="boma-main-content flex-grow-1">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom px-4 py-3 shadow-sm">
+                <div class="container-fluid p-0">
+                    <span class="navbar-text p-0 fw-semibold text-dark fs-5">Workspace Pemantauan Utama</span>
+                    
+                    <div class="d-flex align-items-center gap-3">
+                        <span class="badge bg-teal-dark px-3 py-2">Mode Sistem: Batasan MVP Scope</span>
+                        <div class="vertical-divider"></div>
+                        
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="small fw-medium text-secondary">{{ Auth::user()->name }}</span>
+                            <img src="{{ Auth::user()->profile_photo_path ? asset('storage/' . Auth::user()->profile_photo_path) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) . '&background=004d40&color=ffffff' }}" 
+                                alt="Profile" 
+                                class="rounded-circle border" 
+                                style="width: 32px; height: 32px; object-fit: cover;">
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="p-4 container-fluid">
+                
+                <div class="p-4 mb-4 text-white rounded-3 boma-welcome-banner shadow-sm">
+                    <h2 class="fw-bold mb-1">Manajemen Berita Kegiatan</h2>
+                    <p class="mb-0 opacity-75 fs-6">Kelola publikasi berita dan prestasi olahraga mahasiswa BOMA.</div>
 
     <div class="row g-4">
         
@@ -205,3 +223,6 @@
 
     </div>
 </div>
+</div> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

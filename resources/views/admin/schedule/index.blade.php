@@ -47,7 +47,8 @@
             <!-- MENU BERGGENGSI KARYA MURSYID DANISWARA (ACTIVE STATE AUTO) -->
             <li class="nav-item">
                 <a href="{{ route('admin.schedule.index') }}" class="nav-link text-white {{ Request::is('admin/schedule*') ? 'active' : '' }}">
-                    <i class="fa-solid fa-calendar-days me-2 text-warning"></i> <span class="text-warning fw-bold">Kelola Jadwal Latihan</span>
+                    <i class="fa-solid fa-calendar-days me-2"></i> 
+                    <span>Kelola Jadwal Latihan</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -60,6 +61,26 @@
                     <i class="fa-solid fa-receipt me-2"></i> Transaksi & Refund
                 </a>
             </li>
+<li class="nav-item">
+                    <a href="#rosterSubmenu" data-bs-toggle="collapse" class="nav-link text-white d-flex justify-content-between align-items-center {{ request()->is('admin/roster*') ? 'active' : '' }}">
+                        <div><i class="fa-solid fa-users-gear me-2"></i> Kelola Roster Tim</div>
+                        <i class="fa-solid fa-chevron-down" style="font-size: 0.8rem;"></i>
+                    </a>
+                    <ul class="collapse list-unstyled mt-1 {{ request()->is('admin/roster*') ? 'show' : '' }}" id="rosterSubmenu" style="background-color: rgba(0,0,0,0.1); border-radius: 8px;">
+                        <li>
+                            <a href="{{ route('admin.roster.index', ['gender' => 'putra']) }}" 
+                            class="nav-link py-2 ps-4 {{ request()->is('admin/roster*') && request()->query('gender', 'putra') == 'putra' ? 'text-warning fw-bold' : 'text-white' }}">
+                                <i class="fa-solid fa-mars me-2"></i> Tim Putra
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.roster.index', ['gender' => 'putri']) }}" 
+                            class="nav-link py-2 ps-4 {{ request()->is('admin/roster*') && request()->query('gender') == 'putri' ? 'text-warning fw-bold' : 'text-white' }}">
+                                <i class="fa-solid fa-venus me-2"></i> Tim Putri
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             
             <hr class="bg-secondary opacity-25">
             
@@ -96,7 +117,11 @@
                         <h3 class="fw-bold text-dark mb-1">Kelola Jadwal Latihan BOMA</h3>
                         <p class="text-muted small mb-0">Manajemen kalender agenda latihan berkala, lokasi, serta kuota partisipasi mahasiswa UPI Cibiru.</p>
                     </div>
-                    <button type="button" class="btn btn-success px-4 py-2 fw-semibold rounded-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalTambahJadwal">
+                    <button type="button" 
+                            class="btn px-4 py-2 fw-semibold rounded-3 shadow-sm" 
+                            style="background-color: #004d40; border-color: #004d40; color: white;"
+                            data-bs-toggle="modal" 
+                            data-bs-target="#modalTambahJadwal">
                         <i class="fa-solid fa-circle-plus me-1"></i> Tambah Jadwal Latihan
                     </button>
                 </div>
